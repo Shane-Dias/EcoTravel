@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <title>Carbon Footprint Calculator - EcoTravel</title>
+    <style>
+      body {
+        background-color: #e5f3e9;
+        font-family: "Arial", sans-serif;
+      }
+      .calculator-container {
+        max-width: 600px;
+        margin: auto;
+        padding: 40px;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+      }
+      .calculator-header {
+        text-align: center;
+        margin-bottom: 30px;
+      }
+      .calculator-header h2 {
+        font-size: 24px;
+        color: #3a923a;
+      }
+      .form-label {
+        font-weight: bold;
+      }
+      .btn-primary {
+        background-color: #3a923a;
+        border: none;
+      }
+      .btn-primary:hover {
+        background-color: #2e6e2e;
+      }
+      #result {
+        background-color: #d4edda;
+        padding: 20px;
+        border-radius: 5px;
+        margin-top: 20px;
+        display: none;
+      }
+      .footer {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+      }
+      #feedback {
+        font-weight: bold;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="calculator-container">
+      <div class="calculator-header">
+        <h2>Carbon Footprint Calculator</h2>
+        <p>Estimate your carbon footprint based on your travel choices.</p>
+      </div>
+      <form id="calculator-form">
+        <div class="mb-3">
+          <label for="distance" class="form-label"
+            >Distance Travelled (in km)</label
+          >
+          <input
+            type="number"
+            class="form-control"
+            id="distance"
+            placeholder="Enter distance"
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="mode" class="form-label">Mode of Transport</label>
+          <select class="form-select" id="mode" required>
+            <option value="" disabled selected>Select mode</option>
+            <option value="car">Car</option>
+            <option value="bus">Bus</option>
+            <option value="train">Train</option>
+            <option value="flight">Flight</option>
+            <option value="ship">Ship</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="people" class="form-label">Number of Passengers</label>
+          <input
+            type="number"
+            class="form-control"
+            id="people"
+            placeholder="Enter number of passengers"
+            required
+          />
+        </div>
+        <button type="submit" class="btn btn-primary w-100">Calculate</button>
+      </form>
+      <div id="result" class="mt-4">
+        <h5>Your Estimated Carbon Footprint:</h5>
+        <p id="footprint" style="font-weight: bold"></p>
+        <p id="feedback" style="margin-top: 10px"></p>
+        <!-- Feedback message -->
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p>
+        &copy; 2024 EcoTravel. All rights reserved. | Designed with
+        sustainability in mind.
+      </p>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
+    <script>
+      const carbonFactors = {
+        car: 0.2,
+        bus: 0.05,
+        train: 0.1,
+        flight: 0.15,
+        ship: 0.07,
+      };
+
+      $("#calculator-form").on("submit", function (e) {
+        e.preventDefault();
+
+        const distance = $("#distance").val();
+        const mode = $("#mode").val();
+        const people = $("#people").val();
+
+        const footprint = ((distance * carbonFactors[mode]) / people) * 1000;
+        $("#footprint").text(`${footprint.toFixed(2)} grams of CO2`);
+        $("#result").show();
+
+        let feedbackMessage = "";
+        let feedbackColor = "";
+        if (footprint < 1000) {
+          feedbackMessage = "Great job! Your carbon footprint is low.";
+          feedbackColor = "green";
+        } else if (footprint >= 1000 && footprint < 3000) {
+          feedbackMessage =
+            "Your carbon footprint is moderate. Consider using more eco-friendly transport options.";
+          feedbackColor = "orange";
+        } else {
+          feedbackMessage =
+            "Warning! Your carbon footprint is high. Try to choose greener alternatives.";
+          feedbackColor = "red";
+        }
+        $("#feedback").text(feedbackMessage).css("color", feedbackColor);
+      });
+    </script>
+  </body>
+</html>
