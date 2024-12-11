@@ -1,0 +1,540 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoTravel - Explore the World Sustainably</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'homepage.css' %}" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background-color: #f4f4f4;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #28a745;
+        padding: 1rem 3rem;
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .navbar .logo a {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+      }
+
+      .nav-links li {
+        margin-left: 20px;
+      }
+
+      .nav-links a {
+        color: #fff;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #e0e0e0;
+      }
+
+      .nav-cta .btn {
+        background-color: #fff;
+        color: #28a745;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+
+      .nav-cta .btn:hover {
+        background-color: #e0e0e0;
+        color: #28a745;
+      }
+
+      /* Carousel Styles */
+      .carousel {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        overflow: hidden; /* Hide overflow */
+      }
+
+      .carousel-slide {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+        transform: translateX(100%);
+      }
+      .carousel-slide.active {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Carousel Content */
+      .carousel-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: white;
+        text-align: center;
+      }
+      .carousel-slide img {
+        height: 100%;
+        width: 100%;
+      }
+
+      .carousel-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .carousel-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Hero Section */
+      .hero {
+        background-image: url("hero-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: #fff;
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-content p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+      }
+
+      .cta-buttons .btn {
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: background 0.3s ease;
+      }
+
+      .primary-btn {
+        background-color: #28a745;
+        margin-right: 10px;
+      }
+
+      .secondary-btn {
+        background-color: #007bff;
+      }
+
+      .primary-btn:hover,
+      .secondary-btn:hover {
+        opacity: 0.9;
+      }
+
+      /* Search Section */
+      .search-section {
+        padding: 2rem;
+        text-align: center;
+        background-color: #fff;
+      }
+
+      .search-bar {
+        padding: 12px 24px;
+        width: 70%;
+        border-radius: 30px;
+        border: 2px solid #ddd;
+        font-size: 1rem;
+      }
+
+      /* Features Section */
+      .features-section {
+        padding: 3rem;
+        background-color: #fff;
+        text-align: center;
+      }
+
+      .features-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .features-grid {
+        display: flex;
+        justify-content: space-around;
+        gap: 2rem;
+      }
+
+      .feature-item {
+        background-color: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        width: 30%;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .feature-item img {
+        width: 100%;
+        margin-bottom: 1rem;
+      }
+
+      .feature-item h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-link {
+        margin-top: 1rem;
+        color: #28a745;
+        font-weight: 600;
+      }
+
+      /* Destinations Section */
+      .destinations-section {
+        padding: 3rem;
+        background-color: #f4f4f4;
+        text-align: center;
+      }
+
+      .destinations-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+      }
+
+      .destinations-grid {
+        display: flex;
+        justify-content: space-around;
+        gap: 2rem;
+      }
+
+      .destination-item {
+        background-color: #fff;
+        padding: 1.5rem;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: 22%;
+        cursor: pointer;
+      }
+
+      .destination-item img {
+        width: 100%;
+        border-radius: 10px;
+        margin-bottom: 1rem;
+      }
+
+      .destination-item h3 {
+        font-size: 1.2rem;
+      }
+
+      /* Testimonials Section */
+      .testimonials-section {
+        padding: 3rem;
+        background-color: #fff;
+        text-align: center;
+      }
+
+      .testimonial {
+        background-color: #f9f9f9;
+        padding: 1.5rem;
+        border-radius: 10px;
+        width: 60%;
+        margin: 0 auto 2rem auto;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .testimonial p {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+      }
+
+      .testimonial h4 {
+        font-weight: 600;
+      }
+
+      /* Footer Section */
+      .footer {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        margin: 15px 0;
+      }
+
+      .footer-links a {
+        color: #ffffff;
+        margin: 0 15px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .social-media {
+        margin: 20px 0;
+      }
+
+      .footer i {
+        margin: 0 10px;
+        color: #ffffff;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="#">EcoTravel</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#destinations">Destinations</a></li>
+        <li><a href="#testimonials">Testimonials</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <div class="nav-cta">
+        <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="carousel">
+        <div class="carousel-slide active">
+          <img
+            src="https://cdn.pixabay.com/photo/2023/12/15/22/37/mountains-8451480_960_720.jpg"
+            alt="Nature Landscape 1"
+          />
+          <div class="carousel-content">
+            <h1>Explore the World, Sustainably</h1>
+            <p>Plan your eco-friendly adventure today</p>
+          </div>
+        </div>
+        <div class="carousel-slide">
+          <img
+            src="https://cdn.pixabay.com/photo/2018/01/09/06/43/sea-3070982_1280.jpg"
+            alt="Nature Landscape 2"
+          />
+          <div class="carousel-content">
+            <h1>Travel Responsibly</h1>
+            <p>Make eco-conscious choices while exploring the planet</p>
+          </div>
+        </div>
+        <div class="carousel-slide">
+          <img
+            src="https://cdn.pixabay.com/photo/2020/10/21/15/10/eiffel-tower-5673391_960_720.jpg"
+            alt="Nature Landscape 3"
+          />
+          <div class="carousel-content">
+            <h1>Eco-Friendly Adventures Await</h1>
+            <p>Join us in making travel sustainable</p>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section class="search-section">
+      <input
+        type="text"
+        class="search-bar"
+        placeholder="Search eco-friendly destinations, accommodations..."
+      />
+    </section>
+
+    <section id="features" class="features-section">
+      <h2>Our Key Features</h2>
+      <div class="features-grid">
+        <div class="feature-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2018/06/18/10/56/footprint-3482282_1280.jpg"
+            alt="Carbon Footprint "
+          />
+          <h3>Carbon Footprint Calculator</h3>
+          <p>
+            Calculate the environmental impact of your travel and get greener
+            alternatives.
+          </p>
+          <a href="carbon-footprint.html" class="feature-link">Calculate Now</a>
+        </div>
+        <div class="feature-item">
+          <img
+            style="width: 100%"
+            src="https://cdn.pixabay.com/photo/2023/02/06/17/11/hotelroom-7772422_1280.jpg"
+            alt="Eco Accommodation "
+          />
+          <h3>Eco-Friendly Accommodations</h3>
+          <p>Discover sustainable hotels, resorts, and homestays.</p>
+          <a href="{% url 'home' %}" class="feature-link">Explore More</a>
+        </div>
+        <div class="feature-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2024/02/23/21/25/landscape-8592826_1280.jpg"
+            alt="Green Itinerary "
+          />
+          <h3>Green Travel Plans</h3>
+          <p>
+            Plan your trip with sustainable travel options to top
+            eco-destinations.
+          </p>
+          <a href="{% url 'home' %}" class="feature-link">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="destinations" class="destinations-section">
+      <h2>Popular Eco-Friendly Destinations</h2>
+      <div class="destinations-grid">
+        <div class="destination-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2017/09/06/23/27/happy-2723487_1280.jpg"
+            alt="Costa Rica"
+          />
+          <h3>Costa Rica</h3>
+        </div>
+        <div class="destination-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2019/11/24/14/06/iceland-4649477_1280.jpg"
+            alt="Iceland"
+          />
+          <h3>Iceland</h3>
+        </div>
+        <div class="destination-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2023/05/04/02/24/bali-7969001_1280.jpg"
+            alt="Bali"
+          />
+          <h3>Bali</h3>
+        </div>
+        <div class="destination-item">
+          <img
+            src="https://cdn.pixabay.com/photo/2019/06/04/19/54/norway-4252178_960_720.jpg"
+            alt="Norway"
+          />
+          <h3>Norway</h3>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="testimonials-section">
+      <h2>What Our Users Say</h2>
+      <div class="testimonial">
+        <p>
+          "Thanks to EcoTravel, I was able to plan a trip to Costa Rica while
+          reducing my carbon footprint. Amazing experience!"
+        </p>
+        <h4>- Sarah, Eco-Traveler</h4>
+      </div>
+      <div class="testimonial">
+        <p>
+          "A fantastic platform for conscious travelers. The carbon footprint
+          calculator is a game-changer!"
+        </p>
+        <h4>- David, Explorer</h4>
+      </div>
+    </section>
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2024 EcoTravel. All rights reserved. | Designed with
+          sustainability in mind.
+        </p>
+        <div class="footer-links">
+          <a href="#features">Features</a> |
+          <a href="#destinations">Destinations</a> |
+          <a href="#testimonials">Testimonials</a> |
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="social-media">
+          <p>
+            Follow us on social media for the latest updates on eco-friendly
+            travel:
+          </p>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>
+          Have questions or suggestions? <a href="#contact">Get in touch!</a>
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      let currentSlide = 0;
+      const slides = document.querySelectorAll(".carousel-slide");
+      const totalSlides = slides.length;
+
+      function showNextSlide() {
+        slides[currentSlide].classList.remove("active");
+        currentSlide = (currentSlide + 1) % totalSlides;
+        slides[currentSlide].classList.add("active");
+      }
+
+      setInterval(showNextSlide, 5000);
+
+      slides[currentSlide].classList.add("active");
+    </script>
+  </body>
+</html>
