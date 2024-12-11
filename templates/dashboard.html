@@ -1,0 +1,130 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>User Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #e6f5e6;
+        color: #2f4f2f;
+        margin: 0;
+        padding: 0;
+      }
+      h2,
+      h3 {
+        color: #004d00;
+        text-align: center;
+      }
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+        margin-top: 5rem;
+      }
+      p {
+        line-height: 1.6;
+        margin-bottom: 10px;
+      }
+      strong {
+        color: #006400;
+      }
+      .profile-pic {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .profile-pic img {
+        border-radius: 50%;
+        border: 2px solid #006400;
+      }
+      .eco-stats {
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #ccffcc;
+        border-left: 5px solid #004d00;
+      }
+      .eco-stats p {
+        margin: 5px 0;
+        font-size: 1.1em;
+      }
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      ul li {
+        background-color: #f0f8f0;
+        margin: 5px 0;
+        padding: 10px;
+        border-radius: 5px;
+        border-left: 3px solid #006400;
+      }
+
+      .edit-profile,
+      .logout,.home {
+        background-color: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        text-decoration: none;
+        display: block;
+        width: 200px;
+        text-align: center;
+        margin: auto;
+      }
+
+      .edit-profile:hover {
+        background-color: #45a049;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h2>Welcome to your Dashboard, {{ user.username }}</h2>
+      <div class="profile-section">
+        <h3>Your Profile</h3>
+        <p><strong>Bio:</strong> {{ profile.bio }}</p>
+        <p><strong>Location:</strong> {{ profile.location }}</p>
+        <p><strong>Preferences:</strong> {{ profile.preferences }}</p>
+
+        <div class="profile-pic">
+          {% if profile.profile_pic %}
+          <p><strong>Profile Picture:</strong></p>
+          <img
+            src="{{ profile.profile_pic.url }}"
+            alt="Profile Picture"
+            style="width: 100px; height: 100px"
+          />
+          {% else %}
+          <p>You don't have a profile picture yet.</p>
+          {% endif %}
+        </div>
+        <a href="{% url 'edit_profile' %}" class="edit-profile">Edit Profile</a>
+      </div>
+
+      <div class="eco-stats">
+        <h3>Your Eco-friendly Trips</h3>
+        <div class="paras" style="text-align: center">
+          <p><strong>Total Miles Saved:</strong> {{ total_miles_saved }}</p>
+          <p><strong>Total CO2 Saved:</strong> {{ total_co2_saved }}kg</p>
+        </div>
+      </div>
+
+      <ul>
+        {% for trip in trips %}
+        <li>
+          Trip to <strong>{{ trip.destination.name }}</strong> - {{
+          trip.destination.description }}
+        </li>
+        {% endfor %}
+      </ul>
+
+      <a href="{% url 'logout' %}" class="logout">Logout</a>
+      <a href="{% url 'home' %}" class="home" style="margin-top: 10px;">Home</a>
+    </div>
+  </body>
+</html>

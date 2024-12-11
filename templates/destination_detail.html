@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ destination.name }} - Details</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'destination_detail.css' %}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>{{ destination.name }}</h1>
+    </header>
+    <section>
+      <a href="{% url 'dashboard' %}" >
+        <img
+          src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+          alt="profile-pic"
+          class="pfps"
+        />
+      </a>
+      <div class="imagedis">
+        <img src="{{ destination.image.url }}" alt="{{ destination.name }}" />
+      </div>
+      <div class="ratings">Eco-Rating:{{ destination.eco_rating }}</div>
+      <p><b>Country:</b>{{ destination.country }}</p>
+      <p><b>City:</b>{{ destination.city }}</p>
+      <p><b>Best Seasons:</b>{{ destination.best_season }}</p>
+      <p>{{ destination.description }}</p>
+
+      <h2>Available Accommodations</h2>
+      <ul>
+        {% for accommodation in accommodations %}
+        <li>
+          <h3>{{ accommodation.name }}</h3>
+          <p>Price per night: ${{ accommodation.price_per_night }}</p>
+          <p>Eco Certificates: {{ accommodation.eco_certifications }}</p>
+        </li>
+        {% endfor %}
+      </ul>
+
+      <a href="{% url 'plan_trip' destination.id %}">Plan Your Trip</a>
+    </section>
+
+    <!-- <h1>Another Script is Running from here!!!</h1> -->
+
+    <!-- <h2>{{ destination.name }}</h2>
+    <p>{{ destination.description }}</p>
+
+    <h3>Accommodations</h3>
+    <ul>
+        {% for accommodation in accommodations %}
+        <li>{{ accommodation.name }} - {{ accommodation.description }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'plan_trip' destination.id %}">Plan a Trip</a> -->
+  </body>
+</html>
