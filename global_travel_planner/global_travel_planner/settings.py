@@ -55,7 +55,7 @@ ROOT_URLCONF = 'global_travel_planner.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -123,8 +123,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Points to the static folder in your project directory
+STATICFILES_DIRS = [ # Points to the static folder in your project directory
      os.path.join(BASE_DIR, 'static'),
 ]
 

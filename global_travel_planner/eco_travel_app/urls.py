@@ -21,6 +21,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),  # for the dashboard
     path('search_form', views.search_destination, name='search_destination'),  # Homepage for searching destinations
     path('carbon-footprint.html', views.carbonfootprint, name='carbon-footprint'),
+    path('upload_image', views.upload_image, name='upload_image'),
 ]
 
 if settings.DEBUG:  # Only for development

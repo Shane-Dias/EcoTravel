@@ -17,9 +17,10 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import ProfileForm
 from django.shortcuts import render, redirect
-from .models import Profile
+from .models import Profile, Images
 from .forms import ProfileForm
 from django.contrib.auth.decorators import login_required
+from .utils import get_location
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyBYzXj5wF4L6mChyyc5xwfb2QT1QEZ9VN8'
 
@@ -216,3 +217,17 @@ def search_destination(request):
             })
 
     return render(request, 'search_form.html', {'form': form})
+
+
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        # Get the uploaded file
+        image_file = request.FILES['image']
+        # Save the file details to the model
+        uploaded_image = Images.objects.create(image=image_file)
+        # Replace with your logic to analyze the image
+        location = get_location(uploaded_image.image.path)
+        
+        return render(request, 'index.html', {'city': location['city'],'country': location['ai_country'], 'image_url': uploaded_image.image.url})
+    
+    return render(request, 'index.html')

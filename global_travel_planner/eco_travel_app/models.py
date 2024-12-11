@@ -88,12 +88,21 @@ class Trip(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    co2_saved = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    co2 = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    people = models.IntegerField(default=1, null=False)  # Calculated by comparing eco-friendly choices to alternatives
     
     def save(self, *args, **kwargs):
-        emission_factors = {'driving': 0.043, 'transit': 0.041, 'walking': 0, 'bicycling': 0}
+        emission_factors = {
+        'car': 0.2,
+        'bus': 0.05,
+        'train': 0.1,
+        'flight': 0.15,
+        'ship': 0.07,
+        }
         origin = "Mumbai, India"
         distance = utils.calculate_route_distance(utils.get_coordinates(origin, utils.API_KEY), utils.get_coordinates(self.destination, utils.API_KEY), utils.API_KEY, 'drive')
+        co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
+        self.co2=co2_emission
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -150,3 +159,10 @@ class AdminDashboard(models.Model):
 
     def __str__(self):
         return f"Admin Dashboard - {self.admin_user.username}"
+
+
+class Images(models.Model):
+    id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to="images/")
+    date = models.DateTimeField(auto_now_add=True)
+
