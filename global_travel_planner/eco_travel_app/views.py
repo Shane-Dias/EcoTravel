@@ -294,5 +294,7 @@ def upload_image(request):
 
 
 def trip_success(request, trip_id):
-    trip = Trip.objects.filter(id=trip_id)
-    return render(request, 'trip_success.html')
+    trip = Trip.objects.get(id=trip_id)
+    cost = "{:,.2f}".format(trip.total_cost)
+    co2 = "{:,.2f}".format(trip.co2)
+    return render(request, 'trip_success.html', {'trip': trip, "cost":cost, "co2": co2})
