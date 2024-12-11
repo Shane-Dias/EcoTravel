@@ -1,14 +1,14 @@
-from django.db import models
+from django.db import models, migrations
 from django.contrib.auth.models import User  # Use Django's built-in User model
+from . import utils
 
 # Profile Model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
-    preferences = models.JSONField(default=dict)  # Store user preferences like favorite destinations, transport modes
+    preferences = models.CharField(max_length=200)  # Store user preferences like favorite destinations, transport modes
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
-    travel_miles_saved = models.FloatField(default=0)
     co2_saved = models.FloatField(default=0)  # Carbon footprint saved through eco-friendly travel
     date_joined = models.DateTimeField(auto_now_add=True)
 
@@ -74,7 +74,8 @@ class Trip(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    co2 = models.Field(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    co2 = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    co2_saved = models.FloatField(default=0, null=True)  # Calculated by comparing eco-friendly choices to alternatives
     people = models.IntegerField(default=1, null=False)  # Calculated by comparing eco-friendly choices to alternatives
 
 

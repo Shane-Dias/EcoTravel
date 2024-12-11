@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %}{% load humanize %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -65,7 +65,8 @@
       }
 
       .edit-profile,
-      .logout,.home {
+      .logout,
+      .home {
         background-color: #4caf50;
         color: white;
         padding: 10px 20px;
@@ -109,22 +110,62 @@
       <div class="eco-stats">
         <h3>Your Eco-friendly Trips</h3>
         <div class="paras" style="text-align: center">
-          <p><strong>Total Miles Saved:</strong> {{ total_miles_saved }}</p>
-          <p><strong>Total CO2 Saved:</strong> {{ total_co2_saved }}kg</p>
+          <p>
+            <strong>Total CO2 Saved:</strong>
+            {{ profile.co2_saved|floatformat:2|intcomma }} kg
+          </p>
         </div>
       </div>
 
-      <ul>
-        {% for trip in trips %}
-        <li>
-          Trip to <strong>{{ trip.destination.name }}</strong> - {{
-          trip.destination.description }}
-        </li>
-        {% endfor %}
-      </ul>
+      <div class="container">
+        <h1>Your Planned Trips</h1>
+
+        {% if trips %}
+        <table class="trips-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Destination</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>People</th>
+              <th>Total Cost (₹)</th>
+              <th>CO2 Emission (kg)</th>
+              <th>CO2 Saved (kg)</th>
+              <th>Details</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for trip in trips %}
+            <tr>
+              <td>{{ forloop.counter }}</td>
+              <td>{{ trip.destination.name }}</td>
+              <td>{{ trip.start_date }}</td>
+              <td>{{ trip.end_date }}</td>
+              <td>{{ trip.people }}</td>
+              <td>₹{{ trip.total_cost|floatformat:2|intcomma }}</td>
+              <td>{{ trip.co2|floatformat:2|intcomma }} kg</td>
+              <td>{{ trip.co2_saved|floatformat:2|intcomma }} kg</td>
+              <td>
+                <img
+                  src="https://api.qrserver.com/v1/create-qr-code/?data={% url 'trip_success' trip.id %}&amp;size=100x100"
+                  alt=""
+                  title=""
+                />
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p>You have not planned any trips yet.</p>
+        {% endif %}
+
+        <a href="{% url 'home' %}" class="btn">Plan a New Trip</a>
+      </div>
 
       <a href="{% url 'logout' %}" class="logout">Logout</a>
-      <a href="{% url 'home' %}" class="home" style="margin-top: 10px;">Home</a>
+      <a href="{% url 'home' %}" class="home" style="margin-top: 10px">Home</a>
     </div>
   </body>
 </html>

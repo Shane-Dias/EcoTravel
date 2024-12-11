@@ -58,14 +58,13 @@ def logout_user(request):
 
 @login_required
 def dashboard(request):
-    trips = Trip.objects.filter(user=request.user)
-    # total_miles_saved = sum([trip.destination.distance for trip in trips])  # Assume destination has a 'distance' field
-    total_co2_saved = sum([trip.co2 for trip in trips])
+
+    # Get the logged-in user's trips, sorted by co2_saved in descending order
+    trips = Trip.objects.filter(user=request.user).order_by('-co2_saved')
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     return render(request, 'dashboard.html', {
         # 'total_miles_saved': total_miles_saved,
-        'total_co2_saved': total_co2_saved,
         'trips': trips,
         'profile': profile,
     })
@@ -152,6 +151,7 @@ def plan_trip(request, destination_id):
         'train': 0.1,
         'flight': 0.15,
         'ship': 0.07,
+        'cycle': 0
         }
         origin = "Mumbai, India"
         try:
@@ -161,14 +161,22 @@ def plan_trip(request, destination_id):
         except Exception as e:
                 distance = 0  # Default to 0 if there's an error
                 print(f"Error calculating distance: {e}")
-        co2_emission = ((distance*emission_factors[transportation_instance.transport_type])/trip.people)*1000
+        co2_emission = distance*emission_factors[transportation_instance.transport_type]*transportation_instance.co2_per_km
         trip.co2=co2_emission
+        co2_saved = co2_emission
+        for transport in transportation:
+            if (transport.co2_per_km*distance*emission_factors[transport.transport_type]) > co2_emission:
+                co2_saved = (transport.co2_per_km*distance*emission_factors[transport.transport_type]) - co2_emission
+        trip.co2_saved=co2_saved if co2_saved!=co2_emission else 0
 
-        # Assign accommodation and calculate its cost if selected
+        user = request.user
+        if hasattr(user, 'profile'):  # Assuming user profile has a `co2_saved` field
+            user.profile.co2_saved = user.profile.co2_saved + trip.co2_saved
+            user.profile.save()
+        else:
+            print("User profile or co2_saved field not found.")
 
-        
-
-                # Assign transportation and calculate its cost if selected
+        # Assign transportation and calculate its cost if selected
         total_cost += transportation_instance.price_per_km * Decimal(distance)
 
         # Save the trip
@@ -295,9 +303,12 @@ def upload_image(request):
 
 def trip_success(request, trip_id):
     trip = Trip.objects.get(id=trip_id)
+    transportation = Transportation.objects.filter(destination=trip.destination).count()
     cost = "{:,.2f}".format(trip.total_cost)
     co2 = "{:,.2f}".format(trip.co2)
-    return render(request, 'trip_success.html', {'trip': trip, "cost":cost, "co2": co2})
+    co2_saved = "{:,.2f}".format(trip.co2_saved)
+    saved = 1 if (trip.co2_saved!=0 or transportation==1) else 0
+    return render(request, 'trip_success.html', {'trip': trip, "cost":cost, "co2": co2, 'co2_saved':co2_saved, "saved":saved})
 
 
 def blog(request):

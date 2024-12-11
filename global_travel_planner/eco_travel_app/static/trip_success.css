@@ -1,39 +1,103 @@
 body {
   font-family: "Arial", sans-serif;
-  background-color: #e6f2e6;
+  background-color: #f4f9f4;
   margin: 0;
-  padding: 20px;
-  text-align: center;
-  color: #2f4f4f;
+  padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
+  background-image: url("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_960_720.jpg");
+  background-size: cover;
+  background-position: center;
+  color: #2e3b3b;
+  overflow: hidden;
 }
 
-h2 {
-  font-size: 28px;
-  color: #228b22;
-  margin-top: 20px;
+.container {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 30px 40px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  max-width: 600px;
+}
+
+h1 {
+  font-size: 32px;
+  color: #1b5e20;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #388e3c;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.details-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.details-table th,
+.details-table td {
+  text-align: left;
+  padding: 12px;
+  border: 1px solid #ddd;
+}
+
+.details-table th {
+  background-color: #4caf50;
+  color: white;
+}
+
+.details-table td {
+  background-color: #f9f9f9;
+}
+
+.not-available {
+  color: #d32f2f;
   font-weight: bold;
 }
 
-p {
-  font-size: 18px;
-  color: #006400;
-  margin-top: 10px;
+.message {
+  font-size: 16px;
+  color: #00695c;
+  margin-top: 20px;
+  text-align: center;
 }
 
-body::after {
-  content: "";
-  background-image: url("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_960_720.jpg");
-  background-position: center;
-  background-size: cover;
-  opacity: 0.25;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -1;
+.button-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+  background-color: #4caf50;
+  color: white;
+  font-size: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #388e3c;
+}
+
+.feedback-btn {
+  background-color: #ff9800;
+}
+
+.feedback-btn:hover {
+  background-color: #f57c00;
 }

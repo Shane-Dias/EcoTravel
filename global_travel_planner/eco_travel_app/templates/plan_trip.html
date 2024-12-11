@@ -143,6 +143,7 @@
         {% for transportation in transportation_options %}
         <option value="{{ transportation.id }}">
           {{ transportation.name }} - ₹{{ transportation.price_per_km }} per km
+          - CO2: {{ transportation.co2_per_km }} g/km
         </option>
         {% endfor %}
       </select>

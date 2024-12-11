@@ -41,3 +41,9 @@ def great_circle_distance(lat1, lon1, lat2, lon2):
     R = 6371.0
     distance = R * c
     return distance
+
+def populate_co2_emitted(apps, schema_editor):
+    Transportation = apps.get_model('eco_travel_app', 'Transportation')
+    for transportation in Transportation.objects.all():
+        transportation.co2_emitted = 0.0  # Default value as a float
+        transportation.save()
