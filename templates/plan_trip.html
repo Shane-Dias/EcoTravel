@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Plan Trip</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'plantrip.css' %}" />
+  </head>
+  <body>
+    <h2>Plan Your Trip to {{ destination.name }}</h2>
+
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+
+      <label for="hotel">Select Hotel:</label>
+      <select name="hotel" id="hotel">
+        <option value="">No hotel</option>
+        {% for hotel in Hotel %}
+        <option value="{{ hotel.id }}">
+          {{ hotel.name }} - ₹{{ hotel.price_per_night }}
+        </option>
+        {% endfor %}
+      </select>
+      <button type="submit">Plan Trip</button>
+    </form>
+  </body>
+</html>

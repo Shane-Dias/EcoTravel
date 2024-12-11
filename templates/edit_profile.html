@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Profile</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'edit_profile.css' %}"
+    />
+  </head>
+  <body>
+    <h2>Edit Profile</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <label for="bio">Bio:</label>
+      <input
+        type="text"
+        id="bio"
+        name="bio"
+        value="{{ profile.bio }}"
+      /><br /><br />
+
+      <label for="location">Your Location:</label>
+      <input
+        type="text"
+        id="location"
+        name="location"
+        value="{{ profile.location }}"
+      /><br /><br />
+
+      <label for="preferences">Your Preferences:</label>
+      <input
+        type="text"
+        id="preferences"
+        name="preferences"
+        value="{{ profile.preferences }}"
+      /><br /><br />
+
+      <label for="profile_pic">Profile Picture:</label>
+      <input type="file" id="profile_pic" name="profile_pic" /><br /><br />
+
+      <button type="submit">Save Changes</button>
+    </form>
+  </body>
+</html>
