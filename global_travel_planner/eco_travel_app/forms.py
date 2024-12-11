@@ -16,6 +16,10 @@ class TripForm(forms.ModelForm):
     class Meta:
         model = Trip
         fields = ['start_date', 'end_date', 'accommodation', 'transportation']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
+        }
 
 class ProfileForm(forms.ModelForm):
     class Meta:
