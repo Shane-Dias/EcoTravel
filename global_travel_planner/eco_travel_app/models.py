@@ -80,12 +80,22 @@ class Trip(models.Model):
     
     def save(self, *args, **kwargs):
         emission_factors = {
-        'car': 0.2,
-        'bus': 0.05,
-        'train': 0.1,
-        'flight': 0.15,
-        'ship': 0.07,
-        }
+          'car': {
+              'petrol': 0.192,
+              'diesel': 0.171,
+              'hybrid': 0.089,
+              'electric': 0.053,
+          },
+          'motorcycle': {
+              'small': 0.083,
+              'medium': 0.108,
+              'large': 0.135,
+          },
+          'bus': {
+              'city': 0.089,
+              'coach': 0.027,
+          }
+      }
         origin = "Mumbai, India"
         try:
             origin_coords = utils.get_coordinates(origin, utils.API_KEY)
@@ -94,7 +104,7 @@ class Trip(models.Model):
         except Exception as e:
                 distance = 0  # Default to 0 if there's an error
                 print(f"Error calculating distance: {e}")
-        co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
+        co2_emission = ((distance*emission_factors[self.transportation]))
         self.co2=co2_emission
         super().save(*args, **kwargs)
 
