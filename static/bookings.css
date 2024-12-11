@@ -1,0 +1,165 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  color: #333;
+}
+
+header {
+  background-color: #2c7d59; 
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+
+section {
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 1000px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 2em;
+  color: #2c7d59;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  margin: 10px 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+li:hover {
+  transform: translateY(-5px);
+}
+
+li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+li img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-right: 1px solid #ddd;
+}
+
+li h3 {
+  margin: 0;
+  padding: 10px;
+  font-size: 1.5em;
+}
+
+li p {
+  padding: 10px;
+  margin: 0;
+  color: #666;
+}
+
+h3 {
+  font-size: 1.75em;
+  color: #2c7d59;
+  margin-bottom: 15px;
+}
+
+ul li {
+  display: flex;
+  align-items: center;
+  background-color: #f9f9f9;
+}
+
+ul li img {
+  border-radius: 5px 0 0 5px;
+}
+
+ul li a:hover {
+  background-color: #e8f5e9;
+}
+
+@media (max-width: 768px) {
+  li {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  li img {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid #ddd;
+  }
+
+  li h3,
+  li p {
+    padding: 10px;
+  }
+}
+
+.edit-profile {
+  position: fixed;
+  top: 31px;
+  right: 31px;
+  background-color: #4CAF50; 
+  color: white;              
+  padding: 10px 20px;        
+  border-radius: 5px;         
+  text-decoration: none;     
+}
+
+.edit-profile:hover {
+  background-color: #45a049; 
+}
+
+.pfp{
+  position: absolute;
+  left: 27px;
+  top: 24px;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  border: 2px solid;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.primary-btn {
+  background-color: #4CAF50; /* Green */
+}
+
+.secondary-btn {
+  background-color: #008CBA; /* Blue */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
