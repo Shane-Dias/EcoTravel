@@ -1,45 +1,59 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Feedback</title>
-    <!-- <link rel="stylesheet" type="text/css" href="{% static 'feedback.css' %}"> -->
-     <link rel="stylesheet" href="../static/feedback.css">
-</head>
-<body>
+    <link rel="stylesheet" type="text/css" href="{% static 'feedback.css' %}" />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" /> -->
+
+    <!-- <link rel="stylesheet" href="../static/feedback.css"> -->
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #c1f196;
+        background-image: url("https://images7.alphacoders.com/135/thumb-1920-1356444.jpeg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        color: #333;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
     <div class="container">
-        <h2>We Value Your Feedback!</h2>
-        <p>Please share your thoughts about your eco-friendly journey:</p>
-        <form method="POST">
-            {% csrf_token %}
-            <div class="form-group">
-                <label for="trip_id">Trip ID:</label>
-                <input type="text" id="trip_id" name="trip_id" required>
-            </div>
-            <div class="form-group">
-                <label for="feedback">Your Feedback:</label>
-                <textarea id="feedback" name="feedback" rows="5" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="rating">Rating:</label>
-                <select id="rating" name="rating" required>
-                    <option value="">Select a rating</option>
-                    <option value="1">1 Star</option>
-                    <option value="2">2 Stars</option>
-                    <option value="3">3 Stars</option>
-                    <option value="4">4 Stars</option>
-                    <option value="5">5 Stars</option>
-                </select>
-            </div>
-            <button type="submit" class="btn">Submit Feedback</button>
-        </form>
+      <h2>We Value Your Feedback!</h2>
+      <p>Please share your thoughts about your eco-friendly journey:</p>
+      <form method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="trip_id">Trip ID:</label>
+          <input type="text" id="trip_id" name="trip_id" required />
+        </div>
+        <div class="form-group">
+          <label for="feedback">Your Feedback:</label>
+          <textarea id="feedback" name="feedback" rows="5" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="rating">Rating:</label>
+          <select id="rating" name="rating" required>
+            <option value="">Select a rating</option>
+            <option value="1">1 Star</option>
+            <option value="2">2 Stars</option>
+            <option value="3">3 Stars</option>
+            <option value="4">4 Stars</option>
+            <option value="5">5 Stars</option>
+          </select>
+        </div>
+        <button type="submit" class="btn">Submit Feedback</button>
+      </form>
     </div>
 
     <div class="button-container">
-        <!-- Feedback Button -->
-        <a href="{% url 'home' %}" class="btn primary-btn">Go Back To Home</a>
+      <!-- Feedback Button -->
+      <a href="{% url 'home' %}" class="btn primary-btn">Go Back To Home</a>
     </div>
-</body>
+  </body>
 </html>

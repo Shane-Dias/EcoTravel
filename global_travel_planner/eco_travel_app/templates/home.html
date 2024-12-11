@@ -16,16 +16,15 @@
   <body>
     <header>
       <h1>Welcome to the Global Eco-Friendly Travel Planner</h1>
+      <a href="{% url 'dashboard' %}">
+        <img
+          src="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
+          class="pfp"
+          alt="Profile Picture"
+        />
+      </a>
+      <a href="{% url 'edit_profile' %}" class="edit-profile">Edit Profile</a>
     </header>
-    <a href="{% url 'dashboard' %}">
-      <img
-        src="{% if profile.profile_pic %}{{ profile.profile_pic.url }}{% else %}https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg{% endif %}"
-        class="pfp"
-        alt="Profile Picture"
-      />
-
-    </a>
-    <a href="{% url 'edit_profile' %}" class="edit-profile">Edit Profile</a>
 
     <section>
       <h2>Popular Eco-Friendly Destinations</h2>
@@ -46,7 +45,9 @@
 
       <div class="button-container">
         <!-- Feedback Button -->
-        <a href="{% url 'feedback' %}" ><button class="btn secondary-btn">Give Feedback</button> </a>
+        <a href="{% url 'feedback' %}"
+          ><button class="btn secondary-btn">Give Feedback</button>
+        </a>
 
         <!-- Map Button -->
         <a href="{% url 'map' %}" class="btn secondary-btn">View Map</a>
