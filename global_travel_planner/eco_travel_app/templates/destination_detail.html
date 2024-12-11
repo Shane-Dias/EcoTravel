@@ -5,18 +5,211 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{ destination.name }} - Details</title>
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'destination_detail.css' %}"
-    />
+    <style>
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f0f4f1;
+        color: #333;
+      }
+
+      header {
+        background-color: #2f855a;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 3px solid #38a169;
+      }
+
+      header h1 {
+        font-size: 2.5rem;
+        margin: 0;
+        letter-spacing: 1.5px;
+      }
+
+      section {
+        max-width: 1100px;
+        margin: 30px auto;
+        padding: 20px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 10px;
+      }
+
+      .pfps {
+        position: absolute;
+        left: 27px;
+        top: 24px;
+        height: 50px;
+        width: 50px;
+        border-radius: 50%;
+        border: 2px solid;
+      }
+
+      .imagedis {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+
+      .imagedis img {
+        width: 70%;
+        border-radius: 10px;
+        margin-bottom: 20px;
+      }
+
+      .ratings {
+        width: 40%;
+        margin: 20px auto;
+        padding: 15px;
+        font-size: 1.5rem;
+        color: #4caf50;
+        background-color: rgba(76, 175, 80, 0.1);
+        border-radius: 8px;
+        border: 1px solid #4caf50;
+        text-align: center;
+      }
+
+      section p {
+        font-size: 1.2rem;
+        line-height: 1.6;
+        color: #444;
+      }
+
+      section h2 {
+        font-size: 2rem;
+        color: #2f855a;
+        margin-bottom: 15px;
+        border-bottom: 2px solid #38a169;
+        padding-bottom: 5px;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+      }
+
+      ul li {
+        background-color: #edf2f7;
+        margin: 15px 0;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      ul li h3 {
+        font-size: 1.5rem;
+        color: #2c7a7b;
+      }
+
+      ul li p {
+        font-size: 1.1rem;
+        color: #555;
+      }
+
+      #plantrip {
+        display: inline-block;
+        padding: 10px 20px;
+        background-color: #38a169;
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+      }
+
+      a:hover {
+        background-color: #2f855a;
+      }
+
+      .footer {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .footer p {
+        margin: 10px 0;
+        font-size: 1rem;
+        line-height: 1.5;
+      }
+
+      .footer-links {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+
+      .footer-links a {
+        color: #ffffff;
+        margin: 0 10px;
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s ease;
+      }
+
+      .footer-links a:hover {
+        color: #38a169;
+        text-decoration: underline;
+      }
+
+      .social-media {
+        margin: 20px 0;
+      }
+
+      .social-media p {
+        margin-bottom: 10px;
+        font-size: 1rem;
+      }
+
+      .social-media a {
+        margin: 0 10px;
+        font-size: 1.5rem;
+        color: #ffffff;
+        transition: color 0.3s ease;
+      }
+
+      .social-media a:hover {
+        color: #38a169;
+      }
+
+      @media (max-width: 768px) {
+        section {
+          padding: 10px;
+        }
+
+        header h1 {
+          font-size: 2rem;
+        }
+
+        section h2 {
+          font-size: 1.5rem;
+        }
+
+        .footer {
+          padding: 30px 10px;
+        }
+
+        .footer-links {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .footer-links a {
+          margin: 5px 0;
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
       <h1>{{ destination.name }}</h1>
     </header>
     <section>
-      <a href="{% url 'dashboard' %}" >
+      <a href="{% url 'dashboard' %}">
         <img
           src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
           alt="profile-pic"
@@ -26,10 +219,10 @@
       <div class="imagedis">
         <img src="{{ destination.image.url }}" alt="{{ destination.name }}" />
       </div>
-      <div class="ratings">Eco-Rating:{{ destination.eco_rating }}</div>
-      <p><b>Country:</b>{{ destination.country }}</p>
-      <p><b>City:</b>{{ destination.city }}</p>
-      <p><b>Best Seasons:</b>{{ destination.best_season }}</p>
+      <div class="ratings">Eco-Rating: {{ destination.eco_rating }}</div>
+      <p><b>Country:</b> {{ destination.country }}</p>
+      <p><b>City:</b> {{ destination.city }}</p>
+      <p><b>Best Seasons:</b> {{ destination.best_season }}</p>
       <p>{{ destination.description }}</p>
 
       <h2>Available Accommodations</h2>
@@ -42,22 +235,37 @@
         </li>
         {% endfor %}
       </ul>
-
-      <a href="{% url 'plan_trip' destination.id %}">Plan Your Trip</a>
+      <a id="plantrip" href="{% url 'plan_trip' destination.id %}">Plan Your Trip</a>
     </section>
-
-    <!-- <h1>Another Script is Running from here!!!</h1> -->
-
-    <!-- <h2>{{ destination.name }}</h2>
-    <p>{{ destination.description }}</p>
-
-    <h3>Accommodations</h3>
-    <ul>
-        {% for accommodation in accommodations %}
-        <li>{{ accommodation.name }} - {{ accommodation.description }}</li>
-        {% endfor %}
-    </ul>
-
-    <a href="{% url 'plan_trip' destination.id %}">Plan a Trip</a> -->
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2024 EcoTravel. All rights reserved. | Designed with
+          sustainability in mind.
+        </p>
+        <div class="footer-links">
+          <a href="#features">Features</a>
+          <a href="#destinations">Destinations</a>
+          <a href="#testimonials">Testimonials</a>
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="social-media">
+          <p>
+            Follow us on social media for the latest updates on eco-friendly
+            travel:
+          </p>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>Have questions or suggestions? <a href="#contact">Get in touch</a></p>
+      </div>
+    </footer>
   </body>
 </html>

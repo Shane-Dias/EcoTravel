@@ -120,7 +120,6 @@
           <p class="emission-value">0.00 kg</p>
           <p class="emission-subtitle">of CO2 equivalent</p>
         </div>
-
         <!-- <div class="info-section">
           <p>
             * Calculations are based on average emission factors for different
@@ -133,76 +132,117 @@
         </div> -->
       </div>
     </div>
+    <footer class="footer">
+      <div class="container2">
+        <p>
+          &copy; 2024 EcoTravel. All rights reserved. | Designed with
+          sustainability in mind.
+        </p>
+        <div class="footer-links">
+          <a href="#features">Features</a> |
+          <a href="#destinations">Destinations</a> |
+          <a href="#testimonials">Testimonials</a> |
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="social-media">
+          <p>
+            Follow us on social media for the latest updates on eco-friendly
+            travel:
+          </p>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>
+          Have questions or suggestions?
+          <a href="#contact">Get in touch!</a>
+        </p>
+      </div>
+    </footer>
     <script>
-            // Emission factors (kg CO2/km)
+      // Emission factors (kg CO2/km)
       const emissionFactors = {
-          car: {
-              petrol: 0.192,
-              diesel: 0.171,
-              hybrid: 0.089,
-              electric: 0.053,
-          },
-          motorcycle: {
-              small: 0.083,
-              medium: 0.108,
-              large: 0.135,
-          },
-          bus: {
-              city: 0.089,
-              coach: 0.027,
-          }
+        car: {
+          petrol: 0.192,
+          diesel: 0.171,
+          hybrid: 0.089,
+          electric: 0.053,
+        },
+        motorcycle: {
+          small: 0.083,
+          medium: 0.108,
+          large: 0.135,
+        },
+        bus: {
+          city: 0.089,
+          coach: 0.027,
+        },
       };
 
       // DOM Elements
-      const vehicleOptions = document.querySelectorAll('.vehicle-option');
-      const fuelOptions = document.getElementById('fuelOptions');
-      const distanceInput = document.getElementById('distance');
-      const emissionValue = document.querySelector('.emission-value');
+      const vehicleOptions = document.querySelectorAll(".vehicle-option");
+      const fuelOptions = document.getElementById("fuelOptions");
+      const distanceInput = document.getElementById("distance");
+      const emissionValue = document.querySelector(".emission-value");
 
       // State
-      let currentVehicle = 'car';
-      let currentFuelType = 'petrol';
+      let currentVehicle = "car";
+      let currentFuelType = "petrol";
       let currentDistance = 0;
 
       // Update fuel options based on vehicle type
       function updateFuelOptions(vehicleType) {
-          const options = Object.keys(emissionFactors[vehicleType]);
-          fuelOptions.innerHTML = options.map(option => `
-              <button class="option-btn ${option === currentFuelType ? 'selected' : ''}">${option}</button>
-          `).join('');
+        const options = Object.keys(emissionFactors[vehicleType]);
+        fuelOptions.innerHTML = options
+          .map(
+            (option) => `
+              <button class="option-btn ${
+                option === currentFuelType ? "selected" : ""
+              }">${option}</button>
+          `
+          )
+          .join("");
 
-          // Add event listeners to new buttons
-          document.querySelectorAll('.option-btn').forEach(btn => {
-              btn.addEventListener('click', () => {
-                  document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
-                  btn.classList.add('selected');
-                  currentFuelType = btn.textContent.toLowerCase();
-                  calculateEmissions();
-              });
+        // Add event listeners to new buttons
+        document.querySelectorAll(".option-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".option-btn")
+              .forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            currentFuelType = btn.textContent.toLowerCase();
+            calculateEmissions();
           });
+        });
       }
 
       // Calculate emissions
       function calculateEmissions() {
-          const distance = Number(distanceInput.value);
-          const factor = emissionFactors[currentVehicle][currentFuelType];
-          const emissions = distance * factor;
-          emissionValue.textContent = `${emissions.toFixed(2)}kg`;
+        const distance = Number(distanceInput.value);
+        const factor = emissionFactors[currentVehicle][currentFuelType];
+        const emissions = distance * factor;
+        emissionValue.textContent = `${emissions.toFixed(2)}kg`;
       }
 
       // Event Listeners
-      vehicleOptions.forEach(option => {
-          option.addEventListener('click', () => {
-              vehicleOptions.forEach(opt => opt.classList.remove('selected'));
-              option.classList.add('selected');
-              currentVehicle = option.dataset.vehicle;
-              currentFuelType = Object.keys(emissionFactors[currentVehicle])[0];
-              updateFuelOptions(currentVehicle);
-              calculateEmissions();
-          });
+      vehicleOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          vehicleOptions.forEach((opt) => opt.classList.remove("selected"));
+          option.classList.add("selected");
+          currentVehicle = option.dataset.vehicle;
+          currentFuelType = Object.keys(emissionFactors[currentVehicle])[0];
+          updateFuelOptions(currentVehicle);
+          calculateEmissions();
+        });
       });
 
-      distanceInput.addEventListener('input', calculateEmissions);
+      distanceInput.addEventListener("input", calculateEmissions);
 
       // Initialize
       updateFuelOptions(currentVehicle);
