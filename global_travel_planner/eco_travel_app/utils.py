@@ -9,7 +9,8 @@ def get_location(image_path):
     result = localizer.localize(img_path=image_path)
     return result
 
-import requests
+import requests, math
+
 
 # Geoapify API Key
 API_KEY = "fabe86e749c44aa2a8ae60c68c2e3c6f"
@@ -26,13 +27,17 @@ def get_coordinates(location, api_key):
         raise ValueError(f"Could not find coordinates for location: {location}")
 
 # Function to calculate route distance using Geoapify Route API
-def calculate_route_distance(origin_coords, destination_coords, api_key, mode):
-    url = f"https://api.geoapify.com/v1/routing?waypoints={origin_coords[0]},{origin_coords[1]}|{destination_coords[0]},{destination_coords[1]}&mode={mode}&apiKey={api_key}"
-    response = requests.get(url)
-    data = response.json()
-    if 'features' in data and len(data['features']) > 0:
-        distance_meters = data['features'][0]['properties']['distance']
-        distance_km = distance_meters / 1000  # Convert to kilometers
-        return distance_km
-    else:
-        raise ValueError("Could not calculate the route distance.")
+def great_circle_distance(lat1, lon1, lat2, lon2):
+    # Convert degrees to radians
+    lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
+    
+    # Haversine formula
+    dlat = lat2 - lat1
+    dlon = lon2 - lon1
+    a = math.sin(dlat / 2)**2 + math.cos(lat1) * math.cos(lat2) * math.sin(dlon / 2)**2
+    c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+    
+    # Earth radius in kilometers
+    R = 6371.0
+    distance = R * c
+    return distance

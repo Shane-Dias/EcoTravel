@@ -9,6 +9,9 @@
       body {
         font-family: sans-serif;
         background-color: #e6f5e6;
+        background-image: url("https://merriam-webster.com/assets/mw/images/gallery/gal-home-edpick-lg/verdant-1960-840e9b28c26a95231a6dd71f6fd6499b@1x.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
         color: #2f4f2f;
         margin: 0;
         padding: 0;
@@ -65,7 +68,8 @@
       }
 
       .edit-profile,
-      .logout,.home {
+      .logout,
+      .home {
         background-color: #4caf50;
         color: white;
         padding: 10px 20px;
@@ -124,7 +128,7 @@
       </ul>
 
       <a href="{% url 'logout' %}" class="logout">Logout</a>
-      <a href="{% url 'home' %}" class="home" style="margin-top: 10px;">Home</a>
+      <a href="{% url 'home' %}" class="home" style="margin-top: 10px">Home</a>
     </div>
   </body>
 </html>

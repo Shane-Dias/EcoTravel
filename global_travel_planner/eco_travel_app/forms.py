@@ -1,7 +1,7 @@
 from django import forms
 from .models import Trip
 from .models import User
-from .models import Profile
+from .models import Profile, Transportation, Accommodation
 
 class RegisterForm(forms.ModelForm):
     class Meta:
@@ -13,9 +13,11 @@ class LoginForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class TripForm(forms.ModelForm):
+    transportation = forms.ModelChoiceField(queryset=Transportation.objects.all(), required=True)
+    hotel = forms.ModelChoiceField(queryset=Accommodation.objects.all(), required=False)  # Optional field
     class Meta:
         model = Trip
-        fields = ['start_date', 'end_date', 'accommodation', 'transportation']
+        fields = ['start_date', 'end_date', 'accommodation', 'transportation', 'people', 'hotel']
         widgets = {
             'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}),
