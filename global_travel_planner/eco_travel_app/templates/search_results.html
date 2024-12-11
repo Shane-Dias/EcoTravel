@@ -1,0 +1,54 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Results</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'search_result.css' %}" />
+  </head>
+  <body>
+    <h2>Eco-friendly Destinations</h2>
+    <ul>
+      {% for destination in destinations %}
+      <li>{{ destination.name }} - {{ destination.formatted_address }}</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Routes for {{ destination }}</h2>
+    <ul>
+      {% for route in routes %}
+      <li>{{ route.summary }} (Duration: {{ route.legs.0.duration.text }})</li>
+      {% endfor %}
+    </ul>
+
+    <h2>Distance and Carbon Emission</h2>
+    <p>Distance: {{ distance }}</p>
+    <p>Estimated Carbon Emission: {{ carbon_emission }} kg CO2</p>
+
+    <h2>Weather and Season Suggestions</h2>
+    <p>Current Weather: {{ weather }}</p>
+    <p>Temperature: {{ temperature }} K</p>
+
+    <h1>Another Script is Running from here!!!</h1>
+
+    <h2>Search Results for Eco-Friendly Destinations</h2>
+    <h3>Weather: {{ weather }}</h3>
+    <p>Temperature: {{ temperature }}°C</p>
+
+    <ul>
+      {% for destination in destinations %}
+      <li>{{ destination.name }}</li>
+      {% endfor %}
+    </ul>
+
+    <h3>Routes</h3>
+    <ul>
+      {% for route in routes %}
+      <li>{{ route.summary }}</li>
+      {% endfor %}
+    </ul>
+
+    <p>Distance: {{ distance }}</p>
+    <p>Carbon Emission: {{ carbon_emission }} kg</p>
+  </body>
+</html>

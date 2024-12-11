@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Search Eco-Friendly Destinations</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'search.css' %}" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Added container for better styling -->
+      <h2>Find Eco-Friendly Destinations</h2>
+      <form method="post">
+        {% csrf_token %} {{ form.as_p }}
+        <button type="submit">Search</button>
+      </form>
+    </div>
+  </body>
+</html>

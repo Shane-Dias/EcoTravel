@@ -1,0 +1,39 @@
+body {
+  font-family: "Arial", sans-serif;
+  background-color: #e6f2e6;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  color: #2f4f4f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+h2 {
+  font-size: 28px;
+  color: #228b22;
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 18px;
+  color: #006400;
+  margin-top: 10px;
+}
+
+body::after {
+  content: "";
+  background-image: url("https://cdn.pixabay.com/photo/2015/12/01/20/28/road-1072821_960_720.jpg");
+  background-position: center;
+  background-size: cover;
+  opacity: 0.25;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}

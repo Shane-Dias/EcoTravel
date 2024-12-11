@@ -1,0 +1,63 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f9f0;
+    color: #333; 
+}
+
+h2 {
+    text-align: center;
+    margin: 20px 0;
+    color: #295a29;
+}
+
+.container {
+    max-width: 750px; 
+    margin: 0 auto; 
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.8); 
+    border-radius: 10px; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+form {
+    display: flex;
+    flex-direction: column; 
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    margin-bottom: 5px; 
+    font-weight: bold; 
+}
+
+input[type="text"], input[type="email"], input[type="search"], select {
+    padding: 10px; 
+    border: 2px solid #295a29; 
+    border-radius: 5px; 
+    font-size: 16px; 
+}
+
+input[type="text"]:focus, input[type="email"]:focus, input[type="search"]:focus {
+    border-color: #4CAF50; 
+    outline: none; 
+}
+
+button {
+    padding: 10px;
+    background: #295a29;
+    color: white; 
+    border: none;
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-size: 16px; 
+    transition: background 0.3s;
+}
+
+button:hover {
+    background: #4CAF50; 
+}

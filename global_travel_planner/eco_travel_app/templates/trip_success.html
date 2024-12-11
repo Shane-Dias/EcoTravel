@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trip Successful</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <!-- <link rel="stylesheet" href="../static/trip_success.css" /> -->
+  </head>
+  <body>
+    <div class="container" style="width:70%;">
+      <h2>
+        Your Trip to {{ trip.destination.name }} has been successfully planned!
+      </h2>
+      <p>
+        Enjoy your eco-friendly journey. We hope you embrace sustainable travel
+        by minimizing your environmental impact, respecting local cultures, and
+        supporting green initiatives. Together, we can help protect the planet
+        while exploring its beauty.
+      </p>
+    </div>
+
+    <div class="button-container">
+      <!-- Feedback Button -->
+      <a href="{% url 'home' %}" class="btn primary-btn">Go Back To Home</a>
+      <a href="{% url 'feedback' %}" class="btn primary-btn">Give Feedback</a>
+    </div>
+    </div>
+  </body>
+</html>
