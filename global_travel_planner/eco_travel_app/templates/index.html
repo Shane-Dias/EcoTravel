@@ -9,8 +9,139 @@
     <link rel="stylesheet" href="{% static 'index.css' %}" />
     <link rel="stylesheet" href="{% static 'upload.css' %}" />
   </head>
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #28a745;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Logo styling */
+    .logo {
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Center content */
+    .navbar-center {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .navbar-center a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      margin: 0 10px;
+      font-size: 17px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    a:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+
+    .features:hover,
+    .settings:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .logo a {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
   <body class="bg-green-50 font-sans">
-    <div class="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl mt-12">
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
+      </div>
+
+      <div class="navbar-center">
+        <a href="{% url 'home' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
+        </div>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="#" class="settings">Settings</a>
+          <div class="dropdown-content">
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div
+      class="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl mt-12"
+      style="margin-top: 6rem"
+    >
       <div class="text-center mb-6">
         <h1 class="text-3xl font-semibold text-green-700">
           Upload Travel Photo
