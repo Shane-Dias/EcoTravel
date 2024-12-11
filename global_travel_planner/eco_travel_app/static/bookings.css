@@ -8,7 +8,7 @@ body {
 }
 
 header {
-  background-color: #2c7d59; 
+  background-color: #2c7d59;
   color: white;
   padding: 20px 0;
   text-align: center;
@@ -121,18 +121,18 @@ ul li a:hover {
   position: fixed;
   top: 31px;
   right: 31px;
-  background-color: #4CAF50; 
-  color: white;              
-  padding: 10px 20px;        
-  border-radius: 5px;         
-  text-decoration: none;     
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 5px;
+  text-decoration: none;
 }
 
 .edit-profile:hover {
-  background-color: #45a049; 
+  background-color: #45a049;
 }
 
-.pfp{
+.pfp {
   position: absolute;
   left: 27px;
   top: 24px;
@@ -151,11 +151,11 @@ ul li a:hover {
 }
 
 .primary-btn {
-  background-color: #4CAF50; /* Green */
+  background-color: #4caf50; /* Green */
 }
 
 .secondary-btn {
-  background-color: #008CBA; /* Blue */
+  background-color: #008cba; /* Blue */
 }
 
 .button-container {

@@ -1,0 +1,295 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Eco Travel - Image Upload</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="{% static 'index.css' %}" />
+    <link rel="stylesheet" href="{% static 'upload.css' %}" />
+  </head>
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #28a745;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Logo styling */
+    .logo {
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Center content */
+    .navbar-center {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .navbar-center a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      margin: 0 10px;
+      font-size: 17px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    a:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+
+    .features:hover,
+    .settings:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .logo a {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
+  <body class="bg-green-50 font-sans">
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
+      </div>
+
+      <div class="navbar-center">
+        <a href="{% url 'home' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
+        </div>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="#" class="settings">Settings</a>
+          <div class="dropdown-content">
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div
+      class="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl mt-12"
+      style="margin-top: 6rem"
+    >
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-semibold text-green-700">
+          Upload Travel Photo
+        </h1>
+        <p class="text-lg text-gray-600">
+          Share your eco-friendly travel moments with us!
+        </p>
+      </div>
+
+      <!-- Form to handle file upload -->
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        action="{% url 'upload_image' %}"
+        class="space-y-6"
+      >
+        {% csrf_token %}
+        <div
+          class="upload-area border-2 border-dashed border-green-300 p-8 rounded-xl"
+        >
+          <div class="upload-content text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="mx-auto mb-4 text-green-500"
+            >
+              <path
+                d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"
+              />
+              <line x1="16" x2="22" y1="5" y2="5" />
+              <line x1="19" x2="19" y1="2" y2="8" />
+              <circle cx="9" cy="9" r="2" />
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+            </svg>
+            <p class="text-xl font-medium text-green-600">
+              Drag and drop your image here or
+            </p>
+            <label
+              for="fileInput"
+              class="text-green-600 text-lg cursor-pointer hover:underline"
+              >Choose Photo</label
+            >
+            <input
+              type="file"
+              id="fileInput"
+              name="image"
+              accept="image/*"
+              required
+              class="hidden"
+            />
+          </div>
+        </div>
+
+        <div class="preview-area hidden" id="previewArea">
+          <div class="preview-header flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-green-700">Preview</h2>
+            <button
+              type="button"
+              class="remove-button text-red-500"
+              id="removeButton"
+            >
+              Remove
+            </button>
+          </div>
+          <div class="preview-content mt-4">
+            <img
+              id="imagePreview"
+              alt="Preview"
+              class="max-w-full rounded-xl shadow-lg"
+            />
+          </div>
+          <div class="image-info mt-4 text-gray-600" id="imageInfo"></div>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="submit-button bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition"
+          >
+            Upload Photo
+          </button>
+        </div>
+      </form>
+
+      {% if city and country and image_url %}
+      <div class="mt-8 text-center">
+        <h2 class="text-2xl font-semibold text-green-700">
+          Uploaded Image Location
+        </h2>
+        <p class="mt-2 text-lg text-gray-600">
+          <strong>Location:</strong> {{ city }}, {{ country }}
+        </p>
+        <p class="text-xl font-semibold text-green-700 mt-4">
+          Great choice! Now let's start planning your eco-friendly adventure.
+        </p>
+
+        <div class="mt-6">
+          <a
+            href="./plan_trip.html"
+            class="text-white bg-green-600 px-6 py-3 rounded-lg hover:bg-green-700 transition"
+          >
+            Plan a Trip
+          </a>
+        </div>
+        <img
+          src="{{ image_url }}"
+          alt="Uploaded Image"
+          class="mt-4 max-w-full rounded-lg shadow-xl"
+        />
+      </div>
+      {% else %}
+      <p class="text-center text-lg text-gray-600 mt-4">
+        No information available. Please upload an image.
+      </p>
+      {% endif %}
+    </div>
+    <script>
+      // Wait for the document to be ready
+      document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("fileInput");
+        const imagePreview = document.getElementById("imagePreview");
+        const previewArea = document.getElementById("previewArea");
+
+        // When the user selects a file
+        fileInput.addEventListener("change", function (event) {
+          const file = event.target.files[0]; // Get the first selected file
+          if (file) {
+            // Create an object URL for the file
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              // Show the preview
+              imagePreview.src = e.target.result;
+              previewArea.classList.remove("hidden"); // Make the preview area visible
+            };
+
+            // Read the file as a data URL (image)
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

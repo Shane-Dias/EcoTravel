@@ -4,24 +4,365 @@
   <head>
     <meta charset="UTF-8" />
     <title>Plan Trip</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'plantrip.css' %}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <!-- <link rel="stylesheet" type="text/css" href="{% static 'plantrip.css' %}" /> -->
+    <style>
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #28a745;
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      /* Logo styling */
+      .logo {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      /* Center content */
+      .navbar-center {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+      }
+
+      .navbar-center a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin: 0 10px;
+        font-size: 17px;
+      }
+
+      .navbar-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 15px;
+        font-size: 16px;
+      }
+
+      a:hover {
+        background-color: #3cb371;
+        border-radius: 5px;
+      }
+
+      .features:hover,
+      .settings:hover {
+        background-color: #3cb371;
+        border-radius: 5px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .navbar .logo a {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        background: url("https://images.pexels.com/photos/1679551/pexels-photo-1679551.jpeg?cs=srgb&dl=pexels-chuchuphinh-1679551.jpg&fm=jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        color: #007bff;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      .form-label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      .form-control {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+
+      .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .form-group select,
+      .form-group input {
+        width: 100%;
+      }
+
+      .form-group select option {
+        padding: 10px;
+      }
+
+      .form-group input[type="date"] {
+        padding: 10px;
+      }
+
+      @media (max-width: 576px) {
+        .container {
+          padding: 15px;
+        }
+      }
+
+      /* Footer Section */
+      .footer {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        margin: 15px 0;
+      }
+
+      .footer-links a {
+        color: #ffffff;
+        margin: 0 15px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .social-media {
+        margin: 20px 0;
+      }
+
+      .footer i {
+        margin: 0 10px;
+        color: #ffffff;
+      }
+    </style>
   </head>
   <body>
-    <h2>Plan Your Trip to {{ destination.name }}</h2>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
+      </div>
 
-    <form method="post">
-      {% csrf_token %} {{ form.as_p }}
+      <div class="navbar-center">
+        <a href="{% url 'home' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
+        </div>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
 
-      <label for="hotel">Select Hotel:</label>
-      <select name="hotel" id="hotel">
-        <option value="">No hotel</option>
-        {% for hotel in Hotel %}
-        <option value="{{ hotel.id }}">
-          {{ hotel.name }} - ₹{{ hotel.price_per_night }}
-        </option>
-        {% endfor %}
-      </select>
-      <button type="submit">Plan Trip</button>
-    </form>
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="#" class="settings">Settings</a>
+          <div class="dropdown-content">
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <div class="container" style="margin-top: 6.2rem; opacity: 0.94">
+      <h2 style="color: green">Plan Your Trip</h2>
+
+      <form method="post">
+        {% csrf_token %}
+
+        <!-- Input Start Date -->
+        <div class="form-group">
+          <label for="start_date" class="form-label">End Date:</label>
+          <input
+            type="date"
+            id="start_date"
+            name="start_date"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Input End Date -->
+        <div class="form-group">
+          <label for="end_date" class="form-label">End Date:</label>
+          <input
+            type="date"
+            id="end_date"
+            name="end_date"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Select Hotel -->
+        <div class="form-group">
+          <label for="hotel" class="form-label">Select Hotel:</label>
+          <select name="hotel" id="hotel" class="form-control">
+            <option value="">No hotel</option>
+            {% for hotel in hotels %}
+            <option value="{{ hotel.id }}">
+              {{ hotel.name }} - ₹{{ hotel.price_per_night }}
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Select Transportation -->
+        <div class="form-group">
+          <label for="transportation" class="form-label"
+            >Select Transportation:</label
+          >
+          <select
+            name="transportation"
+            id="transportation"
+            class="form-control"
+          >
+            <option value="">Select Transportation</option>
+            {% for transportation in transportation_options %}
+            <option value="{{ transportation.id }}">
+              {{ transportation.name }} - ₹{{ transportation.price_per_km }} per
+              km
+            </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <!-- Input Number of People -->
+        <div class="form-group">
+          <label for="people" class="form-label">Number of People:</label>
+          <input
+            type="number"
+            id="people"
+            name="people"
+            min="1"
+            value="1"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" style="background-color: green">Plan Trip</button>
+      </form>
+    </div>
+    <footer class="footer" style="margin-top: 3rem">
+      <div class="container1">
+        <p>
+          &copy; 2024 EcoTravel. All rights reserved. | Designed with
+          sustainability in mind.
+        </p>
+        <div class="footer-links">
+          <a href="#features">Features</a> |
+          <a href="#destinations">Destinations</a> |
+          <a href="#testimonials">Testimonials</a> |
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="social-media">
+          <p>
+            Follow us on social media for the latest updates on eco-friendly
+            travel:
+          </p>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>
+          Have questions or suggestions? <a href="#contact">Get in touch!</a>
+        </p>
+      </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   </body>
 </html>
