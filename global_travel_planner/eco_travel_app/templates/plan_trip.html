@@ -6,7 +6,6 @@
     <title>Plan Trip</title>
     <link rel="stylesheet" type="text/css" href="{% static 'plantrip.css' %}" />
     <style>
-        
       a {
         text-decoration: none;
         color: #fff;
@@ -108,45 +107,72 @@
         margin: 0 10px;
         color: #ffffff;
       }
-     </style>
+    </style>
   </head>
   <body>
-    <nav class="navbar">
-      <div class="logo">
-        <img
-          style="width: 32px; margin-right: 5px"
-          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
-          alt="icon"
-        />
-        <a href="#">EcoTravel</a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="{% url 'homepage' %}">Home</a></li>
-        <li><a href="{% url 'homepage' %}#features">Features</a></li>
-        <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
-        <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
-        <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
-      </div>
-    </nav>
     <h2>Plan Your Trip to {{ destination.name }}</h2>
 
     <form method="post">
-      {% csrf_token %} {{ form.as_p }}
+      {% csrf_token %}
 
+      <!-- Input Start Date -->
+      <label for="start_date">Start Date:</label>
+      <input type="date" id="start_date" name="start_date" required />
+      <br /><br />
+
+      <!-- Input End Date -->
+      <label for="end_date">End Date:</label>
+      <input type="date" id="end_date" name="end_date" required />
+      <br /><br />
+
+      <!-- Select Accommodation -->
+      <label for="accommodation">Select Accommodation:</label>
+      <select name="accommodation" id="accommodation">
+        <option value="">No accommodation</option>
+        {% for accommodation in accommodations %}
+        <option value="{{ accommodation.id }}">{{ accommodation.name }}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+
+      <!-- Select Hotel -->
       <label for="hotel">Select Hotel:</label>
       <select name="hotel" id="hotel">
         <option value="">No hotel</option>
-        {% for hotel in Hotel %}
+        {% for hotel in hotels %}
         <option value="{{ hotel.id }}">
           {{ hotel.name }} - ₹{{ hotel.price_per_night }}
         </option>
         {% endfor %}
       </select>
+      <br /><br />
+
+      <!-- Select Transportation -->
+      <label for="transportation">Select Transportation:</label>
+      <select name="transportation" id="transportation" required>
+        {% for transport in transportation_options %}
+        <option value="{{ transport.id }}">{{ transport.name }}</option>
+        {% endfor %}
+      </select>
+      <br /><br />
+
+      <!-- Input Number of People -->
+      <label for="people">Number of People:</label>
+      <input
+        type="number"
+        id="people"
+        name="people"
+        min="1"
+        value="1"
+        required
+      />
+      <br /><br />
+
+      <!-- Submit Button -->
       <button type="submit">Plan Trip</button>
     </form>
+    <<<<<<< HEAD
+
     <footer class="footer">
       <div class="container">
         <p>
@@ -179,5 +205,7 @@
         </p>
       </div>
     </footer>
+    ======= >>>>>>> parent of 196de7e (Merge remote-tracking branch
+    'origin/backend2' into backend1)
   </body>
 </html>
