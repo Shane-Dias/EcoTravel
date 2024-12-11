@@ -110,6 +110,7 @@ def destination_detail(request, pk):
 def plan_trip(request, destination_id):
     destination = get_object_or_404(Destination, id=destination_id)
     hotels = Hotel.objects.filter(destination=destination)
+    print(destination)
 
     if request.method == 'POST':
         form = TripForm(request.POST)

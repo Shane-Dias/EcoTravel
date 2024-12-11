@@ -100,10 +100,18 @@ class Trip(models.Model):
         'ship': 0.07,
         }
         origin = "Mumbai, India"
-        distance = utils.calculate_route_distance(utils.get_coordinates(origin, utils.API_KEY), utils.get_coordinates(self.destination, utils.API_KEY), utils.API_KEY, 'drive')
-        co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
-        self.co2=co2_emission
-        super().save(*args, **kwargs)
+        try:
+            distance = utils.calculate_route_distance(
+            utils.get_coordinates(origin, utils.API_KEY),
+            utils.get_coordinates(self.destination, utils.API_KEY),
+            utils.API_KEY,
+            'drive')
+        except Exception as e:
+                distance = 0  # Default to 0 if there's an error
+                print(f"Error calculating distance: {e}")
+                co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
+                self.co2=co2_emission
+                super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username}'s Trip to {self.destination.name}"
