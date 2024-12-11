@@ -5,102 +5,160 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Eco Travel - Image Upload</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="{% static 'index.css' %}" />
     <link rel="stylesheet" href="{% static 'upload.css' %}" />
   </head>
-  <body>
-    <div class="container">
-      <div class="upload-card">
-        <h1>Upload Travel Photo</h1>
-
-        <!-- Form to handle file upload -->
-        <form
-          method="POST"
-          enctype="multipart/form-data"
-          action="{% url 'upload_image' %}"
-        >
-          {% csrf_token %}
-          <div class="upload-area" id="dropZone">
-            <div class="upload-content">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path
-                  d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"
-                />
-                <line x1="16" x2="22" y1="5" y2="5" />
-                <line x1="19" x2="19" y1="2" y2="8" />
-                <circle cx="9" cy="9" r="2" />
-                <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-              </svg>
-              <p>Share your eco-friendly travel moments</p>
-              <p class="text-sm">Drag and drop your image here or</p>
-              <label for="fileInput" class="upload-button">Choose Photo</label>
-              <input
-                type="file"
-                id="fileInput"
-                name="image"
-                accept="image/*"
-                required
-              />
-            </div>
-          </div>
-
-          <div class="preview-area" id="previewArea" hidden>
-            <div class="preview-header">
-              <h2>Preview</h2>
-              <button type="button" class="remove-button" id="removeButton">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="20"
-                  height="20"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path d="M3 6h18" />
-                  <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-                  <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
-                </svg>
-                Remove
-              </button>
-            </div>
-            <div class="preview-content">
-              <img id="imagePreview" alt="Preview" />
-            </div>
-            <div class="image-info" id="imageInfo"></div>
-          </div>
-
-          <button type="submit" class="submit-button">Upload Photo</button>
-        </form>
+  <body class="bg-green-50 font-sans">
+    <div class="max-w-4xl mx-auto p-6 bg-white shadow-xl rounded-xl mt-12">
+      <div class="text-center mb-6">
+        <h1 class="text-3xl font-semibold text-green-700">
+          Upload Travel Photo
+        </h1>
+        <p class="text-lg text-gray-600">
+          Share your eco-friendly travel moments with us!
+        </p>
       </div>
-      <div>
-        {% if city and country and image_url %}
-      <h1>Uploaded Image Location</h1>
 
-      <!-- Display the location -->
-      <p><strong>Location:</strong> {{ city }}, {{ country }}</p>
+      <!-- Form to handle file upload -->
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        action="{% url 'upload_image' %}"
+        class="space-y-6"
+      >
+        {% csrf_token %}
+        <div
+          class="upload-area border-2 border-dashed border-green-300 p-8 rounded-xl"
+        >
+          <div class="upload-content text-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="48"
+              height="48"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="mx-auto mb-4 text-green-500"
+            >
+              <path
+                d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7"
+              />
+              <line x1="16" x2="22" y1="5" y2="5" />
+              <line x1="19" x2="19" y1="2" y2="8" />
+              <circle cx="9" cy="9" r="2" />
+              <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
+            </svg>
+            <p class="text-xl font-medium text-green-600">
+              Drag and drop your image here or
+            </p>
+            <label
+              for="fileInput"
+              class="text-green-600 text-lg cursor-pointer hover:underline"
+              >Choose Photo</label
+            >
+            <input
+              type="file"
+              id="fileInput"
+              name="image"
+              accept="image/*"
+              required
+              class="hidden"
+            />
+          </div>
+        </div>
 
-      <!-- Display the uploaded image -->
-      <img
-        src="{{ image_url }}"
-        alt="Uploaded Image"
-        style="max-width: 100%; height: auto"
-      />
+        <div class="preview-area hidden" id="previewArea">
+          <div class="preview-header flex justify-between items-center">
+            <h2 class="text-xl font-semibold text-green-700">Preview</h2>
+            <button
+              type="button"
+              class="remove-button text-red-500"
+              id="removeButton"
+            >
+              Remove
+            </button>
+          </div>
+          <div class="preview-content mt-4">
+            <img
+              id="imagePreview"
+              alt="Preview"
+              class="max-w-full rounded-xl shadow-lg"
+            />
+          </div>
+          <div class="image-info mt-4 text-gray-600" id="imageInfo"></div>
+        </div>
+
+        <div class="flex justify-center">
+          <button
+            type="submit"
+            class="submit-button bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition"
+          >
+            Upload Photo
+          </button>
+        </div>
+      </form>
+
+      {% if city and country and image_url %}
+      <div class="mt-8 text-center">
+        <h2 class="text-2xl font-semibold text-green-700">
+          Uploaded Image Location
+        </h2>
+        <p class="mt-2 text-lg text-gray-600">
+          <strong>Location:</strong> {{ city }}, {{ country }}
+        </p>
+        <p class="text-xl font-semibold text-green-700 mt-4">
+          Great choice! Now let's start planning your eco-friendly adventure.
+        </p>
+
+        <div class="mt-6">
+          <a
+            href="./plan_trip.html"
+            class="text-white bg-green-600 px-6 py-3 rounded-lg hover:bg-green-700 transition"
+          >
+            Plan a Trip
+          </a>
+        </div>
+        <img
+          src="{{ image_url }}"
+          alt="Uploaded Image"
+          class="mt-4 max-w-full rounded-lg shadow-xl"
+        />
+      </div>
       {% else %}
-    <p>No information available. Please upload an image.</p>
-  {% endif %}
+      <p class="text-center text-lg text-gray-600 mt-4">
+        No information available. Please upload an image.
+      </p>
+      {% endif %}
     </div>
+    <script>
+      // Wait for the document to be ready
+      document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.getElementById("fileInput");
+        const imagePreview = document.getElementById("imagePreview");
+        const previewArea = document.getElementById("previewArea");
+
+        // When the user selects a file
+        fileInput.addEventListener("change", function (event) {
+          const file = event.target.files[0]; // Get the first selected file
+          if (file) {
+            // Create an object URL for the file
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+              // Show the preview
+              imagePreview.src = e.target.result;
+              previewArea.classList.remove("hidden"); // Make the preview area visible
+            };
+
+            // Read the file as a data URL (image)
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+    </script>
   </body>
 </html>
