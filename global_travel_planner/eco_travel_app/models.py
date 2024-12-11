@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User  # Use Django's built-in User model
+from . import utils
 
 # Profile Model
 class Profile(models.Model):
@@ -89,6 +90,12 @@ class Trip(models.Model):
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     co2_saved = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
     
+    def save(self, *args, **kwargs):
+        emission_factors = {'driving': 0.043, 'transit': 0.041, 'walking': 0, 'bicycling': 0}
+        origin = "Mumbai, India"
+        distance = utils.calculate_route_distance(utils.get_coordinates(origin, utils.API_KEY), utils.get_coordinates(self.destination, utils.API_KEY), utils.API_KEY, 'drive')
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.user.username}'s Trip to {self.destination.name}"
 
