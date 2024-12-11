@@ -186,6 +186,62 @@
         margin: 0 10px;
         color: #ffffff;
       }
+
+      /* Modal Styles */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.modal-actions .btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.confirm-btn {
+  background-color: #d9534f;
+  color: white;
+}
+
+.cancel-btn {
+  background-color: #5bc0de;
+  color: white;
+}
+
+.confirm-btn:hover {
+  background-color: #c9302c;
+}
+
+.cancel-btn:hover {
+  background-color: #31b0d5;
+}
+
     </style>
   </head>
   <body>
@@ -250,7 +306,8 @@
         {% endfor %}
       </ul>
 
-      <a href="{% url 'logout' %}" class="logout">Logout</a>
+      <a href="#" class="logout" onclick="openModal()">Logout</a>
+
       <a href="{% url 'home' %}" class="home" style="margin-top: 10px;">Home</a>
     </div>
 
@@ -286,5 +343,37 @@
         </p>
       </div>
     </footer>
+    <!-- Logout Confirmation Modal -->
+<div id="logoutModal" class="modal">
+  <div class="modal-content">
+    <h3>Are you sure you want to log out?</h3>
+    <p>This action will delete your account permanently.</p>
+    <div class="modal-actions">
+      <form method="POST" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn confirm-btn">Yes, Delete My Account</button>
+      </form>
+      <button class="btn cancel-btn" onclick="closeModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+<script>
+  function openModal() {
+    document.getElementById('logoutModal').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('logoutModal').style.display = 'none';
+  }
+
+  // Close the modal if the user clicks outside of it
+  window.onclick = function (event) {
+    const modal = document.getElementById('logoutModal');
+    if (event.target === modal) {
+      closeModal();
+    }
+  };
+</script>
+
   </body>
 </html>

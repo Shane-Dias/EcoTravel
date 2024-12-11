@@ -6,7 +6,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
-    preferences = models.JSONField(default=dict)  # Store user preferences like favorite destinations, transport modes
+    preferences = models.TextField(blank=True)
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
     travel_miles_saved = models.FloatField(default=0)
     co2_saved = models.FloatField(default=0)  # Carbon footprint saved through eco-friendly travel

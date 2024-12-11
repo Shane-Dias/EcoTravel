@@ -49,7 +49,12 @@ def login_user(request):
     return render(request, 'login.html')
 
 def logout_user(request):
-    logout(request)
+    if request.user.is_authenticated:
+        # Delete the user account from the database
+        user = request.user
+        logout(request)  # End the session
+        user.delete()    # Delete the user from the database
+    
     return redirect('login')
 
 @login_required

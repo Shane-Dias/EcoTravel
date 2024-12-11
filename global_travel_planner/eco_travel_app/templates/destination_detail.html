@@ -116,7 +116,11 @@
      </style>
   </head>
   <body>
-    <nav class="navbar">
+      
+      
+      
+    
+    <header style="display: flex; justify-content: space-between; align-items: center; padding: 10px 20px;">
       <div class="logo">
         <img
           style="width: 32px; margin-right: 5px"
@@ -125,28 +129,12 @@
         />
         <a href="#">EcoTravel</a>
       </div>
-      <ul class="nav-links">
-        <li><a href="{% url 'homepage' %}">Home</a></li>
-        <li><a href="{% url 'homepage' %}#features">Features</a></li>
-        <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
-        <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
-        <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
-      </ul>
+      <h1>{{ destination.name }}</h1>
       <div class="nav-cta">
         <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
       </div>
-    </nav>
-    <header>
-      <h1>{{ destination.name }}</h1>
     </header>
     <section>
-      <a href="{% url 'dashboard' %}" >
-        <img
-          src="https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
-          alt="profile-pic"
-          class="pfps"
-        />
-      </a>
       <div class="imagedis">
         <img src="{{ destination.image.url }}" alt="{{ destination.name }}" />
       </div>
