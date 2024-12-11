@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User  # Use Django's built-in User model
-from . import utils
 
 # Profile Model
 class Profile(models.Model):
@@ -75,38 +74,9 @@ class Trip(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    co2 = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    co2 = models.Field(default=0)  # Calculated by comparing eco-friendly choices to alternatives
     people = models.IntegerField(default=1, null=False)  # Calculated by comparing eco-friendly choices to alternatives
-    
-    def save(self, *args, **kwargs):
-        emission_factors = {
-          'car': {
-              'petrol': 0.192,
-              'diesel': 0.171,
-              'hybrid': 0.089,
-              'electric': 0.053,
-          },
-          'motorcycle': {
-              'small': 0.083,
-              'medium': 0.108,
-              'large': 0.135,
-          },
-          'bus': {
-              'city': 0.089,
-              'coach': 0.027,
-          }
-      }
-        origin = "Mumbai, India"
-        try:
-            origin_coords = utils.get_coordinates(origin, utils.API_KEY)
-            destination_coords = utils.get_coordinates(self.destination, utils.API_KEY)
-            distance = utils.calculate_route_distance(origin_coords[0],origin_coords[1], destination_coords[0], destination_coords[1])
-        except Exception as e:
-                distance = 0  # Default to 0 if there's an error
-                print(f"Error calculating distance: {e}")
-        co2_emission = ((distance*emission_factors[self.transportation]))
-        self.co2=co2_emission
-        super().save(*args, **kwargs)
+
 
     def __str__(self):
         return f"{self.user.username}'s Trip to {self.destination.name}"
