@@ -80,9 +80,136 @@
       .edit-profile:hover {
         background-color: #45a049;
       }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      a {
+        text-decoration: none;
+        color: #fff;
+      }
+
+      /* Navbar */
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #28a745;
+        padding: 1rem 3rem;
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 100;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .navbar .logo a {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 600;
+      }
+
+      .nav-links {
+        list-style: none;
+        display: flex;
+      }
+
+      .nav-links li {
+        margin-left: 20px;
+      }
+
+      .nav-links a {
+        color: #fff;
+        font-size: 1.1rem;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #e0e0e0;
+      }
+
+      .nav-cta .btn {
+        background-color: #fff;
+        color: #28a745;
+        border-radius: 30px;
+        padding: 10px 20px;
+        font-weight: 600;
+        transition: background 0.3s;
+      }
+
+      .nav-cta .btn:hover {
+        background-color: #e0e0e0;
+        color: #28a745;
+      }
+
+      .cta-buttons .btn {
+        padding: 12px 24px;
+        border-radius: 30px;
+        font-weight: 600;
+        transition: background 0.3s ease;
+      }
+
+      /* Footer Section */
+      .footer {
+        background-color: #2c3e50;
+        color: #ffffff;
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      .footer p {
+        margin: 10px 0;
+      }
+
+      .footer-links {
+        margin: 15px 0;
+      }
+
+      .footer-links a {
+        color: #ffffff;
+        margin: 0 15px;
+        text-decoration: none;
+      }
+
+      .footer-links a:hover {
+        text-decoration: underline;
+      }
+
+      .social-media {
+        margin: 20px 0;
+      }
+
+      .footer i {
+        margin: 0 10px;
+        color: #ffffff;
+      }
     </style>
   </head>
   <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="#">EcoTravel</a>
+      </div>
+      <ul class="nav-links">
+        <li><a href="{% url 'homepage' %}">Home</a></li>
+        <li><a href="{% url 'homepage' %}#features">Features</a></li>
+        <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
+        <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
+        <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
+      </ul>
+    
+      <div class="nav-cta">
+        <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
+      </div>
+    </nav>
     <div class="container">
       <h2>Welcome to your Dashboard, {{ user.username }}</h2>
       <div class="profile-section">
@@ -126,5 +253,38 @@
       <a href="{% url 'logout' %}" class="logout">Logout</a>
       <a href="{% url 'home' %}" class="home" style="margin-top: 10px;">Home</a>
     </div>
+
+    <footer class="footer">
+      <div class="container">
+        <p>
+          &copy; 2024 EcoTravel. All rights reserved. | Designed with
+          sustainability in mind.
+        </p>
+        <div class="footer-links">
+          <a href="#features">Features</a> |
+          <a href="#destinations">Destinations</a> |
+          <a href="#testimonials">Testimonials</a> |
+          <a href="#contact">Contact Us</a>
+        </div>
+        <div class="social-media">
+          <p>
+            Follow us on social media for the latest updates on eco-friendly
+            travel:
+          </p>
+          <a href="https://facebook.com" target="_blank"
+            ><i class="fab fa-facebook-f"></i
+          ></a>
+          <a href="https://twitter.com" target="_blank"
+            ><i class="fab fa-twitter"></i
+          ></a>
+          <a href="https://instagram.com" target="_blank"
+            ><i class="fab fa-instagram"></i
+          ></a>
+        </div>
+        <p>
+          Have questions or suggestions? <a href="#contact">Get in touch!</a>
+        </p>
+      </div>
+    </footer>
   </body>
 </html>
