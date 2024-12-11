@@ -30,20 +30,6 @@ class Destination(models.Model):
     def __str__(self):
         return f"{self.name}, {self.city}"
 
-# Hotel Model (Re-added)
-class Hotel(models.Model):
-    name = models.CharField(max_length=200)
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='hotels')
-    description = models.TextField()
-    eco_certifications = models.CharField(max_length=255, blank=True)  # e.g., LEED, Green Key
-    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
-    availability = models.BooleanField(default=True)
-    image = models.ImageField(upload_to='hotel_images/', blank=True)
-    website_url = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.name
-
 # Accommodation Model
 class Accommodation(models.Model):
     name = models.CharField(max_length=200)
@@ -61,11 +47,13 @@ class Accommodation(models.Model):
 # Transportation Model
 class Transportation(models.Model):
     TRANSPORT_TYPE_CHOICES = [
+        ('car', 'Car'),
+        ('electric_car', 'Electric Car'),
         ('bus', 'Bus'),
         ('train', 'Train'),
         ('cycle', 'Bicycle'),
         ('walk', 'Walk'),
-        ('electric_car', 'Electric Car'),
+        ('flight', 'Flight'),
     ]
     
     name = models.CharField(max_length=200)
@@ -83,7 +71,6 @@ class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trips')  # Use Django's User model
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='trips')
     accommodation = models.ForeignKey(Accommodation, on_delete=models.SET_NULL, null=True, blank=True)
-    hotel = models.ForeignKey(Hotel, on_delete=models.SET_NULL, null=True, blank=True)  # Added a ForeignKey for Hotel
     transportation = models.ForeignKey(Transportation, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
@@ -101,17 +88,15 @@ class Trip(models.Model):
         }
         origin = "Mumbai, India"
         try:
-            distance = utils.calculate_route_distance(
-            utils.get_coordinates(origin, utils.API_KEY),
-            utils.get_coordinates(self.destination, utils.API_KEY),
-            utils.API_KEY,
-            'drive')
+            origin_coords = utils.get_coordinates(origin, utils.API_KEY)
+            destination_coords = utils.get_coordinates(self.destination, utils.API_KEY)
+            distance = utils.calculate_route_distance(origin_coords[0],origin_coords[1], destination_coords[0], destination_coords[1])
         except Exception as e:
                 distance = 0  # Default to 0 if there's an error
                 print(f"Error calculating distance: {e}")
-                co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
-                self.co2=co2_emission
-                super().save(*args, **kwargs)
+        co2_emission = ((distance*emission_factors[self.transportation])/self.people)*1000
+        self.co2=co2_emission
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.user.username}'s Trip to {self.destination.name}"
@@ -121,7 +106,6 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')  # Use Django's User model
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)  # Added a ForeignKey for Hotel
     transportation = models.ForeignKey(Transportation, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     rating = models.PositiveSmallIntegerField(default=1)  # Rating from 1 to 5
     comment = models.TextField(blank=True)

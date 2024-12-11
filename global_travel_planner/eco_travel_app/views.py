@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from eco_travel_app.forms import TripForm
-from .models import Destination, Accommodation, Hotel, Trip, Review
+from .models import Destination, Accommodation, Trip, Review, Transportation
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
@@ -109,25 +109,44 @@ def destination_detail(request, pk):
 # View for trip planning
 def plan_trip(request, destination_id):
     destination = get_object_or_404(Destination, id=destination_id)
-    hotels = Hotel.objects.filter(destination=destination)
-    print(destination)
-
+    hotels = Accommodation.objects.filter(destination=destination)
+    transportation = Transportation.objects.filter(destination=destination)
     if request.method == 'POST':
-        form = TripForm(request.POST)
-        if form.is_valid():
-            trip = form.save(commit=False)
-            trip.user = User.objects.get(pk=request.user.pk)  # Ensure user is a valid User instance
-            trip.destination = destination  # Assign the specific destination
-            selected_hotel_id = request.POST.get('hotel')
-            if selected_hotel_id:
-                trip.hotel = Hotel.objects.get(id=selected_hotel_id)
-            trip.save()
-            # Redirect or display a success message after saving the trip
-            return render(request, 'trip_success.html', {'trip': trip})
-    else:
-        form = TripForm()  # If GET request, display empty form
+        # Manually handle form data
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        people = request.POST.get('people')
+        selected_transportation_id = request.POST.get('transportation')
+        selected_hotel_id = request.POST.get('hotel')
 
-    return render(request, 'plan_trip.html', {'form': form, 'destination': destination, 'hotels': hotels})
+        # Create the trip object without saving it yet
+        trip = Trip(
+            start_date=start_date,
+            end_date=end_date,
+            people=people,
+            user=User.objects.get(pk=request.user.pk),
+            destination=destination,
+        )
+
+        # Assign transportation and accommodation if selected
+        if selected_transportation_id:
+            transportation_instance = Transportation.objects.get(id=selected_transportation_id)
+            trip.transportation = transportation_instance
+
+        if selected_hotel_id:
+            accommodation_instance = Accommodation.objects.get(id=selected_hotel_id)
+            trip.accommodation = accommodation_instance
+
+        # Save the trip
+        trip.save()
+
+        # Redirect or display a success message after saving the trip
+        return redirect('trip_success', trip_id=trip.id)
+    
+    else:
+        # If GET request, display empty form
+        return render(request, 'plan_trip.html', {'destination': destination, 'hotels': hotels, 'transportation_options': transportation})
+    
 
 def search_eco_friendly_destinations(query, location, radius):
     api_key = settings.GOOGLE_MAPS_API_KEY  # Access the key from settings
@@ -232,3 +251,8 @@ def upload_image(request):
         return render(request, 'index.html', {'city': location['city'],'country': location['ai_country'], 'image_url': uploaded_image.image.url})
     
     return render(request, 'index.html')
+
+
+def trip_success(request, trip_id):
+    trip = Trip.object.filter(id=trip_id)
+    return render(request, 'trip_success.html')

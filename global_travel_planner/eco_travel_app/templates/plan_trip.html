@@ -124,17 +124,6 @@
       <label for="end_date">End Date:</label>
       <input type="date" id="end_date" name="end_date" required />
       <br /><br />
-
-      <!-- Select Accommodation -->
-      <label for="accommodation">Select Accommodation:</label>
-      <select name="accommodation" id="accommodation">
-        <option value="">No accommodation</option>
-        {% for accommodation in accommodations %}
-        <option value="{{ accommodation.id }}">{{ accommodation.name }}</option>
-        {% endfor %}
-      </select>
-      <br /><br />
-
       <!-- Select Hotel -->
       <label for="hotel">Select Hotel:</label>
       <select name="hotel" id="hotel">
@@ -149,9 +138,12 @@
 
       <!-- Select Transportation -->
       <label for="transportation">Select Transportation:</label>
-      <select name="transportation" id="transportation" required>
-        {% for transport in transportation_options %}
-        <option value="{{ transport.id }}">{{ transport.name }}</option>
+      <select name="transportation" id="transportation" class="form-control">
+        <option value="">Select Transportation</option>
+        {% for transportation in transportation_options %}
+        <option value="{{ transportation.id }}">
+          {{ transportation.name }} - ₹{{ transportation.price_per_km }} per km
+        </option>
         {% endfor %}
       </select>
       <br /><br />
@@ -171,7 +163,6 @@
       <!-- Submit Button -->
       <button type="submit">Plan Trip</button>
     </form>
-    <<<<<<< HEAD
 
     <footer class="footer">
       <div class="container">
