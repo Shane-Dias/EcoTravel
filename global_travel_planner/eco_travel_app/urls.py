@@ -10,7 +10,8 @@ urlpatterns = [
     path('feedback/', views.feedback, name='feedback'),
     path('home', views.home, name='home'),
     path('register/', views.register_user, name='register'),
-    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+    path('logout/', views.logout_user, name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('login/', views.login_user, name='login'),
     path('map/', views.destination_map, name='map'),
     path('results/', views.search_destination, name='search_results'),  # Displays search results
@@ -24,6 +25,8 @@ urlpatterns = [
     path('upload_image', views.upload_image, name='upload_image'),
     path('trip_success/<int:trip_id>', views.trip_success, name='trip_success'),
     path('blog', views.blog, name='blog'),
+    path('plan_trip/<str:name>/', views.plan_trip2, name='plan_trip2'),  # For planning a trip
+    
 ]
 
 if settings.DEBUG:  # Only for development
