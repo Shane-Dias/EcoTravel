@@ -226,19 +226,16 @@
         <div class="flex justify-center">
           <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            <div class="mb-4">
-                {{ form.image.label_tag }}
-                {{ form.image }}
-            </div>
+            <div class="mb-4">{{ form.image.label_tag }} {{ form.image }}</div>
             <div class="flex justify-center">
-                <button
-                    type="submit"
-                    class="submit-button bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition"
-                >
-                    Upload Photo
-                </button>
+              <button
+                type="submit"
+                class="submit-button bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition"
+              >
+                Upload Photo
+              </button>
             </div>
-        </form>
+          </form>
         </div>
       </form>
 
@@ -256,7 +253,7 @@
 
         <div class="mt-6">
           <a
-            href="{% url 'uploaded_plan_trip' %}"
+            href="{% url 'homepage' %}"
             class="text-white bg-green-600 px-6 py-3 rounded-lg hover:bg-green-700 transition"
           >
             Plan a Trip
