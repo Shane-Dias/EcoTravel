@@ -140,18 +140,14 @@ class Images(models.Model):
     date = models.DateTimeField(auto_now_add=True)
 
 # Uploaded Plan Trip Model
-from django.db import models
-from django.contrib.auth.models import User
-
 class UploadedPlanTrip(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_trips')
-    image = models.ImageField(upload_to='uploaded_images/')
-    destination_name = models.CharField(max_length=200)
-    description = models.TextField()
-    country = models.CharField(max_length=100)
-    city = models.CharField(max_length=100)
-    eco_rating = models.FloatField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="uploaded_trips")  # Associate with the user
+    image = models.ImageField(upload_to="uploaded_trip_images/")  # Store uploaded images
+    destination_name = models.CharField(max_length=255)  # Name of the location
+    city = models.CharField(max_length=100)  # City for better categorization
+    country = models.CharField(max_length=100)  # Country for better categorization
+    description = models.TextField(blank=True)  # Optional description of the location
+    date_uploaded = models.DateTimeField(auto_now_add=True)  # Record upload date
 
     def __str__(self):
-        return f"{self.user.username} - {self.destination_name}"
+        return f"{self.user.username} - {self.location_name} ({self.city}, {self.country})"
