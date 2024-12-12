@@ -385,37 +385,45 @@ def uploaded_plan_trip(request):
 
 
 def travel_advisor(request):
-    if form.method == 'POST':
+    if request.method == 'POST':
         form = RouteForm(request.POST)
         if form.is_valid():
             source = form.cleaned_data['source']
             destination = form.cleaned_data['destination']
-        print(source, destination)
-        try:
-            origin_coords = utils.get_coordinates(source, utils.API_KEY)
-            destination_coords = utils.get_coordinates(destination, utils.API_KEY)
-            modes = ['car', 'bike','foot']
-            context = {"routes": []}
-            emission_factors = {
-            "car": 150,      # grams of CO2 per km
-            "bike": 30,      # grams of CO2 per km
-            "walking": 0     # grams of CO2 per km
-        }
+            print(source, destination)
+            try:
+                origin_coords = utils.get_coordinates(source, utils.API_KEY)
+                destination_coords = utils.get_coordinates(destination, utils.API_KEY)
+                modes = ['car', 'bike', 'foot']
+                context = {"routes": []}
+                emission_factors = {
+                    "car": 150,      # grams of CO2 per km
+                    "bike": 30,      # grams of CO2 per km
+                    "walking": 0     # grams of CO2 per km
+                }
                 # Fetch routes for each mode
-            for mode in modes:
-                route = utils.get_route(origin_coords, destination_coords, profile=mode)
-                context["routes"].append({
+                for mode in modes:
+                    route = utils.get_route(origin_coords, destination_coords, profile=mode)
+                    context["routes"].append({
                         "mode": mode,
                         "distance": f"{route['distance']:.2f} km",
                         "time": f"{route['time']:.2f} minutes",
-                        "co2_emission":f"{(route['distance']*emission_factors[mode]):.2f}"
+                        "co2_emission": f"{(route['distance'] * emission_factors[mode]):.2f}"
                     })
-        except Exception as e:
-            context = {"error": str(e)}
+            except Exception as e:
+                context = {"error": str(e)}
 
-        # Render template with context
-        return render(request, 'travel_advisor.html', context)
-    return render(request, 'travel_advisor.html')
+            # Render template with context
+            return render(request, 'travel_advisor.html', context)
+
+    # In case of a GET request, just render the page with an empty form
+    else:
+        form = RouteForm()
+
+    return render(request, 'travel_advisor.html', {'form': form})
+
+
+
 import requests
 from django.shortcuts import render, redirect
 from .models import UploadedPlanTrip
