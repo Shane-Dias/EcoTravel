@@ -177,12 +177,9 @@ def plan_trip(request, destination_id):
 
         # Add any other costs here if needed (e.g., destination fees, activities, etc.)
         emission_factors = {
-        'car': 0.2,
-        'bus': 0.05,
-        'train': 0.1,
-        'flight': 0.15,
-        'ship': 0.07,
-        'cycle': 0
+        'car': 150,
+        'bike': 30,
+        'walking':0
         }
         origin = "Mumbai, India"
         try:
@@ -385,3 +382,35 @@ def upload_plan_trip(request):
 def uploaded_plan_trip(request):
     uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
     return render(request, 'uploaded_plan_trip.html', {'uploaded_trips': uploaded_trips})
+
+
+def travel_advisor(request):
+    if request.method=='POST':
+        source = request.POST.get('source')
+        destination = request.POST.get('destination')
+        try:
+            origin_coords = utils.get_coordinates(source, utils.API_KEY)
+            destination_coords = utils.get_coordinates(destination, utils.API_KEY)
+            modes = ['car', 'bike','foot']
+            context = {"routes": []}
+
+            emission_factors = {
+            "car": 150,      # grams of CO2 per km
+            "bike": 30,      # grams of CO2 per km
+            "walking": 0     # grams of CO2 per km
+        }
+                # Fetch routes for each mode
+            for mode in modes:
+                route = utils.get_route(origin_coords, destination_coords, profile=mode)
+                context["routes"].append({
+                        "mode": mode,
+                        "distance": f"{route['distance']:.2f} km",
+                        "time": f"{route['time']:.2f} minutes",
+                        "co2_emission":f"{(route['distance']*emission_factors[mode]):.2f}"
+                    })
+        except Exception as e:
+            context = {"error": str(e)}
+
+        # Render template with context
+        return render(request, 'travel_advisor.html', context)
+    return render(request, 'travel_advisor.html')
