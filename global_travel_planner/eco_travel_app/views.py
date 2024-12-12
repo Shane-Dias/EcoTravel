@@ -185,12 +185,12 @@ def plan_trip(request, destination_id):
         except Exception as e:
                 distance = 0  # Default to 0 if there's an error
                 print(f"Error calculating distance: {e}")
-        co2_emission = distance*emission_factors[transportation_instance.transport_type]*transportation_instance.co2_per_km
+        co2_emission = distance*transportation_instance.co2_per_km
         trip.co2=co2_emission
         co2_saved = co2_emission
         for transport in transportation:
-            if (transport.co2_per_km*distance*emission_factors[transport.transport_type]) > co2_emission:
-                co2_saved = (transport.co2_per_km*distance*emission_factors[transport.transport_type]) - co2_emission
+            if (transport.co2_per_km*distance) > co2_emission:
+                co2_saved = (transport.co2_per_km*distance) - co2_emission
         trip.co2_saved=co2_saved if co2_saved!=co2_emission else 0
 
         user = request.user
@@ -457,3 +457,10 @@ def upload_trip(request):
             })
 
     return render(request, 'index.html')
+
+
+def eco_tips(request):
+    return render(request, 'tipsNtricks.html')
+
+def ecobot(request):
+    return render(request, 'ChatbotWhite.html')
