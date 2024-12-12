@@ -24,6 +24,9 @@ from .utils import get_location
 from datetime import datetime
 from . import utils
 from decimal import Decimal
+from .models import Destination
+from django.http import JsonResponse
+from .models import UploadedPlanTrip
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyBYzXj5wF4L6mChyyc5xwfb2QT1QEZ9VN8'
 
@@ -112,6 +115,29 @@ def destination_detail(request, pk):
     destination = get_object_or_404(Destination, pk=pk)
     accommodations = destination.accommodations.all()
     return render(request, 'destination_detail.html', {'destination': destination, 'accommodations': accommodations})
+
+def search_destinations(request):
+    query = request.GET.get('q', '')
+    if query:
+        destinations = Destination.objects.filter(name__icontains=query)[:10]  # Limit results to 10
+        results = [
+            {
+                "id": destination.id,
+                "name": destination.name,
+                "city": destination.city,
+                "country": destination.country,
+            }
+            for destination in destinations
+        ]
+        return JsonResponse({"results": results})
+    return JsonResponse({"results": []})
+
+from django.shortcuts import get_object_or_404, render
+from .models import Destination
+
+def destination_detail(request, id):
+    destination = get_object_or_404(Destination, id=id)
+    return render(request, 'destination_detail.html', {'destination': destination})
 
 # View for trip planning
 def plan_trip(request, destination_id):
@@ -318,3 +344,11 @@ def trip_success(request, trip_id):
 
 def blog(request):
     return render(request, 'blog.html')
+
+def uploaded_plan_trip(request):
+    # Fetch all uploaded trips by the current user
+    user_uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
+
+    return render(request, 'uploaded_plan_trip.html', {
+        'uploaded_trips': user_uploaded_trips,
+    })

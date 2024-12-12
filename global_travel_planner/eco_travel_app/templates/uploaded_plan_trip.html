@@ -1,0 +1,93 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Uploaded Plan Trips</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+      body {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #28a745;
+        padding: 10px 20px;
+      }
+      .logo {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .container {
+        margin-top: 80px;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      .trip-card {
+        display: flex;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        overflow: hidden;
+      }
+      .trip-card img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+      }
+      .trip-info {
+        padding: 15px;
+        flex-grow: 1;
+      }
+      .trip-info h5 {
+        margin: 0 0 10px;
+        color: #007bff;
+      }
+      .trip-info p {
+        margin: 0;
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <a href="/">EcoTravel</a>
+      </div>
+      <div>
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'uploaded_plan_trip' %}">Uploaded Plans</a>
+        <a href="{% url 'logout' %}">Logout</a>
+      </div>
+    </nav>
+    <div class="container">
+      <h2>Your Uploaded Plan Trips</h2>
+      {% if uploaded_trips %}
+        {% for trip in uploaded_trips %}
+        <div class="trip-card">
+          <img src="{{ trip.image.url }}" alt="Uploaded Image" />
+          <div class="trip-info">
+            <h5>{{ trip.location_name }}</h5>
+            <p><strong>City:</strong> {{ trip.city }}</p>
+            <p><strong>Country:</strong> {{ trip.country }}</p>
+            <p><strong>Description:</strong> {{ trip.description }}</p>
+            <p><small>Uploaded on {{ trip.date_uploaded }}</small></p>
+          </div>
+        </div>
+        {% endfor %}
+      {% else %}
+      <p>No trips uploaded yet. Start uploading your eco-friendly plans now!</p>
+      {% endif %}
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
