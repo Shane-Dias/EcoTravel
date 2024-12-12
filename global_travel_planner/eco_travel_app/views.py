@@ -317,9 +317,6 @@ def trip_success(request, trip_id):
 
 
 def blog(request):
-<<<<<<< Updated upstream
-    return render(request, 'blog.html')
-=======
     return render(request, 'blog.html')
 
 import requests
@@ -486,4 +483,3 @@ def eco_tips(request):
 
 def ecobot(request):
     return render(request, 'ChatbotWhite.html')
->>>>>>> Stashed changes
