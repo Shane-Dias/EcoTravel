@@ -139,3 +139,15 @@ class Images(models.Model):
     image = models.ImageField(upload_to="images/")
     date = models.DateTimeField(auto_now_add=True)
 
+# Uploaded Plan Trip Model
+class UploadedPlanTrip(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="uploaded_trips")  # Associate with the user
+    image = models.ImageField(upload_to="uploaded_trip_images/")  # Store uploaded images
+    destination_name = models.CharField(max_length=255)  # Name of the location
+    city = models.CharField(max_length=100)  # City for better categorization
+    country = models.CharField(max_length=100)  # Country for better categorization
+    description = models.TextField(blank=True)  # Optional description of the location
+    date_uploaded = models.DateTimeField(auto_now_add=True)  # Record upload date
+
+    def __str__(self):
+        return f"{self.user.username} - {self.location_name} ({self.city}, {self.country})"

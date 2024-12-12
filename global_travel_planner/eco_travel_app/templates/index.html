@@ -223,14 +223,45 @@
           <div class="image-info mt-4 text-gray-600" id="imageInfo"></div>
         </div>
 
-        <div class="flex justify-center">
-          <button
-            type="submit"
-            class="submit-button bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition"
-          >
-            Upload Photo
-          </button>
+        <form method="POST" enctype="multipart/form-data" action="{% url 'upload_image' %}">
+          {% csrf_token %}
+          <div class="border-2 border-dashed border-green-300 p-8 rounded-xl">
+            <div class="text-center">
+              <p class="text-xl font-medium text-green-600">Drag and drop your image here or</p>
+              <label for="fileInput" class="text-green-600 text-lg cursor-pointer hover:underline">Choose Photo</label>
+              <input type="file" id="fileInput" name="image" accept="image/*" required class="hidden" />
+            </div>
+          </div>
+    
+          <div class="mt-6 text-center">
+            <button type="submit" class="bg-green-600 text-white px-8 py-3 rounded-xl hover:bg-green-700 transition">Upload Photo</button>
+          </div>
+        </form>
+        
+        {% if city and country and image_url %}
+        <div class="mt-8 text-center">
+          <h2 class="text-2xl font-semibold text-green-700">Uploaded Image Location</h2>
+          <p class="mt-2 text-lg text-gray-600"><strong>Location:</strong> {{ city }}, {{ country }}</p>
+          <img src="{{ image_url }}" alt="Uploaded Image" class="mt-4 max-w-full rounded-lg shadow-xl" />
         </div>
+        {% endif %}
+      </div>
+    
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const fileInput = document.getElementById("fileInput");
+          fileInput.addEventListener("change", function (event) {
+            const file = event.target.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function (e) {
+                console.log("Preview ready");
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+        });
+      </script>
       </form>
 
       {% if city and country and image_url %}
@@ -247,7 +278,7 @@
 
         <div class="mt-6">
           <a
-            href="{% url 'homepage' %}"
+            href="{% url 'uploaded_plan_trip' %}"
             class="text-white bg-green-600 px-6 py-3 rounded-lg hover:bg-green-700 transition"
           >
             Plan a Trip

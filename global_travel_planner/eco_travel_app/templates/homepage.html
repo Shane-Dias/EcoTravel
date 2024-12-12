@@ -330,6 +330,28 @@
         margin: 0 10px;
         color: #ffffff;
       }
+  .dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background: #ffffff;
+    border: 1px solid #ddd;
+    max-height: 200px;
+    overflow-y: auto;
+    position: absolute;
+    width: calc(100% - 40px);
+    display: none;
+  }
+
+  .dropdown-menu li {
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  .dropdown-menu li:hover {
+    background: #f0f0f0;
+  }
+
     </style>
   </head>
   <body>
@@ -393,9 +415,11 @@
     <section class="search-section">
       <input
         type="text"
+        id="search-bar"
         class="search-bar"
         placeholder="Search eco-friendly destinations, accommodations..."
       />
+      <ul id="search-results" class="dropdown-menu"></ul>
     </section>
 
     <section id="features" class="features-section">
@@ -413,16 +437,19 @@
           </p>
           <a href="carbon-footprint.html" class="feature-link">Calculate Now</a>
         </div>
+
         <div class="feature-item">
           <img
-            style="width: 100%"
-            src="https://cdn.pixabay.com/photo/2023/02/06/17/11/hotelroom-7772422_1280.jpg"
-            alt="Eco Accommodation "
+            src="https://cdn.pixabay.com/photo/2024/02/23/21/25/landscape-8592826_1280.jpg"
+            alt="Green Itinerary "
           />
-          <h3>Eco-Friendly Accommodations</h3>
-          <p>Discover sustainable hotels, resorts, and homestays.</p>
-          <a href="{% url 'home' %}" class="feature-link">Explore More</a>
+          <h3>Search Location</h3>
+          <p>
+            Plan your trip according to your search image.
+          </p>
+          <a href="{% url 'upload_image' %}" class="feature-link">Try Now</a>
         </div>
+        
         <div class="feature-item">
           <img
             src="https://cdn.pixabay.com/photo/2024/02/23/21/25/landscape-8592826_1280.jpg"
@@ -538,5 +565,43 @@
 
       slides[currentSlide].classList.add("active");
     </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function () {
+        $('#search-bar').on('input', function () {
+          const query = $(this).val();
+          if (query.length > 2) { // Trigger search only after 3 characters
+            $.ajax({
+              url: '{% url "search_destinations" %}',
+              data: { q: query },
+              success: function (data) {
+                const results = data.results;
+                const $dropdown = $('#search-results');
+                $dropdown.empty(); // Clear previous results
+                if (results.length > 0) {
+                  $dropdown.show();
+                  results.forEach((item) => {
+                    $dropdown.append(
+                      `<li data-id="${item.id}">${item.name}, ${item.city}, ${item.country}</li>`
+                    );
+                  });
+                } else {
+                  $dropdown.hide();
+                }
+              },
+            });
+          } else {
+            $('#search-results').hide();
+          }
+        });
+    
+        // Navigate to the destination page when a dropdown item is clicked
+        $('#search-results').on('click', 'li', function () {
+          const destinationId = $(this).data('id');
+          window.location.href = `/destination/${destinationId}/`; // Adjust to match your destination detail URL pattern
+        });
+      });
+    </script>
+    
   </body>
 </html>
