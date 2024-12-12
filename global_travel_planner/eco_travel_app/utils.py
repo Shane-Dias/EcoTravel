@@ -14,6 +14,7 @@ import requests, math
 
 # Geoapify API Key
 API_KEY = "fabe86e749c44aa2a8ae60c68c2e3c6f"
+api_key = "5b3ce3597851110001cf6248c3e5474dc5b64991afad8ceec07950da"
 
 # Function to get coordinates from Geoapify Geocoding API
 def get_coordinates(location, api_key):
@@ -42,13 +43,6 @@ def great_circle_distance(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
-def populate_co2_emitted(apps, schema_editor):
-    Transportation = apps.get_model('eco_travel_app', 'Transportation')
-    for transportation in Transportation.objects.all():
-        transportation.co2_emitted = 0.0  # Default value as a float
-        transportation.save()
-
-
 def chatbot():
     import google.generativeai as genai
     import time
@@ -59,3 +53,40 @@ def chatbot():
         prompt = input("Enter prompt: ")
         response = model.generate_content(prompt)
     return response
+
+def get_route(start_coords, end_coords, profile="car"):
+    """
+    Fetch a route between two coordinates using GraphHopper API.
+
+    Args:
+        start_coords (tuple): Starting point (latitude, longitude).
+        end_coords (tuple): Ending point (latitude, longitude).
+        profile (str): Routing profile ('car', 'bike', 'foot').
+
+    Returns:
+        dict: Route details including distance, time, and geometry.
+    """
+    base_url = "https://graphhopper.com/api/1/route"
+    params = {
+        "point": [f"{start_coords[0]},{start_coords[1]}", f"{end_coords[0]},{end_coords[1]}"],
+        "profile": profile,
+        "locale": "en",
+        "calc_points": "true",
+        "key": api_key
+    }
+
+    response = requests.get(base_url, params=params)
+    if response.status_code == 200:
+        data = response.json()
+        if "paths" in data and data["paths"]:
+            path = data["paths"][0]
+            return {
+                "distance": path["distance"],  # Distance in meters
+                "time": path["time"],          # Time in milliseconds
+            }
+        else:
+            raise ValueError("No route found.")
+    else:
+        raise RuntimeError(f"Error: {response.status_code} - {response.text}")
+    
+    

@@ -131,12 +131,12 @@ button:hover, .btn:hover {
 }
 
 a {
-    color: #007BFF;
+    color: #ffffff;
     text-decoration: none;
 }
 
 a:hover {
-    color: #0056b3;
+    color: #000000;
 }
 
 /* Forms */

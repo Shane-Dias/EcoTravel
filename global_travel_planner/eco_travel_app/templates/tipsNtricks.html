@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Green Energy & Eco Travel Tips</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      line-height: 1.6;
+      background-color: #f5f9f6;
+      color: #333;
+      background: url("https://img.freepik.com/premium-photo/renewable-energy-background-with-green-energy-as-wind-turbines-solar-panels_979520-8730.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+      opacity: 0.93;
+    }
+
+    header {
+      text-align: center;
+      padding: 1rem;
+      background-color: #0c5e0f;
+      color: white;
+      margin: auto;
+      width: 95%;
+      border-radius: 12px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1.2rem;
+    }
+
+    section {
+      margin: 2rem auto;
+      padding: 1rem;
+      max-width: 800px;
+      background-color: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      color: #4caf50;
+      margin-bottom: 1rem;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    ul li {
+      margin-bottom: 0.5rem;
+    }
+
+    a {
+      color: #4caf50;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #28a745;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Logo styling */
+    .logo {
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Center content */
+    .navbar-center {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .navbar-center a {
+      color: rgb(255, 255, 255);
+      text-decoration: none;
+      padding: 10px 15px;
+      margin: 0 10px;
+      font-size: 17px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    a {
+      /* color: white; */
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    a:hover {
+      background-color: #29c44a;
+      border-radius: 5px;
+    }
+
+    .features:hover,
+    .settings:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .logo a {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: 600;
+    }
+    .footer {
+      background-color: #2c3e50;
+      color: #ffffff;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    .footer p {
+      margin: 10px 0;
+    }
+
+    .footer-links {
+      margin: 15px 0;
+    }
+
+    .footer-links a {
+      /* color: #ffffff; */
+      margin: 0 15px;
+      text-decoration: none;
+    }
+
+    .social-media {
+      margin: 20px 0;
+    }
+
+    .footer i {
+      margin: 0 10px;
+      color: #ffffff;
+    }
+  </style>
+  <body>
+    <nav class="navbar">
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
+      </div>
+
+      <div class="navbar-center">
+        <a href="{% url 'homepage' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
+        </div>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="login" class="settings" style="color: white">Login</a>
+        </div>
+      </div>
+    </nav>
+    <header style="margin-top: 7rem">
+      <h1>Green Energy & Eco Travel Tips</h1>
+      <p>Make your journeys sustainable with these practical tips!</p>
+    </header>
+
+    <section id="tips">
+      <h2>Eco Travel Tips</h2>
+      <div style="display: flex; flex-direction: row-reverse">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/1047/1047831.png"
+          alt="Eco Travel Icon"
+          style="width: 100px; display: block; margin: 10px auto"
+        />
+        <ul>
+          <li>
+            Choose public transport, cycling, or walking whenever possible.
+          </li>
+          <li>Carry a reusable water bottle to reduce plastic waste.</li>
+          <li>Support eco-certified accommodations and activities.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="green-energy">
+      <h2>Green Energy Tips</h2>
+      <div style="display: flex; flex-direction: row-reverse">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/4204/4204884.png"
+          alt="Green Energy Icon"
+          style="width: 120px; display: block; margin: 10px auto"
+        />
+        <ul>
+          <li>Unplug devices when not in use to save energy.</li>
+          <li>Invest in portable solar chargers for travel gadgets.</li>
+          <li>Use LED lights for energy efficiency during your stay.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="resources">
+      <h2>Helpful Resources</h2>
+      <p>Explore these links to learn more about eco-friendly practices:</p>
+      <div style="display: flex; flex-direction: row-reverse">
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/175/175744.png"
+          alt="Resources Icon"
+          style="width: 150px; display: block; margin: 10px auto"
+        />
+        <ul>
+          <li>
+            <a href="https://www.unep.org" target="_blank">
+              United Nations Environment Programme
+            </a>
+          </li>
+          <li>
+            <a href="https://www.greenpeace.org" target="_blank">
+              Greenpeace
+            </a>
+          </li>
+          <li>
+            <a href="https://sustainabletravel.org" target="_blank">
+              Sustainable Travel International
+            </a>
+          </li>
+          <li>
+            <a href="https://www.earthday.org" target="_blank">
+              Earth Day Network
+            </a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <footer class="footer bg-dark text-white text-center py-4">
+      <p>
+        &copy; 2024 EcoTravel. All rights reserved. | Designed with
+        sustainability in mind.
+      </p>
+      <div class="footer-links">
+        <a href="#features" class="text-white">Features</a> |
+        <a href="#destinations" class="text-white">Destinations</a> |
+        <a href="#testimonials" class="text-white">Testimonials</a> |
+        <a href="#contact" class="text-white">Contact Us</a>
+      </div>
+      <div class="social-media">
+        <p>
+          Follow us on social media for the latest updates on eco-friendly
+          travel:
+        </p>
+        <a href="https://facebook.com" target="_blank"
+          ><i class="fab fa-facebook-f text-white mx-2"></i
+        ></a>
+        <a href="https://twitter.com" target="_blank"
+          ><i class="fab fa-twitter text-white mx-2"></i
+        ></a>
+        <a href="https://instagram.com" target="_blank"
+          ><i class="fab fa-instagram text-white mx-2"></i
+        ></a>
+      </div>
+      <p>
+        Have questions or suggestions?
+        <a href="#contact" class="text-white">Get in touch!</a>
+      </p>
+    </footer>
+  </body>
+</html>

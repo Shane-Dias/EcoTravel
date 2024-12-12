@@ -13,7 +13,7 @@
       body {
         font-family: Arial, sans-serif;
         background-color: #c1f196;
-        background-image: url("https://images7.alphacoders.com/135/thumb-1920-1356444.jpeg");
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8IsuZuBUtju--kQoeTiY67TNgHuDxwZr9hQ&s");
         background-size: cover;
         background-repeat: no-repeat;
         color: #333;
@@ -57,7 +57,7 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <div class="container" style="opacity: 0.94;">
       <h2>We Value Your Feedback!</h2>
       <p>Please share your thoughts about your eco-friendly journey:</p>
       <form method="POST">
@@ -81,13 +81,20 @@
             <option value="5">5 Stars</option>
           </select>
         </div>
-        <button type="submit" class="btn">Submit Feedback</button>
+        <button type="submit" class="btn" style="background-color: #3d740d">
+          Submit Feedback
+        </button>
       </form>
     </div>
 
     <div class="button-container">
       <!-- Feedback Button -->
-      <a href="{% url 'home' %}" class="btn primary-btn">Go Back To Home</a>
+      <a
+        href="{% url 'home' %}"
+        class="btn primary-btn"
+        style="background-color: #3d740d"
+        >Go Back To Home</a
+      >
     </div>
     <footer class="footer">
       <div>

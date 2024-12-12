@@ -15,7 +15,6 @@ urlpatterns = [
     path('login/', views.login_user, name='login'),
     path('map/', views.destination_map, name='map'),
     path('results/', views.search_destination, name='search_results'),  # Displays search results
-    path('destination/<int:id>/', views.destination_detail, name='destination_detail'),
     path('plan_trip/<int:destination_id>/', views.plan_trip, name='plan_trip'),  # For planning a trip
     path('destination/<int:pk>/', views.destination_detail, name='destination_detail'),  # Destination detail page
     path('destination/<int:destination_id>/plan/', views.plan_trip, name='plan_trip'),
@@ -27,8 +26,10 @@ urlpatterns = [
     path('trip_success/<int:trip_id>', views.trip_success, name='trip_success'),
     path('blog', views.blog, name='blog'),
     path('search-destinations/', views.search_destinations, name='search_destinations'),
-    path('destination/<int:id>/', views.destination_detail, name='destination_detail'),
     path('uploaded-plan-trip/', views.uploaded_plan_trip, name='uploaded_plan_trip'),
+    path('eco_tips', views.eco_tips, name='eco_tips'),
+    path('ecobot', views.ecobot, name='ecobot'),
+    path('plan-trip/', views.plan_trip2, name='plan_trip'),
 
 ]
 
