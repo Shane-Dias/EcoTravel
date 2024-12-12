@@ -15,10 +15,9 @@
     />
     <link rel="stylesheet" href="{% static 'homepage.css' %}" />
     <style>
-
-html {
-    scroll-behavior: smooth;
-}
+      html {
+        scroll-behavior: smooth;
+      }
 
       * {
         margin: 0;
@@ -335,28 +334,27 @@ html {
         margin: 0 10px;
         color: #ffffff;
       }
-  .dropdown-menu {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    background: #ffffff;
-    border: 1px solid #ddd;
-    max-height: 200px;
-    overflow-y: auto;
-    position: absolute;
-    width: calc(100% - 40px);
-    display: none;
-  }
+      .dropdown-menu {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background: #ffffff;
+        border: 1px solid #ddd;
+        max-height: 200px;
+        overflow-y: auto;
+        position: absolute;
+        width: calc(100% - 40px);
+        display: none;
+      }
 
-  .dropdown-menu li {
-    padding: 10px;
-    cursor: pointer;
-  }
+      .dropdown-menu li {
+        padding: 10px;
+        cursor: pointer;
+      }
 
-  .dropdown-menu li:hover {
-    background: #f0f0f0;
-  }
-
+      .dropdown-menu li:hover {
+        background: #f0f0f0;
+      }
     </style>
   </head>
   <body>
@@ -375,7 +373,7 @@ html {
         <li><a href="#destinations">Destinations</a></li>
         <li><a href="#testimonials">Testimonials</a></li>
         <li><a href="blog">Blog</a></li>
-        <li><a href="./tipsNtricks.html">EcoTips</a></li>
+        <li><a href="eco_tips">EcoTips</a></li>
       </ul>
       <div class="nav-cta">
         <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
@@ -449,12 +447,10 @@ html {
             alt="Green Itinerary "
           />
           <h3>Search Location</h3>
-          <p>
-            Plan your trip according to your search image.
-          </p>
+          <p>Plan your trip according to your search image.</p>
           <a href="{% url 'upload_image' %}" class="feature-link">Try Now</a>
         </div>
-        
+
         <div class="feature-item">
           <img
             src="https://cdn.pixabay.com/photo/2024/02/23/21/25/landscape-8592826_1280.jpg"
@@ -530,8 +526,7 @@ html {
         <div class="footer-links">
           <a href="#features">Features</a> |
           <a href="#destinations">Destinations</a> |
-          <a href="#testimonials">Testimonials</a> |
-          <a href="blog">Blog</a> |
+          <a href="#testimonials">Testimonials</a> | <a href="blog">Blog</a> |
           <a href="./tipsNtricks.html">EcoTips</a>
         </div>
         <div class="social-media">
@@ -573,15 +568,16 @@ html {
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
       $(document).ready(function () {
-        $('#search-bar').on('input', function () {
+        $("#search-bar").on("input", function () {
           const query = $(this).val();
-          if (query.length > 2) { // Trigger search only after 3 characters
+          if (query.length > 2) {
+            // Trigger search only after 3 characters
             $.ajax({
               url: '{% url "search_destinations" %}',
               data: { q: query },
               success: function (data) {
                 const results = data.results;
-                const $dropdown = $('#search-results');
+                const $dropdown = $("#search-results");
                 $dropdown.empty(); // Clear previous results
                 if (results.length > 0) {
                   $dropdown.show();
@@ -596,17 +592,16 @@ html {
               },
             });
           } else {
-            $('#search-results').hide();
+            $("#search-results").hide();
           }
         });
-    
+
         // Navigate to the destination page when a dropdown item is clicked
-        $('#search-results').on('click', 'li', function () {
-          const destinationId = $(this).data('id');
+        $("#search-results").on("click", "li", function () {
+          const destinationId = $(this).data("id");
           window.location.href = `/destination/${destinationId}/`; // Adjust to match your destination detail URL pattern
         });
       });
     </script>
-    
   </body>
 </html>

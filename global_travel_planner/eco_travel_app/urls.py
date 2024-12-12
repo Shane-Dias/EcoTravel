@@ -29,6 +29,8 @@ urlpatterns = [
     path('search-destinations/', views.search_destinations, name='search_destinations'),
     path('destination/<int:id>/', views.destination_detail, name='destination_detail'),
     path('uploaded-plan-trip/', views.uploaded_plan_trip, name='uploaded_plan_trip'),
+    path('eco_tips', views.eco_tips, name='eco_tips'),
+    path('ecobot', views.ecobot, name='ecobot'),
 
 ]
 
