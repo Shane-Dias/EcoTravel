@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from eco_travel_app.forms import TripForm
-from .models import Destination, Accommodation, Hotel, Trip, Review
+from .models import Destination, Accommodation, Trip, Review, Transportation
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
@@ -17,9 +17,13 @@ from django.contrib.auth.decorators import login_required
 from .models import Profile
 from .forms import ProfileForm
 from django.shortcuts import render, redirect
-from .models import Profile
+from .models import Profile, Images
 from .forms import ProfileForm
 from django.contrib.auth.decorators import login_required
+from .utils import get_location
+from datetime import datetime
+from . import utils
+from decimal import Decimal
 
 GOOGLE_MAPS_API_KEY = 'AIzaSyBYzXj5wF4L6mChyyc5xwfb2QT1QEZ9VN8'
 
@@ -59,14 +63,13 @@ def logout_user(request):
 
 @login_required
 def dashboard(request):
-    trips = Trip.objects.filter(user=request.user)
-    # total_miles_saved = sum([trip.destination.distance for trip in trips])  # Assume destination has a 'distance' field
-    total_co2_saved = sum([trip.co2_saved for trip in trips])
+
+    # Get the logged-in user's trips, sorted by co2_saved in descending order
+    trips = Trip.objects.filter(user=request.user).order_by('-co2_saved')
     profile, created = Profile.objects.get_or_create(user=request.user)
 
     return render(request, 'dashboard.html', {
         # 'total_miles_saved': total_miles_saved,
-        'total_co2_saved': total_co2_saved,
         'trips': trips,
         'profile': profile,
     })
@@ -113,24 +116,90 @@ def destination_detail(request, pk):
 # View for trip planning
 def plan_trip(request, destination_id):
     destination = get_object_or_404(Destination, id=destination_id)
-    hotels = Hotel.objects.filter(destination=destination)
+    hotels = Accommodation.objects.filter(destination=destination)
+    transportation = Transportation.objects.filter(destination=destination)
 
     if request.method == 'POST':
-        form = TripForm(request.POST)
-        if form.is_valid():
-            trip = form.save(commit=False)
-            trip.user = User.objects.get(pk=request.user.pk)  # Ensure user is a valid User instance
-            trip.destination = destination  # Assign the specific destination
-            selected_hotel_id = request.POST.get('hotel')
-            if selected_hotel_id:
-                trip.hotel = Hotel.objects.get(id=selected_hotel_id)
-            trip.save()
-            # Redirect or display a success message after saving the trip
-            return render(request, 'trip_success.html', {'trip': trip})
-    else:
-        form = TripForm()  # If GET request, display empty form
+        # Manually handle form data
+        start_date = request.POST.get('start_date')
+        end_date = request.POST.get('end_date')
+        people = int(request.POST.get('people', 1))  # Ensure 'people' is an integer
+        selected_transportation_id = request.POST.get('transportation')
+        selected_hotel_id = request.POST.get('hotel')
 
-    return render(request, 'plan_trip.html', {'form': form, 'destination': destination, 'hotels': hotels})
+        # Calculate the number of nights for the accommodation
+        nights = (datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")).days
+
+        # Initialize total cost
+        total_cost = 0
+
+        # Create the trip object without saving it yet
+        trip = Trip(
+            start_date=start_date,
+            end_date=end_date,
+            people=people,
+            user=User.objects.get(pk=request.user.pk),
+            destination=destination
+        )
+
+        transportation_instance = Transportation.objects.get(id=selected_transportation_id)
+        trip.transportation = transportation_instance
+
+        accommodation_instance = Accommodation.objects.get(id=selected_hotel_id)
+        trip.accommodation = accommodation_instance
+        total_cost += accommodation_instance.price_per_night * nights
+
+        # Add any other costs here if needed (e.g., destination fees, activities, etc.)
+        emission_factors = {
+        'car': 0.2,
+        'bus': 0.05,
+        'train': 0.1,
+        'flight': 0.15,
+        'ship': 0.07,
+        'cycle': 0
+        }
+        origin = "Mumbai, India"
+        try:
+            origin_coords = utils.get_coordinates(origin, utils.API_KEY)
+            destination_coords = utils.get_coordinates(trip.destination, utils.API_KEY)
+            distance = utils.great_circle_distance(origin_coords[0],origin_coords[1], destination_coords[0], destination_coords[1])
+        except Exception as e:
+                distance = 0  # Default to 0 if there's an error
+                print(f"Error calculating distance: {e}")
+        co2_emission = distance*emission_factors[transportation_instance.transport_type]*transportation_instance.co2_per_km
+        trip.co2=co2_emission
+        co2_saved = co2_emission
+        for transport in transportation:
+            if (transport.co2_per_km*distance*emission_factors[transport.transport_type]) > co2_emission:
+                co2_saved = (transport.co2_per_km*distance*emission_factors[transport.transport_type]) - co2_emission
+        trip.co2_saved=co2_saved if co2_saved!=co2_emission else 0
+
+        user = request.user
+        if hasattr(user, 'profile'):  # Assuming user profile has a `co2_saved` field
+            user.profile.co2_saved = user.profile.co2_saved + trip.co2_saved
+            user.profile.save()
+        else:
+            print("User profile or co2_saved field not found.")
+
+        # Assign transportation and calculate its cost if selected
+        total_cost += transportation_instance.price_per_km * Decimal(distance)
+
+        # Save the trip
+        trip.total_cost = total_cost  # Assuming the Trip model has a total_cost field
+        trip.save()
+
+        # Redirect or display a success message after saving the trip
+        return redirect('trip_success', trip_id=trip.id)
+
+    else:
+        # If GET request, display empty form
+        return render(request, 'plan_trip.html', {
+            'destination': destination,
+            'hotels': hotels,
+            'transportation_options': transportation
+        })
+
+    
 
 def search_eco_friendly_destinations(query, location, radius):
     api_key = settings.GOOGLE_MAPS_API_KEY  # Access the key from settings
@@ -221,3 +290,31 @@ def search_destination(request):
             })
 
     return render(request, 'search_form.html', {'form': form})
+
+
+def upload_image(request):
+    if request.method == 'POST' and request.FILES.get('image'):
+        # Get the uploaded file
+        image_file = request.FILES['image']
+        # Save the file details to the model
+        uploaded_image = Images.objects.create(image=image_file)
+        # Replace with your logic to analyze the image
+        location = get_location(uploaded_image.image.path)
+        
+        return render(request, 'index.html', {'city': location['city'],'country': location['ai_country'], 'image_url': uploaded_image.image.url})
+    
+    return render(request, 'index.html')
+
+
+def trip_success(request, trip_id):
+    trip = Trip.objects.get(id=trip_id)
+    transportation = Transportation.objects.filter(destination=trip.destination).count()
+    cost = "{:,.2f}".format(trip.total_cost)
+    co2 = "{:,.2f}".format(trip.co2)
+    co2_saved = "{:,.2f}".format(trip.co2_saved)
+    saved = 1 if (trip.co2_saved!=0 or transportation==1) else 0
+    return render(request, 'trip_success.html', {'trip': trip, "cost":cost, "co2": co2, 'co2_saved':co2_saved, "saved":saved})
+
+
+def blog(request):
+    return render(request, 'blog.html')

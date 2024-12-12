@@ -3,184 +3,86 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Trip Successful</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
-    <!-- <link rel="stylesheet" href="../static/trip_success.css" /> -->
-    <style>
-        
-      a {
-        text-decoration: none;
-        color: #fff;
-      }
-
-      /* Navbar */
-      .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background-color: #28a745;
-        padding: 1rem 3rem;
-        position: sticky;
-        top: 0;
-        left: 0;
-        z-index: 100;
-      }
-      .logo {
-        display: flex;
-        align-items: center;
-      }
-      .navbar .logo a {
-        font-size: 1.8rem;
-        color: #fff;
-        font-weight: 600;
-      }
-
-      .nav-links {
-        list-style: none;
-        display: flex;
-      }
-
-      .nav-links li {
-        margin-left: 20px;
-      }
-
-      .nav-links a {
-        color: #fff;
-        font-size: 1.1rem;
-        transition: color 0.3s;
-      }
-
-      .nav-links a:hover {
-        color: #e0e0e0;
-      }
-
-      .nav-cta .btn {
-        background-color: #fff;
-        color: #28a745;
-        border-radius: 30px;
-        padding: 10px 20px;
-        font-weight: 600;
-        transition: background 0.3s;
-      }
-
-      .nav-cta .btn:hover {
-        background-color: #e0e0e0;
-        color: #28a745;
-      }
-
-      .cta-buttons .btn {
-        padding: 12px 24px;
-        border-radius: 30px;
-        font-weight: 600;
-        transition: background 0.3s ease;
-      }
-
-      /* Footer Section */
-      .footer {
-        background-color: #2c3e50;
-        color: #ffffff;
-        padding: 40px 20px;
-        text-align: center;
-      }
-
-      .footer p {
-        margin: 10px 0;
-      }
-
-      .footer-links {
-        margin: 15px 0;
-      }
-
-      .footer-links a {
-        color: #ffffff;
-        margin: 0 15px;
-        text-decoration: none;
-      }
-
-      .footer-links a:hover {
-        text-decoration: underline;
-      }
-
-      .social-media {
-        margin: 20px 0;
-      }
-
-      .footer i {
-        margin: 0 10px;
-        color: #ffffff;
-      }
-     </style>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'trip_success.css' %}"
+    />
   </head>
   <body>
-    <nav class="navbar">
-      <div class="logo">
-        <img
-          style="width: 32px; margin-right: 5px"
-          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
-          alt="icon"
-        />
-        <a href="#">EcoTravel</a>
-      </div>
-      <ul class="nav-links">
-        <li><a href="{% url 'homepage' %}">Home</a></li>
-        <li><a href="{% url 'homepage' %}#features">Features</a></li>
-        <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
-        <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
-        <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
-      </div>
-    </nav>
-    <div class="container" style="width:70%;">
-      <h2>
-        Your Trip to {{ trip.destination.name }} has been successfully planned!
-      </h2>
-      <p>
-        Enjoy your eco-friendly journey. We hope you embrace sustainable travel
-        by minimizing your environmental impact, respecting local cultures, and
-        supporting green initiatives. Together, we can help protect the planet
-        while exploring its beauty.
+    <div class="container">
+      <h1>🎉 Your Trip to {{ trip.destination.name }} is Ready! 🎉</h1>
+      <p class="subtitle">
+        Here's all you need to know about your upcoming journey:
       </p>
-    </div>
 
-    <div class="button-container">
-      <!-- Feedback Button -->
-      <a href="{% url 'home' %}" class="btn primary-btn">Go Back To Home</a>
-      <a href="{% url 'feedback' %}" class="btn primary-btn">Give Feedback</a>
-    </div>
-    </div>
-    <footer class="footer">
-      <div class="container">
-        <p>
-          &copy; 2024 EcoTravel. All rights reserved. | Designed with
-          sustainability in mind.
-        </p>
-        <div class="footer-links">
-          <a href="#features">Features</a> |
-          <a href="#destinations">Destinations</a> |
-          <a href="#testimonials">Testimonials</a> |
-          <a href="#contact">Contact Us</a>
-        </div>
-        <div class="social-media">
-          <p>
-            Follow us on social media for the latest updates on eco-friendly
-            travel:
-          </p>
-          <a href="https://facebook.com" target="_blank"
-            ><i class="fab fa-facebook-f"></i
-          ></a>
-          <a href="https://twitter.com" target="_blank"
-            ><i class="fab fa-twitter"></i
-          ></a>
-          <a href="https://instagram.com" target="_blank"
-            ><i class="fab fa-instagram"></i
-          ></a>
-        </div>
-        <p>
-          Have questions or suggestions? <a href="#contact">Get in touch!</a>
-        </p>
+      <table class="details-table">
+        <tr>
+          <th>Destination</th>
+          <td>{{ trip.destination.name }}</td>
+        </tr>
+        <tr>
+          <th>Accommodation</th>
+          <td>
+            {% if trip.accommodation %} {{ trip.accommodation.name }} {% else %}
+            <span class="not-available">No accommodation</span>
+            {% endif %}
+          </td>
+        </tr>
+        <tr>
+          <th>Transportation</th>
+          <td>{{ trip.transportation.name }}</td>
+        </tr>
+        <tr>
+          <th>Start Date</th>
+          <td>{{ trip.start_date }}</td>
+        </tr>
+        <tr>
+          <th>End Date</th>
+          <td>{{ trip.end_date }}</td>
+        </tr>
+        <tr>
+          <th>Total Cost</th>
+          <td>${{ cost }}</td>
+        </tr>
+        <tr>
+          <th>CO2 Emission</th>
+          <td>{{ co2 }} kg</td>
+        </tr>
+        <tr>
+          <th>CO2 Saved</th>
+          <td>{{ co2_saved }} kg</td>
+        </tr>
+        <tr>
+          <th>People</th>
+          <td>{{ trip.people }}</td>
+        </tr>
+      </table>
+
+      {% if saved %}
+      <p class="message">
+        Enjoy your eco-friendly journey. Together, let's explore the beauty of
+        our planet while protecting it for future generations.
+      </p>
+
+      <div class="button-container">
+        <a href="{% url 'home' %}" class="btn">🏠 Home</a>
+        <a href="{% url 'feedback' %}" class="btn feedback-btn">💬 Feedback</a>
       </div>
-    </footer>
+      {% else %}
+      <p class="message">
+        Oops. Looks like your carbon emission is too high. Why don't we try some
+        other alternatives?
+      </p>
+      <div class="button-container">
+        <a href="{% url 'home' %}" class="btn">🏠 Home</a>
+        <a href="{% url 'plan_trip' trip.id %}" class="btn feedback-btn"
+          >💬 Plan Your Trip</a
+        >
+      </div>
+      {% endif %}
+    </div>
   </body>
 </html>

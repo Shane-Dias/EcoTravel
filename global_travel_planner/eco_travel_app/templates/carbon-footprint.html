@@ -3,170 +3,102 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
-    />
-    <title>Carbon Footprint Calculator - EcoTravel</title>
-    <style>
-      body {
-        background-color: #e5f3e9;
-        font-family: "Arial", sans-serif;
-      }
-      .calculator-container {
-        max-width: 600px;
-        margin: auto;
-        padding: 40px;
-        background-color: white;
-        border-radius: 10px;
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-        margin-top: 50px;
-      }
-      .calculator-header {
-        text-align: center;
-        margin-bottom: 30px;
-      }
-      .calculator-header h2 {
-        font-size: 24px;
-        color: #3a923a;
-      }
-      .form-label {
-        font-weight: bold;
-      }
-      .btn-primary {
-        background-color: #3a923a;
-        border: none;
-      }
-      .btn-primary:hover {
-        background-color: #2e6e2e;
-      }
-      #result {
-        background-color: #d4edda;
-        padding: 20px;
-        border-radius: 5px;
-        margin-top: 20px;
-        display: none;
-      }
-      .footer {
-        text-align: center;
-        margin-top: 40px;
-        font-size: 14px;
-      }
-      #feedback {
-        font-weight: bold;
-        margin-top: 10px;
-      }
-        
-        a {
-          text-decoration: none;
-          color: #fff;
-        }
-  
-        /* Navbar */
-        .navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background-color: #28a745;
-          padding: 1rem 3rem;
-          position: sticky;
-          top: 0;
-          left: 0;
-          z-index: 100;
-        }
-        .logo {
-          display: flex;
-          align-items: center;
-        }
-        .navbar .logo a {
-          font-size: 1.8rem;
-          color: #fff;
-          font-weight: 600;
-        }
-  
-        .nav-links {
-          list-style: none;
-          display: flex;
-        }
-  
-        .nav-links li {
-          margin-left: 20px;
-        }
-  
-        .nav-links a {
-          color: #fff;
-          font-size: 1.1rem;
-          transition: color 0.3s;
-        }
-  
-        .nav-links a:hover {
-          color: #e0e0e0;
-        }
-  
-        .nav-cta .btn {
-          background-color: #fff;
-          color: #28a745;
-          border-radius: 30px;
-          padding: 10px 20px;
-          font-weight: 600;
-          transition: background 0.3s;
-        }
-  
-        .nav-cta .btn:hover {
-          background-color: #e0e0e0;
-          color: #28a745;
-        }
-  
-        .cta-buttons .btn {
-          padding: 12px 24px;
-          border-radius: 30px;
-          font-weight: 600;
-          transition: background 0.3s ease;
-        }
-  
-        /* Footer Section */
-        .footer {
-          background-color: #2c3e50;
-          color: #ffffff;
-          padding: 40px 20px;
-          text-align: center;
-        }
-  
-        .footer p {
-          margin: 10px 0;
-        }
-  
-        .footer-links {
-          margin: 15px 0;
-        }
-  
-        .footer-links a {
-          color: #ffffff;
-          margin: 0 15px;
-          text-decoration: none;
-        }
-  
-        .footer-links a:hover {
-          text-decoration: underline;
-        }
-  
-        .social-media {
-          margin: 20px 0;
-        }
-  
-        .footer i {
-          margin: 0 10px;
-          color: #ffffff;
-        }
-       
-    </style>
+    <title>CO2 Emission Calculator</title>
+    <link rel="stylesheet" href="../static/styles.css" />
   </head>
+  <style>
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: #28a745;
+      padding: 10px 20px;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+    }
+
+    /* Logo styling */
+    .logo {
+      font-size: 24px;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Center content */
+    .navbar-center {
+      display: flex;
+      justify-content: center;
+      flex-grow: 1;
+    }
+
+    .navbar-center a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 15px;
+      margin: 0 10px;
+      font-size: 17px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .dropdown {
+      position: relative;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #fff;
+      min-width: 160px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    .dropdown-content a {
+      color: #333;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+
+    a {
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 15px;
+      font-size: 16px;
+    }
+
+    a:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+
+    .features:hover,
+    .settings:hover {
+      background-color: #3cb371;
+      border-radius: 5px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+    }
+    .navbar .logo a {
+      font-size: 1.8rem;
+      color: #fff;
+      font-weight: 600;
+    }
+  </style>
   <body>
     <nav class="navbar">
       <div class="logo">
@@ -175,70 +107,161 @@
           src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
           alt="icon"
         />
-        <a href="#">EcoTravel</a>
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
       </div>
-      <ul class="nav-links">
-        <li><a href="{% url 'homepage' %}">Home</a></li>
-        <li><a href="{% url 'homepage' %}#features">Features</a></li>
-        <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
-        <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
-        <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
-      </ul>
-      <div class="nav-cta">
-        <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
+
+      <div class="navbar-center">
+        <a href="{% url 'home' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
+        </div>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="#" class="settings">Settings</a>
+          <div class="dropdown-content">
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
       </div>
     </nav>
-    <div class="calculator-container">
-      <div class="calculator-header">
-        <h2>Carbon Footprint Calculator</h2>
-        <p>Estimate your carbon footprint based on your travel choices.</p>
-      </div>
-      <form id="calculator-form">
-        <div class="mb-3">
-          <label for="distance" class="form-label"
-            >Distance Travelled (in km)</label
-          >
+    <div class="container" style="margin-top: 3.5rem;">
+      <div class="calculator-card">
+        <h1>Vehicle CO2 Emission Calculator</h1>
+
+        <div class="vehicle-selector">
+          <div class="vehicle-option selected" data-vehicle="car">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"
+              />
+              <circle cx="7" cy="17" r="2" />
+              <circle cx="17" cy="17" r="2" />
+            </svg>
+            <span>Car</span>
+          </div>
+          <div class="vehicle-option" data-vehicle="motorcycle">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="5.5" cy="17.5" r="3.5" />
+              <circle cx="18.5" cy="17.5" r="3.5" />
+              <path d="M15 6h3l3 4.5" />
+              <path d="M14 6h-4l-1.8 6" />
+              <path d="M13.5 9h4" />
+            </svg>
+            <span>Motorcycle</span>
+          </div>
+          <div class="vehicle-option" data-vehicle="bus">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M8 6v6" />
+              <path d="M15 6v6" />
+              <path d="M2 12h19.6" />
+              <path
+                d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"
+              />
+              <circle cx="7" cy="18" r="2" />
+              <circle cx="16" cy="18" r="2" />
+            </svg>
+            <span>Bus</span>
+          </div>
+        </div>
+
+        <div class="options-section">
+          <label>Fuel Type</label>
+          <div class="options-grid" id="fuelOptions">
+            <button class="option-btn selected">Petrol</button>
+            <button class="option-btn">Diesel</button>
+            <button class="option-btn">Hybrid</button>
+            <button class="option-btn">Electric</button>
+          </div>
+        </div>
+
+        <div class="distance-input">
+          <label for="distance">Distance (kilometers)</label>
           <input
             type="number"
-            class="form-control"
             id="distance"
-            placeholder="Enter distance"
-            required
+            min="0"
+            placeholder="Enter distance in km"
           />
         </div>
-        <div class="mb-3">
-          <label for="mode" class="form-label">Mode of Transport</label>
-          <select class="form-select" id="mode" required>
-            <option value="" disabled selected>Select mode</option>
-            <option value="car">Car</option>
-            <option value="bus">Bus</option>
-            <option value="train">Train</option>
-            <option value="flight">Flight</option>
-            <option value="ship">Ship</option>
-          </select>
+
+        <div class="result-section">
+          <div class="icon-wrapper">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path
+                d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+              />
+              <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+            </svg>
+          </div>
+          <h3>Estimated CO2 Emissions</h3>
+          <p class="emission-value">0.00 kg</p>
+          <p class="emission-subtitle">of CO2 equivalent</p>
         </div>
-        <div class="mb-3">
-          <label for="people" class="form-label">Number of Passengers</label>
-          <input
-            type="number"
-            class="form-control"
-            id="people"
-            placeholder="Enter number of passengers"
-            required
-          />
-        </div>
-        <button type="submit" class="btn btn-primary w-100">Calculate</button>
-      </form>
-      <div id="result" class="mt-4">
-        <h5>Your Estimated Carbon Footprint:</h5>
-        <p id="footprint" style="font-weight: bold"></p>
-        <p id="feedback" style="margin-top: 10px"></p>
-        <!-- Feedback message -->
+        <!-- <div class="info-section">
+          <p>
+            * Calculations are based on average emission factors for different
+            vehicle types and fuel sources.
+          </p>
+          <p>
+            * For electric vehicles, emissions are based on the average grid
+            electricity carbon intensity.
+          </p>
+        </div> -->
       </div>
     </div>
-
     <footer class="footer">
-      <div class="container">
+      <div class="container2">
         <p>
           &copy; 2024 EcoTravel. All rights reserved. | Designed with
           sustainability in mind.
@@ -265,50 +288,92 @@
           ></a>
         </div>
         <p>
-          Have questions or suggestions? <a href="#contact">Get in touch!</a>
+          Have questions or suggestions?
+          <a href="#contact">Get in touch!</a>
         </p>
       </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
     <script>
-      const carbonFactors = {
-        car: 0.2,
-        bus: 0.05,
-        train: 0.1,
-        flight: 0.15,
-        ship: 0.07,
+      // Emission factors (kg CO2/km)
+      const emissionFactors = {
+        car: {
+          petrol: 0.192,
+          diesel: 0.171,
+          hybrid: 0.089,
+          electric: 0.053,
+        },
+        motorcycle: {
+          small: 0.083,
+          medium: 0.108,
+          large: 0.135,
+        },
+        bus: {
+          city: 0.089,
+          coach: 0.027,
+        },
       };
 
-      $("#calculator-form").on("submit", function (e) {
-        e.preventDefault();
+      // DOM Elements
+      const vehicleOptions = document.querySelectorAll(".vehicle-option");
+      const fuelOptions = document.getElementById("fuelOptions");
+      const distanceInput = document.getElementById("distance");
+      const emissionValue = document.querySelector(".emission-value");
 
-        const distance = $("#distance").val();
-        const mode = $("#mode").val();
-        const people = $("#people").val();
+      // State
+      let currentVehicle = "car";
+      let currentFuelType = "petrol";
+      let currentDistance = 0;
 
-        const footprint = ((distance * carbonFactors[mode]) / people) * 1000;
-        $("#footprint").text(`${footprint.toFixed(2)} grams of CO2`);
-        $("#result").show();
+      // Update fuel options based on vehicle type
+      function updateFuelOptions(vehicleType) {
+        const options = Object.keys(emissionFactors[vehicleType]);
+        fuelOptions.innerHTML = options
+          .map(
+            (option) => `
+              <button class="option-btn ${
+                option === currentFuelType ? "selected" : ""
+              }">${option}</button>
+          `
+          )
+          .join("");
 
-        let feedbackMessage = "";
-        let feedbackColor = "";
-        if (footprint < 1000) {
-          feedbackMessage = "Great job! Your carbon footprint is low.";
-          feedbackColor = "green";
-        } else if (footprint >= 1000 && footprint < 3000) {
-          feedbackMessage =
-            "Your carbon footprint is moderate. Consider using more eco-friendly transport options.";
-          feedbackColor = "orange";
-        } else {
-          feedbackMessage =
-            "Warning! Your carbon footprint is high. Try to choose greener alternatives.";
-          feedbackColor = "red";
-        }
-        $("#feedback").text(feedbackMessage).css("color", feedbackColor);
+        // Add event listeners to new buttons
+        document.querySelectorAll(".option-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            document
+              .querySelectorAll(".option-btn")
+              .forEach((b) => b.classList.remove("selected"));
+            btn.classList.add("selected");
+            currentFuelType = btn.textContent.toLowerCase();
+            calculateEmissions();
+          });
+        });
+      }
+
+      // Calculate emissions
+      function calculateEmissions() {
+        const distance = Number(distanceInput.value);
+        const factor = emissionFactors[currentVehicle][currentFuelType];
+        const emissions = distance * factor;
+        emissionValue.textContent = `${emissions.toFixed(2)}kg`;
+      }
+
+      // Event Listeners
+      vehicleOptions.forEach((option) => {
+        option.addEventListener("click", () => {
+          vehicleOptions.forEach((opt) => opt.classList.remove("selected"));
+          option.classList.add("selected");
+          currentVehicle = option.dataset.vehicle;
+          currentFuelType = Object.keys(emissionFactors[currentVehicle])[0];
+          updateFuelOptions(currentVehicle);
+          calculateEmissions();
+        });
       });
+
+      distanceInput.addEventListener("input", calculateEmissions);
+
+      // Initialize
+      updateFuelOptions(currentVehicle);
     </script>
   </body>
 </html>

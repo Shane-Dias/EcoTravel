@@ -1,345 +1,353 @@
 {% load static %}
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Destination Map</title>
     <style>
-        /* Make the map fill the entire screen */
-        #map {
-            height: 100vh;
-            width: 100%;
-        }
-        .gm-style-iw {
-            width: 300px !important;
-        }
-        .map-info-window {
-            text-align: center;
-        }
-        .map-info-window img {
-            width: 100%;
-            height: auto;
-            margin-bottom: 5px;
-        }
-        
-        a {
-          text-decoration: none;
-          color: #fff;
-        }
-  
-        /* Navbar */
-        .navbar {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          background-color: #28a745;
-          padding: 1rem 3rem;
-          position: sticky;
-          top: 0;
-          left: 0;
-          z-index: 100;
-        }
-        .logo {
-          display: flex;
-          align-items: center;
-        }
-        .navbar .logo a {
-          font-size: 1.8rem;
-          color: #fff;
-          font-weight: 600;
-        }
-  
-        .nav-links {
-          list-style: none;
-          display: flex;
-        }
-  
-        .nav-links li {
-          margin-left: 20px;
-        }
-  
-        .nav-links a {
-          color: #fff;
-          font-size: 1.1rem;
-          transition: color 0.3s;
-        }
-  
-        .nav-links a:hover {
-          color: #e0e0e0;
-        }
-  
-        .nav-cta .btn {
-          background-color: #fff;
-          color: #28a745;
-          border-radius: 30px;
-          padding: 10px 20px;
-          font-weight: 600;
-          transition: background 0.3s;
-        }
-  
-        .nav-cta .btn:hover {
-          background-color: #e0e0e0;
-          color: #28a745;
-        }
-  
-        .cta-buttons .btn {
-          padding: 12px 24px;
-          border-radius: 30px;
-          font-weight: 600;
-          transition: background 0.3s ease;
-        }
-  
-        /* Footer Section */
-        .footer {
-          background-color: #2c3e50;
-          color: #ffffff;
-          padding: 40px 20px;
-          text-align: center;
-        }
-  
-        .footer p {
-          margin: 10px 0;
-        }
-  
-        .footer-links {
-          margin: 15px 0;
-        }
-  
-        .footer-links a {
-          color: #ffffff;
-          margin: 0 15px;
-          text-decoration: none;
-        }
-  
-        .footer-links a:hover {
-          text-decoration: underline;
-        }
-  
-        .social-media {
-          margin: 20px 0;
-        }
-  
-        .footer i {
-          margin: 0 10px;
-          color: #ffffff;
-        }
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #28a745;
+        padding: 10px 20px;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 1000;
+      }
+
+      /* Logo styling */
+      .logo {
+        font-size: 24px;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      /* Center content */
+      .navbar-center {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1;
+      }
+
+      .navbar-center a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 15px;
+        margin: 0 10px;
+        font-size: 17px;
+      }
+
+      .navbar-right {
+        display: flex;
+        align-items: center;
+      }
+
+      .dropdown {
+        position: relative;
+      }
+
+      .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #fff;
+        min-width: 160px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+
+      .dropdown-content a {
+        color: #333;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+
+      .dropdown:hover .dropdown-content {
+        display: block;
+      }
+
+      a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 15px;
+        font-size: 16px;
+      }
+
+      a:hover {
+        background-color: #3cb371;
+        border-radius: 5px;
+      }
+
+      .features:hover,
+      .settings:hover {
+        background-color: #3cb371;
+        border-radius: 5px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+      }
+      .navbar .logo a {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 600;
+      }
+      /* Make the map fill the entire screen */
+      #map {
+        height: 100vh;
+        width: 100%;
+      }
+      .gm-style-iw {
+        width: 300px !important;
+      }
+      .map-info-window {
+        text-align: center;
+      }
+      .map-info-window img {
+        width: 100%;
+        height: auto;
+        margin-bottom: 5px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <nav class="navbar">
-        <div class="logo">
-          <img
-            style="width: 32px; margin-right: 5px"
-            src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
-            alt="icon"
-          />
-          <a href="#">EcoTravel</a>
+      <div class="logo">
+        <img
+          style="width: 32px; margin-right: 5px"
+          src="https://cdn-icons-png.freepik.com/256/1265/1265656.png?ga=GA1.1.240818908.1726982020&semt=ais_hybrid"
+          alt="icon"
+        />
+        <a href="/" style="margin: 5px; padding: 0">EcoTravel</a>
+      </div>
+
+      <div class="navbar-center">
+        <a href="{% url 'home' %}" class="home">Home</a>
+        <div class="dropdown">
+          <a href="" class="features" style="position: relative; top: 9px"
+            >Features</a
+          >
+          <div class="dropdown-content">
+            <a href="{% url 'upload_image' %}">Find Location</a>
+            <a href="{% url 'map' %}">Map</a>
+            <a href="{% url 'carbon-footprint' %}">Carbon Calculator</a>
+          </div>
         </div>
-        <ul class="nav-links">
-            <li><a href="{% url 'homepage' %}">Home</a></li>
-            <li><a href="{% url 'homepage' %}#features">Features</a></li>
-            <li><a href="{% url 'homepage' %}#destinations">Destinations</a></li>
-            <li><a href="{% url 'homepage' %}#testimonials">Testimonials</a></li>
-            <li><a href="{% url 'homepage' %}#contact">Contact</a></li>
-          </ul>
-        <div class="nav-cta">
-          <a href="{% url 'login' %}" class="btn secondary-btn">Get Started</a>
+        <a href="{% url 'feedback' %}" class="feedback">Feedback</a>
+      </div>
+
+      <div class="navbar-right">
+        <div class="dropdown">
+          <a href="#" class="settings">Settings</a>
+          <div class="dropdown-content">
+            <a href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a href="#">Logout</a>
+          </div>
         </div>
-      </nav>
+      </div>
+    </nav>
     <!-- Map Container -->
     <div id="map"></div>
 
     <!-- Load the Google Maps JavaScript API -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYzXj5wF4L6mChyyc5xwfb2QT1QEZ9VN8&callback=initMap" async defer></script>
-    
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBYzXj5wF4L6mChyyc5xwfb2QT1QEZ9VN8&callback=initMap"
+      async
+      defer
+    ></script>
+
     <script>
-        // Destination Data
-        const destinations = [
-            {
-                name: "Paris",
-                lat: 48.8566,
-                lng: 2.3522,
-                image: "{% static 'images/paris.jpg' %}",
-                description: "The City of Light.",
-                rating: 4.5
-            },
-            {
-                name: "Tokyo",
-                lat: 35.6762,
-                lng: 139.6503,
-                image: "{% static 'images/tokyo.jpg' %}",
-                description: "A bustling metropolis.",
-                rating: 4.7
-            },
-            {
-                name: "Sydney",
-                lat: -33.8688,
-                lng: 151.2093,
-                image: "{% static 'images/sydney.jpg' %}",
-                description: "The Harbour City.",
-                rating: 4.8
-            },
-            {
-    name: "New York",
-    lat: 40.7128,
-    lng: -74.0060,
-    image: "{% static 'images/newyork.jpg' %}",
-    description: "The city that never sleeps.",
-    rating: 4.6
-},
-{
-    name: "London",
-    lat: 51.5074,
-    lng: -0.1278,
-    image: "{% static 'images/london.jpeg' %}",
-    description: "Home of Big Ben and the Thames.",
-    rating: 4.7
-},
-{
-    name: "Rome",
-    lat: 41.9028,
-    lng: 12.4964,
-    image: "{% static 'images/rome.jpeg' %}",
-    description: "The Eternal City.",
-    rating: 4.8
-},
-{
-    name: "Dubai",
-    lat: 25.276987,
-    lng: 55.296249,
-    image: "{% static 'images/dubai.jpeg' %}",
-    description: "A modern oasis in the desert.",
-    rating: 4.9
-},
-{
-    name: "Cairo",
-    lat: 30.0444,
-    lng: 31.2357,
-    image: "{% static 'images/cairo.jpg' %}",
-    description: "Home of the ancient pyramids.",
-    rating: 4.5
-},
-{
-    name: "Istanbul",
-    lat: 41.0082,
-    lng: 28.9784,
-    image: "{% static 'images/istambul.jpg' %}",
-    description: "Where East meets West.",
-    rating: 4.7
-},
-{
-    name: "Rio de Janeiro",
-    lat: -22.9068,
-    lng: -43.1729,
-    image: "{% static 'images/rio.jpg' %}",
-    description: "Famous for its Carnival and beaches.",
-    rating: 4.6
-},
-{
-    name: "Cape Town",
-    lat: -33.9249,
-    lng: 18.4241,
-    image: "{% static 'images/capetown.jpg' %}",
-    description: "At the foot of Table Mountain.",
-    rating: 4.8
-},
-{
-    name: "Moscow",
-    lat: 55.7558,
-    lng: 37.6173,
-    image: "{% static 'images/moscow.jpg' %}",
-    description: "The heart of Russia.",
-    rating: 4.4
-},
-{
-    name: "Beijing",
-    lat: 39.9042,
-    lng: 116.4074,
-    image: "{% static 'images/beijing.jpg' %}",
-    description: "The Forbidden City.",
-    rating: 4.7
-},
-{
-    name: "Bangkok",
-    lat: 13.7563,
-    lng: 100.5018,
-    image: "{% static 'images/bankok.jpg' %}",
-    description: "Vibrant city known for street life and temples.",
-    rating: 4.6
-},
-{
-    name: "Berlin",
-    lat: 52.5200,
-    lng: 13.4050,
-    image: "{% static 'images/berlin.jpeg' %}",
-    description: "Known for its history and culture.",
-    rating: 4.7
-},
-{
-    name: "Los Angeles",
-    lat: 34.0522,
-    lng: -118.2437,
-    image: "{% static 'images/losangels.jpeg' %}",
-    description: "City of Angels, home of Hollywood.",
-    rating: 4.8
-},
-{
-    name: "Mexico City",
-    lat: 19.4326,
-    lng: -99.1332,
-    image: "{% static 'images/mexicocity.jpeg' %}",
-    description: "A vibrant metropolis with a rich history.",
-    rating: 4.5
-},
-{
-    name: "Singapore",
-    lat: 1.3521,
-    lng: 103.8198,
-    image: "{% static 'images/singapore.jpeg' %}",
-    description: "A futuristic city-state.",
-    rating: 4.9
-}
+      // Destination Data
+      const destinations = [
+        {
+          name: "Paris",
+          lat: 48.8566,
+          lng: 2.3522,
+          image: "{% static 'images/paris.jpg' %}",
+          description: "The City of Light.",
+          rating: 4.5,
+        },
+        {
+          name: "Tokyo",
+          lat: 35.6762,
+          lng: 139.6503,
+          image: "{% static 'images/tokyo.jpg' %}",
+          description: "A bustling metropolis.",
+          rating: 4.7,
+        },
+        {
+          name: "Sydney",
+          lat: -33.8688,
+          lng: 151.2093,
+          image: "{% static 'images/sydney.jpg' %}",
+          description: "The Harbour City.",
+          rating: 4.8,
+        },
+        {
+          name: "New York",
+          lat: 40.7128,
+          lng: -74.006,
+          image: "{% static 'images/newyork.jpg' %}",
+          description: "The city that never sleeps.",
+          rating: 4.6,
+        },
+        {
+          name: "London",
+          lat: 51.5074,
+          lng: -0.1278,
+          image: "{% static 'images/london.jpeg' %}",
+          description: "Home of Big Ben and the Thames.",
+          rating: 4.7,
+        },
+        {
+          name: "Rome",
+          lat: 41.9028,
+          lng: 12.4964,
+          image: "{% static 'images/rome.jpeg' %}",
+          description: "The Eternal City.",
+          rating: 4.8,
+        },
+        {
+          name: "Dubai",
+          lat: 25.276987,
+          lng: 55.296249,
+          image: "{% static 'images/dubai.jpeg' %}",
+          description: "A modern oasis in the desert.",
+          rating: 4.9,
+        },
+        {
+          name: "Cairo",
+          lat: 30.0444,
+          lng: 31.2357,
+          image: "{% static 'images/cairo.jpg' %}",
+          description: "Home of the ancient pyramids.",
+          rating: 4.5,
+        },
+        {
+          name: "Istanbul",
+          lat: 41.0082,
+          lng: 28.9784,
+          image: "{% static 'images/istambul.jpg' %}",
+          description: "Where East meets West.",
+          rating: 4.7,
+        },
+        {
+          name: "Rio de Janeiro",
+          lat: -22.9068,
+          lng: -43.1729,
+          image: "{% static 'images/rio.jpg' %}",
+          description: "Famous for its Carnival and beaches.",
+          rating: 4.6,
+        },
+        {
+          name: "Cape Town",
+          lat: -33.9249,
+          lng: 18.4241,
+          image: "{% static 'images/capetown.jpg' %}",
+          description: "At the foot of Table Mountain.",
+          rating: 4.8,
+        },
+        {
+          name: "Moscow",
+          lat: 55.7558,
+          lng: 37.6173,
+          image: "{% static 'images/moscow.jpg' %}",
+          description: "The heart of Russia.",
+          rating: 4.4,
+        },
+        {
+          name: "Beijing",
+          lat: 39.9042,
+          lng: 116.4074,
+          image: "{% static 'images/beijing.jpg' %}",
+          description: "The Forbidden City.",
+          rating: 4.7,
+        },
+        {
+          name: "Bangkok",
+          lat: 13.7563,
+          lng: 100.5018,
+          image: "{% static 'images/bankok.jpg' %}",
+          description: "Vibrant city known for street life and temples.",
+          rating: 4.6,
+        },
+        {
+          name: "Berlin",
+          lat: 52.52,
+          lng: 13.405,
+          image: "{% static 'images/berlin.jpeg' %}",
+          description: "Known for its history and culture.",
+          rating: 4.7,
+        },
+        {
+          name: "Los Angeles",
+          lat: 34.0522,
+          lng: -118.2437,
+          image: "{% static 'images/losangels.jpeg' %}",
+          description: "City of Angels, home of Hollywood.",
+          rating: 4.8,
+        },
+        {
+          name: "Mexico City",
+          lat: 19.4326,
+          lng: -99.1332,
+          image: "{% static 'images/mexicocity.jpeg' %}",
+          description: "A vibrant metropolis with a rich history.",
+          rating: 4.5,
+        },
+        {
+          name: "Singapore",
+          lat: 1.3521,
+          lng: 103.8198,
+          image: "{% static 'images/singapore.jpeg' %}",
+          description: "A futuristic city-state.",
+          rating: 4.9,
+        },
+      ];
 
-        ];
+      // Initialize and add the map
+      function initMap() {
+        // Map options
+        const mapOptions = {
+          zoom: 2,
+          center: { lat: 20, lng: 0 }, // Centered at an average location
+        };
 
-        
+        // Create a new map instance
+        const map = new google.maps.Map(
+          document.getElementById("map"),
+          mapOptions
+        );
 
-        // Initialize and add the map
-        function initMap() {
-            // Map options
-            const mapOptions = {
-                zoom: 2,
-                center: { lat: 20, lng: 0 } // Centered at an average location
-            };
+        // Add markers for each destination
+        destinations.forEach((destination) => {
+          const marker = new google.maps.Marker({
+            position: { lat: destination.lat, lng: destination.lng },
+            map: map,
+            title: destination.name,
+          });
 
-            // Create a new map instance
-            const map = new google.maps.Map(document.getElementById("map"), mapOptions);
-
-            // Add markers for each destination
-            destinations.forEach(destination => {
-                const marker = new google.maps.Marker({
-                    position: { lat: destination.lat, lng: destination.lng },
-                    map: map,
-                    title: destination.name
-                });
-
-                // Info window with destination details
-                const infoWindow = new google.maps.InfoWindow({
-                    content: `
+          // Info window with destination details
+          const infoWindow = new google.maps.InfoWindow({
+            content: `
                         <div class="map-info-window">
                             <img src="${destination.image}" alt="${destination.name}">
                             <h3>${destination.name}</h3>
                             <p>${destination.description}</p>
                             <strong>Rating: ${destination.rating}</strong>
                         </div>
-                    `
-                });
+                    `,
+          });
 
-                // Show info window on marker click
-                marker.addListener('click', () => {
-                    infoWindow.open(map, marker);
-                });
-            });
-        }
+          // Show info window on marker click
+          marker.addListener("click", () => {
+            infoWindow.open(map, marker);
+          });
+        });
+      }
     </script>
-</body>
+  </body>
 </html>

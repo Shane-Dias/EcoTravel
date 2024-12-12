@@ -1,14 +1,14 @@
-from django.db import models
+from django.db import models, migrations
 from django.contrib.auth.models import User  # Use Django's built-in User model
+from . import utils
 
 # Profile Model
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     bio = models.TextField(blank=True)
     location = models.CharField(max_length=100, blank=True)
-    preferences = models.TextField(blank=True)
+    preferences = models.CharField(max_length=200)  # Store user preferences like favorite destinations, transport modes
     profile_pic = models.ImageField(upload_to='profile_pics/', blank=True)
-    travel_miles_saved = models.FloatField(default=0)
     co2_saved = models.FloatField(default=0)  # Carbon footprint saved through eco-friendly travel
     date_joined = models.DateTimeField(auto_now_add=True)
 
@@ -29,20 +29,6 @@ class Destination(models.Model):
     def __str__(self):
         return f"{self.name}, {self.city}"
 
-# Hotel Model (Re-added)
-class Hotel(models.Model):
-    name = models.CharField(max_length=200)
-    destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='hotels')
-    description = models.TextField()
-    eco_certifications = models.CharField(max_length=255, blank=True)  # e.g., LEED, Green Key
-    price_per_night = models.DecimalField(max_digits=10, decimal_places=2)
-    availability = models.BooleanField(default=True)
-    image = models.ImageField(upload_to='hotel_images/', blank=True)
-    website_url = models.URLField(blank=True)
-
-    def __str__(self):
-        return self.name
-
 # Accommodation Model
 class Accommodation(models.Model):
     name = models.CharField(max_length=200)
@@ -60,11 +46,13 @@ class Accommodation(models.Model):
 # Transportation Model
 class Transportation(models.Model):
     TRANSPORT_TYPE_CHOICES = [
+        ('car', 'Car'),
+        ('electric_car', 'Electric Car'),
         ('bus', 'Bus'),
         ('train', 'Train'),
         ('cycle', 'Bicycle'),
         ('walk', 'Walk'),
-        ('electric_car', 'Electric Car'),
+        ('flight', 'Flight'),
     ]
     
     name = models.CharField(max_length=200)
@@ -82,13 +70,15 @@ class Trip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trips')  # Use Django's User model
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='trips')
     accommodation = models.ForeignKey(Accommodation, on_delete=models.SET_NULL, null=True, blank=True)
-    hotel = models.ForeignKey(Hotel, on_delete=models.SET_NULL, null=True, blank=True)  # Added a ForeignKey for Hotel
     transportation = models.ForeignKey(Transportation, on_delete=models.SET_NULL, null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     total_cost = models.DecimalField(max_digits=10, decimal_places=2, default=0)
-    co2_saved = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
-    
+    co2 = models.FloatField(default=0)  # Calculated by comparing eco-friendly choices to alternatives
+    co2_saved = models.FloatField(default=0, null=True)  # Calculated by comparing eco-friendly choices to alternatives
+    people = models.IntegerField(default=1, null=False)  # Calculated by comparing eco-friendly choices to alternatives
+
+
     def __str__(self):
         return f"{self.user.username}'s Trip to {self.destination.name}"
 
@@ -97,7 +87,6 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')  # Use Django's User model
     destination = models.ForeignKey(Destination, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     accommodation = models.ForeignKey(Accommodation, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
-    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)  # Added a ForeignKey for Hotel
     transportation = models.ForeignKey(Transportation, on_delete=models.CASCADE, related_name='reviews', null=True, blank=True)
     rating = models.PositiveSmallIntegerField(default=1)  # Rating from 1 to 5
     comment = models.TextField(blank=True)
@@ -143,3 +132,10 @@ class AdminDashboard(models.Model):
 
     def __str__(self):
         return f"Admin Dashboard - {self.admin_user.username}"
+
+
+class Images(models.Model):
+    id = models.AutoField(primary_key=True)
+    image = models.ImageField(upload_to="images/")
+    date = models.DateTimeField(auto_now_add=True)
+
