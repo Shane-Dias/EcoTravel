@@ -385,7 +385,7 @@ def uploaded_plan_trip(request):
 
 
 def travel_advisor(request):
-    if request.method == 'POST':
+    if form.method == 'POST':
         form = RouteForm(request.POST)
         if form.is_valid():
             source = form.cleaned_data['source']
@@ -474,27 +474,27 @@ def ecobot(request):
 def ecoroute(request):
     return render(request, 'ecoroute.html')
 
-@csrf_exempt
-def chat_with_gemini(request):
-    if request.method == 'POST':
-        user_message = request.POST.get('message')
+# @csrf_exempt
+# def chat_with_gemini(request):
+#     if request.method == 'POST':
+#         user_message = request.POST.get('message')
 
-        # Send the message to the Gemini API
-        genai.configure(api_key='AIzaSyDv7RThoILjeXAryluncDRZ1QeFxAixR7Q')
-        model = genai.GenerativeModel("gemini-1.5-flash")
-        headers = {
-            'Authorization': 'Bearer YOUR_API_KEY',
-            'Content-Type': 'application/json',
-        }
+#         # Send the message to the Gemini API
+#         genai.configure(api_key='AIzaSyDv7RThoILjeXAryluncDRZ1QeFxAixR7Q')
+#         model = genai.GenerativeModel("gemini-1.5-flash")
+#         headers = {
+#             'Authorization': 'Bearer YOUR_API_KEY',
+#             'Content-Type': 'application/json',
+#         }
 
-        # Sending the user's message to Gemini
-        response = model.generate_content(f'You are a Global Eco-Friendly travel Advisor. Your role is to help people plan their trips in the most eco-friendly and sustainable way possible. {user_message}')
+#         # Sending the user's message to Gemini
+#         response = model.generate_content(f'You are a Global Eco-Friendly travel Advisor. Your role is to help people plan their trips in the most eco-friendly and sustainable way possible. {user_message}')
 
-        # Handle Gemini API response
-        if response.status_code == 200:
-            gemini_response = response.json()
-            return JsonResponse({"response": gemini_response.get('response')})
-        else:
-            return JsonResponse({"error": "Failed to get response from Gemini"}, status=500)
+#         # Handle Gemini API response
+#         if response.status_code == 200:
+#             gemini_response = response.json()
+#             return JsonResponse({"response": gemini_response.get('response')})
+#         else:
+#             return JsonResponse({"error": "Failed to get response from Gemini"}, status=500)
 
-    return JsonResponse({"error": "Invalid request"}, status=400)
+#     return JsonResponse({"error": "Invalid request"}, status=400)

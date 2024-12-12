@@ -30,7 +30,7 @@ urlpatterns = [
     path('destination/<int:id>/', views.destination_detail, name='destination_detail'),
     path('uploaded-plan-trip/', views.uploaded_plan_trip, name='uploaded_plan_trip'),
     path('eco_tips', views.eco_tips, name='eco_tips'),
-    path('api/chat_with_gemini/', views.chat_with_gemini, name='chat_with_gemini'),
+    # path('api/chat_with_gemini/', views.chat_with_gemini, name='chat_with_gemini'),
     path('ecobot', views.ecobot, name='ecobot'),
     path('ecoroute', views.ecoroute, name='ecoroute'),
 

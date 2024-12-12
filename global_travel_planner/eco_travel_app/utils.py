@@ -43,16 +43,16 @@ def great_circle_distance(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
-def chatbot():
-    import google.generativeai as genai
-    import time
-    genai.configure(api_key='AIzaSyDv7RThoILjeXAryluncDRZ1QeFxAixR7Q')
-    model = genai.GenerativeModel("gemini-1.5-flash")
-    prompt = 'Hello'
-    while(prompt!='exit'):
-        prompt = input("Enter prompt: ")
-        response = model.generate_content(prompt)
-    return response
+# def chatbot():
+#     import google.generativeai as genai
+#     import time
+#     genai.configure(api_key='AIzaSyDv7RThoILjeXAryluncDRZ1QeFxAixR7Q')
+#     model = genai.GenerativeModel("gemini-1.5-flash")
+#     prompt = 'Hello'
+#     while(prompt!='exit'):
+#         prompt = input("Enter prompt: ")
+#         response = model.generate_content(prompt)
+#     return response
 
 def get_route(start_coords, end_coords, profile="car"):
     """
