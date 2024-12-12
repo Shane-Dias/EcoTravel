@@ -363,7 +363,7 @@ def upload_plan_trip(request):
 
             # Fetch data from Picarta API
             picarta_api_url = "https://api.picarta.com/example-endpoint"  # Replace with actual endpoint
-            headers = {'Authorization': 'Bearer YOUR_API_KEY'}
+            headers = {'Authorization': '4RUX4AOFPACRMKF6CBFW'}
             response = requests.get(picarta_api_url)
             if response.status_code == 200:
                 data = response.json()
@@ -379,9 +379,57 @@ def upload_plan_trip(request):
 
     else:
         form = UploadedPlanTripForm()
-    return render(request, 'upload_plan_trip.html', {'form': form})
+    return render(request, 'index.html', {'form': form})
 
 @login_required
 def uploaded_plan_trip(request):
     uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
     return render(request, 'uploaded_plan_trip.html', {'uploaded_trips': uploaded_trips})
+
+import requests
+from django.shortcuts import render, redirect
+from .models import UploadedPlanTrip
+from django.contrib.auth.decorators import login_required
+import requests
+
+@login_required
+def upload_trip(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')  # Fetch the uploaded image
+        user = request.user
+
+        # Picarta API endpoint and your API key
+        picarta_api_url = "https://api.picarta.example.com/analyze"
+        api_key = "4RUX4AOFPACRMKF6CBFW"
+
+        # Sending the image to Picarta API
+        headers = {'Authorization': f'Bearer {api_key}'}
+        files = {'image': image.file}
+        response = requests.post(picarta_api_url, headers=headers, files=files)
+
+        if response.status_code == 200:
+            data = response.json()  # Parse Picarta API response
+            destination_name = data.get('destination_name', 'Unknown')
+            description = data.get('description', '')
+            country = data.get('country', '')
+            city = data.get('city', '')
+            eco_rating = data.get('eco_rating', 0)
+
+            # Save the data into UploadedPlanTrip model
+            UploadedPlanTrip.objects.create(
+                user=user,
+                image=image,
+                destination_name=destination_name,
+                description=description,
+                country=country,
+                city=city,
+                eco_rating=eco_rating,
+            )
+
+            return redirect('uploaded_plan_trip.html')  # Redirect after success
+        else:
+            return render(request, 'index.html', {
+                'error': 'Failed to fetch data from Picarta API. Please try again later.'
+            })
+
+    return render(request, 'index.html')
