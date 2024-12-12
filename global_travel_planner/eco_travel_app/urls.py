@@ -25,6 +25,15 @@ urlpatterns = [
     path('upload_image', views.upload_image, name='upload_image'),
     path('trip_success/<int:trip_id>', views.trip_success, name='trip_success'),
     path('blog', views.blog, name='blog'),
+<<<<<<< Updated upstream
+=======
+    path('search-destinations/', views.search_destinations, name='search_destinations'),
+    path('uploaded-plan-trip/', views.uploaded_plan_trip, name='uploaded_plan_trip'),
+    path('eco_tips', views.eco_tips, name='eco_tips'),
+    path('ecobot', views.ecobot, name='ecobot'),
+    path('plan-trip/', views.plan_trip2, name='plan_trip'),
+
+>>>>>>> Stashed changes
 ]
 
 if settings.DEBUG:  # Only for development
