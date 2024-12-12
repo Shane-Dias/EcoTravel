@@ -10,9 +10,97 @@
       href="{% static 'edit_profile.css' %}"
     />
   </head>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: #333;
+      background: url("https://images.stockcake.com/public/f/1/4/f14dc52b-139d-4437-9321-30d751e511f8_large/tropical-greenery-abounds-stockcake.jpg");
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    /* Form container */
+    form {
+      background: #defae1;
+      padding: 20px 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      /* max-width: 400px;
+      width: 100%; */
+    }
+
+    h2 {
+      text-align: center;
+      color: #5a5a5a;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    input[type="text"],
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-sizing: border-box;
+    }
+
+    input[type="text"]:focus {
+      border-color: #004e16;
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+    button {
+      width: 60%;
+      padding: 10px;
+      background-color: green;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block;
+      margin: auto;
+    }
+
+    button:hover {
+      background-color: #004e16;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 480px) {
+      form {
+        padding: 15px 20px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      button {
+        font-size: 14px;
+      }
+    }
+  </style>
   <body>
-    <h2>Edit Profile</h2>
     <form method="post" enctype="multipart/form-data">
+      <h2>Edit Profile</h2>
       {% csrf_token %}
       <label for="bio">Bio:</label>
       <input

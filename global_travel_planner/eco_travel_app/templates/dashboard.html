@@ -12,6 +12,9 @@
         color: #2f4f2f;
         margin: 0;
         padding: 0;
+        background: url("https://images.stockcake.com/public/f/1/4/f14dc52b-139d-4437-9321-30d751e511f8_large/tropical-greenery-abounds-stockcake.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
       }
       h2,
       h3 {
@@ -158,10 +161,12 @@
     </style>
   </head>
   <body>
-    <div class="container">
-      <h2 style="font-size: 2rem;">Welcome to your Dashboard, {{ user.username }}</h2>
+    <div class="container" style="opacity: 0.97;">
+      <h2 style="font-size: 2rem">
+        Welcome to your Dashboard, {{ user.username }}
+      </h2>
       <div class="profile-section">
-        <h3 style="font-size: 1.7rem;">Your Profile</h3>
+        <h3 style="font-size: 1.7rem">Your Profile</h3>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
         <p><strong>Location:</strong> {{ profile.location }}</p>
         <p><strong>Preferences:</strong> {{ profile.preferences }}</p>
