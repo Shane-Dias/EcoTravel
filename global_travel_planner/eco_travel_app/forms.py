@@ -37,3 +37,11 @@ class DestinationSearchForm(forms.Form):
                  ('walking', 'Walking'), 
                  ('bicycling', 'Cycling')]
     )
+
+from django import forms
+from .models import UploadedPlanTrip
+
+class UploadedPlanTripForm(forms.ModelForm):
+    class Meta:
+        model = UploadedPlanTrip
+        fields = ['image']
