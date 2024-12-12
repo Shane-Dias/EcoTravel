@@ -464,3 +464,6 @@ def eco_tips(request):
 
 def ecobot(request):
     return render(request, 'ChatbotWhite.html')
+
+def ecoroute(request):
+    return render(request, 'ecoroute.html')

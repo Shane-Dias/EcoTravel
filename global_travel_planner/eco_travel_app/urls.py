@@ -31,6 +31,7 @@ urlpatterns = [
     path('uploaded-plan-trip/', views.uploaded_plan_trip, name='uploaded_plan_trip'),
     path('eco_tips', views.eco_tips, name='eco_tips'),
     path('ecobot', views.ecobot, name='ecobot'),
+    path('ecoroute', views.ecoroute, name='ecoroute'),
 
 ]
 
