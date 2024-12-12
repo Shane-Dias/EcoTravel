@@ -46,7 +46,9 @@
         margin: 20px 0;
         padding: 10px;
         background-color: #ccffcc;
-        border-left: 5px solid #004d00;
+        margin: 30px auto;
+        width: 80%;
+        /* border-left: 5px solid #004d00; */
       }
       .eco-stats p {
         margin: 5px 0;
@@ -81,13 +83,85 @@
       .edit-profile:hover {
         background-color: #45a049;
       }
+      .container {
+        font-family: Arial, sans-serif;
+        margin: 20px auto;
+        width: 90%;
+        max-width: 1200px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #2c3e50;
+        margin-bottom: 20px;
+      }
+
+      .trips-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+        font-size: 16px;
+        text-align: left;
+        background-color: #f9f9f9;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .trips-table thead tr {
+        background-color: #2ecc71;
+        color: #ffffff;
+        text-transform: uppercase;
+      }
+
+      .trips-table th,
+      .trips-table td {
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+      }
+
+      .trips-table tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      .trips-table tbody tr:hover {
+        background-color: #dff0d8;
+        cursor: pointer;
+      }
+
+      tr td img {
+        display: block;
+        margin: 0 auto;
+        border-radius: 4px;
+      }
+
+      .btn {
+        display: inline-block;
+        color: #fff;
+        background-color: #27ae60;
+        text-align: center;
+        padding: 10px 15px;
+        font-size: 18px;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-top: 20px;
+      }
+
+      .btn:hover {
+        background-color: #219150;
+        text-decoration: none;
+      }
+
+      p {
+        text-align: center;
+        font-size: 18px;
+        color: #29c54e;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-      <h2>Welcome to your Dashboard, {{ user.username }}</h2>
+      <h2 style="font-size: 2rem;">Welcome to your Dashboard, {{ user.username }}</h2>
       <div class="profile-section">
-        <h3>Your Profile</h3>
+        <h3 style="font-size: 1.7rem;">Your Profile</h3>
         <p><strong>Bio:</strong> {{ profile.bio }}</p>
         <p><strong>Location:</strong> {{ profile.location }}</p>
         <p><strong>Preferences:</strong> {{ profile.preferences }}</p>
@@ -124,7 +198,7 @@
         <table class="trips-table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>Sr No</th>
               <th>Destination</th>
               <th>Start Date</th>
               <th>End Date</th>
@@ -161,7 +235,19 @@
         <p>You have not planned any trips yet.</p>
         {% endif %}
 
-        <a href="{% url 'home' %}" class="btn">Plan a New Trip</a>
+        <a
+          href="{% url 'home' %}"
+          class="btn"
+          style="
+            display: block;
+            align-self: center;
+            width: 25%;
+            margin: auto;
+            background-color: green;
+            text-decoration: none;
+          "
+          >Plan a New Trip</a
+        >
       </div>
 
       <a href="{% url 'logout' %}" class="logout">Logout</a>
