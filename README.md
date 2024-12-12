@@ -12,7 +12,7 @@
 
 ---
 ## Video
-[Watch Video](./destination_images/Global_Eco-friendly_Travel_Planner.mp4)
+[Watch Video](https://drive.google.com/file/d/1MQKM_QVxDi4dMo37gvheY9OeZqCAacXX/view?usp=sharing)
 
 ---
 ## Screenshots
