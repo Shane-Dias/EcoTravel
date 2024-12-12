@@ -243,31 +243,39 @@
     </nav>
     <div class="main-container">
       <!-- Input Section -->
-      <div class="input-container">
-        <label for="source">Source:</label>
-        <input
-          type="text"
-          id="source"
-          name="source"
-          placeholder="Enter Source"
-        />
+      <form method="POST">
+        {% csrf_token %}
+        <div class="input-container">
+          <label for="source">Source:</label>
+          <input
+            type="text"
+            id="source"
+            name="source"
+            placeholder="Enter Source"
+          />
 
-        <label for="destination">Destination:</label>
-        <input
-          type="text"
-          id="destination"
-          name="destination"
-          placeholder="Enter Destination"
-        />
-      </div>
-      <button style="width: 70%; display: block; margin: auto">Enter</button>
+          <label for="destination">Destination:</label>
+          <input
+            type="text"
+            id="destination"
+            name="destination"
+            placeholder="Enter Destination"
+          />
+        </div>
+        <button style="width: 70%; display: block; margin: auto" type="submit">
+          Enter
+        </button>
+      </form>
 
+      {% if routes %}
       <div class="rectangle">
         <div class="icon" style="font-size: 6rem">🚴‍♂️</div>
         <div class="details">
-          <span class="distance">Distance: 5 km</span>
-          <span class="time">Time: 15 mins</span>
-          <span class="co-emission">CO2 Emission: 0g</span>
+          <span class="distance">Distance: {{routes.bike.distance}}</span>
+          <span class="time">Time: {{routes.bike.time}}</span>
+          <span class="co-emission"
+            >CO2 Emission: {{routes.bike.co2_emission}}</span
+          >
         </div>
         <div class="checkbox-container">
           <input type="radio" id="select1" name="select" value="1" />
@@ -278,9 +286,11 @@
       <div class="rectangle">
         <div class="icon" style="font-size: 6rem">🚶‍♂️</div>
         <div class="details">
-          <span class="distance">Distance: 1 km</span>
-          <span class="time">Time: 10 mins</span>
-          <span class="co-emission">CO2 Emission: 0g</span>
+          <span class="distance">Distance: {{routes.walking.distance}}</span>
+          <span class="time">Time: {{routes.walking.time}}</span>
+          <span class="co-emission"
+            >CO2 Emission: {{routes.walking.co2_emission}}</span
+          >
         </div>
         <div class="checkbox-container">
           <input type="radio" id="select2" name="select" value="2" />
@@ -291,15 +301,18 @@
       <div class="rectangle">
         <div class="icon" style="font-size: 6rem">🚗</div>
         <div class="details">
-          <span class="distance">Distance: 10 km</span>
-          <span class="time">Time: 20 mins</span>
-          <span class="co-emission">CO2 Emission: 2.5kg</span>
+          <span class="distance">Distance: {{routes.car.distance}}</span>
+          <span class="time">Time: {{routes.car.time}}</span>
+          <span class="co-emission"
+            >CO2 Emission: {{routes.car.co2_emission}}</span
+          >
         </div>
         <div class="checkbox-container">
           <input type="radio" id="select3" name="select" value="3" />
           <label for="select3"></label>
         </div>
       </div>
+      {% endif %}
     </div>
   </body>
 </html>

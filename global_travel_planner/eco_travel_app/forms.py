@@ -45,3 +45,7 @@ class UploadedPlanTripForm(forms.ModelForm):
     class Meta:
         model = UploadedPlanTrip
         fields = ['image']
+
+class RouteForm(forms.Form):
+    source = forms.CharField(max_length=100)
+    destination = forms.CharField(max_length=100)

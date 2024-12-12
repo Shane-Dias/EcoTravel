@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.conf import settings
 import requests
 from django.shortcuts import render, get_object_or_404, redirect
-from .forms import DestinationSearchForm
+from .forms import DestinationSearchForm, RouteForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile
@@ -385,15 +385,17 @@ def uploaded_plan_trip(request):
 
 
 def travel_advisor(request):
-    if request.method=='POST':
-        source = request.POST.get('source')
-        destination = request.POST.get('destination')
+    if request.method == 'POST':
+        form = RouteForm(request.POST)
+        if form.is_valid():
+            source = form.cleaned_data['source']
+            destination = form.cleaned_data['destination']
+        print(source, destination)
         try:
             origin_coords = utils.get_coordinates(source, utils.API_KEY)
             destination_coords = utils.get_coordinates(destination, utils.API_KEY)
             modes = ['car', 'bike','foot']
             context = {"routes": []}
-
             emission_factors = {
             "car": 150,      # grams of CO2 per km
             "bike": 30,      # grams of CO2 per km
