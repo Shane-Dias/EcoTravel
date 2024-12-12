@@ -177,12 +177,9 @@ def plan_trip(request, destination_id):
 
         # Add any other costs here if needed (e.g., destination fees, activities, etc.)
         emission_factors = {
-        'car': 0.2,
-        'bus': 0.05,
-        'train': 0.1,
-        'flight': 0.15,
-        'ship': 0.07,
-        'cycle': 0
+        'car': 150,
+        'bike': 30,
+        'walking':0
         }
         origin = "Mumbai, India"
         try:
@@ -363,7 +360,7 @@ def upload_plan_trip(request):
 
             # Fetch data from Picarta API
             picarta_api_url = "https://api.picarta.com/example-endpoint"  # Replace with actual endpoint
-            headers = {'Authorization': 'Bearer YOUR_API_KEY'}
+            headers = {'Authorization': '4RUX4AOFPACRMKF6CBFW'}
             response = requests.get(picarta_api_url)
             if response.status_code == 200:
                 data = response.json()
@@ -379,9 +376,88 @@ def upload_plan_trip(request):
 
     else:
         form = UploadedPlanTripForm()
-    return render(request, 'upload_plan_trip.html', {'form': form})
+    return render(request, 'index.html', {'form': form})
 
 @login_required
 def uploaded_plan_trip(request):
     uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
     return render(request, 'uploaded_plan_trip.html', {'uploaded_trips': uploaded_trips})
+
+
+def travel_advisor(request):
+    if request.method=='POST':
+        source = request.POST.get('source')
+        destination = request.POST.get('destination')
+        try:
+            origin_coords = utils.get_coordinates(source, utils.API_KEY)
+            destination_coords = utils.get_coordinates(destination, utils.API_KEY)
+            modes = ['car', 'bike','foot']
+            context = {"routes": []}
+
+            emission_factors = {
+            "car": 150,      # grams of CO2 per km
+            "bike": 30,      # grams of CO2 per km
+            "walking": 0     # grams of CO2 per km
+        }
+                # Fetch routes for each mode
+            for mode in modes:
+                route = utils.get_route(origin_coords, destination_coords, profile=mode)
+                context["routes"].append({
+                        "mode": mode,
+                        "distance": f"{route['distance']:.2f} km",
+                        "time": f"{route['time']:.2f} minutes",
+                        "co2_emission":f"{(route['distance']*emission_factors[mode]):.2f}"
+                    })
+        except Exception as e:
+            context = {"error": str(e)}
+
+        # Render template with context
+        return render(request, 'travel_advisor.html', context)
+    return render(request, 'travel_advisor.html')
+import requests
+from django.shortcuts import render, redirect
+from .models import UploadedPlanTrip
+from django.contrib.auth.decorators import login_required
+import requests
+
+@login_required
+def upload_trip(request):
+    if request.method == 'POST':
+        image = request.FILES.get('image')  # Fetch the uploaded image
+        user = request.user
+
+        # Picarta API endpoint and your API key
+        picarta_api_url = "https://api.picarta.example.com/analyze"
+        api_key = "4RUX4AOFPACRMKF6CBFW"
+
+        # Sending the image to Picarta API
+        headers = {'Authorization': f'Bearer {api_key}'}
+        files = {'image': image.file}
+        response = requests.post(picarta_api_url, headers=headers, files=files)
+
+        if response.status_code == 200:
+            data = response.json()  # Parse Picarta API response
+            destination_name = data.get('destination_name', 'Unknown')
+            description = data.get('description', '')
+            country = data.get('country', '')
+            city = data.get('city', '')
+            eco_rating = data.get('eco_rating', 0)
+
+            # Save the data into UploadedPlanTrip model
+            UploadedPlanTrip.objects.create(
+                user=user,
+                image=image,
+                destination_name=destination_name,
+                description=description,
+                country=country,
+                city=city,
+                eco_rating=eco_rating,
+            )
+
+            return redirect('uploaded_plan_trip.html')  # Redirect after success
+        else:
+            return render(request, 'index.html', {
+                'error': 'Failed to fetch data from Picarta API. Please try again later.'
+            })
+
+    return render(request, 'index.html')
