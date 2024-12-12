@@ -47,3 +47,15 @@ def populate_co2_emitted(apps, schema_editor):
     for transportation in Transportation.objects.all():
         transportation.co2_emitted = 0.0  # Default value as a float
         transportation.save()
+
+
+def chatbot():
+    import google.generativeai as genai
+    import time
+    genai.configure(api_key='AIzaSyDv7RThoILjeXAryluncDRZ1QeFxAixR7Q')
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    prompt = 'Hello'
+    while(prompt!='exit'):
+        prompt = input("Enter prompt: ")
+        response = model.generate_content(prompt)
+    return response
