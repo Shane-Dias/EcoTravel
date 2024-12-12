@@ -345,10 +345,43 @@ def trip_success(request, trip_id):
 def blog(request):
     return render(request, 'blog.html')
 
-def uploaded_plan_trip(request):
-    # Fetch all uploaded trips by the current user
-    user_uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
+import requests
+from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from .models import UploadedPlanTrip
+from .forms import UploadedPlanTripForm
 
-    return render(request, 'uploaded_plan_trip.html', {
-        'uploaded_trips': user_uploaded_trips,
-    })
+@login_required
+def upload_plan_trip(request):
+    if request.method == 'POST':
+        form = UploadedPlanTripForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Save the image instance
+            uploaded_trip = form.save(commit=False)
+            uploaded_trip.user = request.user
+            uploaded_trip.save()
+
+            # Fetch data from Picarta API
+            picarta_api_url = "https://api.picarta.com/example-endpoint"  # Replace with actual endpoint
+            headers = {'Authorization': 'Bearer YOUR_API_KEY'}
+            response = requests.get(picarta_api_url)
+            if response.status_code == 200:
+                data = response.json()
+                # Populate fields from API response
+                uploaded_trip.destination_name = data.get('destination_name', 'Unknown')
+                uploaded_trip.description = data.get('description', 'No description available.')
+                uploaded_trip.country = data.get('country', 'Unknown')
+                uploaded_trip.city = data.get('city', 'Unknown')
+                uploaded_trip.eco_rating = data.get('eco_rating', 0)
+                uploaded_trip.save()
+
+            return redirect('uploaded_plan_trip')  # Redirect to the list page after saving
+
+    else:
+        form = UploadedPlanTripForm()
+    return render(request, 'upload_plan_trip.html', {'form': form})
+
+@login_required
+def uploaded_plan_trip(request):
+    uploaded_trips = UploadedPlanTrip.objects.filter(user=request.user)
+    return render(request, 'uploaded_plan_trip.html', {'uploaded_trips': uploaded_trips})
