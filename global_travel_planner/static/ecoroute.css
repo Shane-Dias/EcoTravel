@@ -1,3 +1,142 @@
+/* {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>EcoRoutes</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap"
+    />
+    <!-- <link rel="stylesheet" href="{% static 'ecoroute.css' %}" /> -->
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+      }
+
+      .main-container {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .input-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      label {
+        font-size: 1rem;
+        font-weight: 700;
+      }
+
+      input[type="text"] {
+        padding: 10px;
+        font-size: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        width: 100%;
+      }
+
+      .rectangle {
+        background-color: #d9e4dd;
+        height: 100px;
+        border: 1px solid #ccc;
+        display: flex;
+        align-items: center;
+        padding: 10px;
+        position: relative;
+      }
+
+      .checkbox-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .checkbox-container input {
+        margin-right: 10px;
+      }
+
+      span {
+        font-size: 0.9rem;
+      }
+
+      .rectangle > span {
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="main-container">
+      <!-- Input Section -->
+      <div class="input-container">
+        <label for="source">Source:</label>
+        <input
+          type="text"
+          id="source"
+          name="source"
+          placeholder="Enter Source"
+        />
+
+        <label for="destination">Destination:</label>
+        <input
+          type="text"
+          id="destination"
+          name="destination"
+          placeholder="Enter Destination"
+        />
+      </div>
+      <button>Enter</button>
+
+      <div class="rectangle">
+        <div class="checkbox-container">
+          <input type="radio" id="select1" name="select" value="1" />
+          <label for="select1"></label>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="distance">Distance:</span>
+          <span class="time">Time:</span>
+          <span class="co-emission">CO2 Emission:</span>
+        </div>
+      </div>
+
+      <div class="rectangle">
+        <div class="checkbox-container">
+          <input type="radio" id="select2" name="select" value="2" />
+          <label for="select2"></label>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="distance">Distance:</span>
+          <span class="time">Time:</span>
+          <span class="co-emission">CO2 Emission:</span>
+        </div>
+      </div>
+
+      <div class="rectangle">
+        <div class="checkbox-container">
+          <input type="radio" id="select3" name="select" value="3" />
+          <label for="select3"></label>
+        </div>
+        <div style="display: flex; flex-direction: column">
+          <span class="distance">Distance:</span>
+          <span class="time">Time:</span>
+          <span class="co-emission">CO2 Emission:</span>
+        </div>
+      </div>
+    </div>
+  </body>
+</html> */
+
+
 :root {
   --default-font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Ubuntu, "Helvetica Neue", Helvetica, Arial, "PingFang SC",
