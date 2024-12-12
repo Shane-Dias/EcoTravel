@@ -14,6 +14,7 @@ import requests, math
 
 # Geoapify API Key
 API_KEY = "fabe86e749c44aa2a8ae60c68c2e3c6f"
+api_key = "5b3ce3597851110001cf6248c3e5474dc5b64991afad8ceec07950da"
 
 # Function to get coordinates from Geoapify Geocoding API
 def get_coordinates(location, api_key):
@@ -42,13 +43,6 @@ def great_circle_distance(lat1, lon1, lat2, lon2):
     distance = R * c
     return distance
 
-def populate_co2_emitted(apps, schema_editor):
-    Transportation = apps.get_model('eco_travel_app', 'Transportation')
-    for transportation in Transportation.objects.all():
-        transportation.co2_emitted = 0.0  # Default value as a float
-        transportation.save()
-
-
 def chatbot():
     import google.generativeai as genai
     import time
@@ -59,3 +53,40 @@ def chatbot():
         prompt = input("Enter prompt: ")
         response = model.generate_content(prompt)
     return response
+
+def get_route(lat1, lon1, lat2, lon2, mode):
+#     Driving Modes:
+
+# driving-car: Route for regular cars (automobiles).
+# driving-hgv: Route for heavy goods vehicles (trucks), with consideration for vehicle restrictions (e.g., height, weight, cargo).
+# driving-tractor: Route for tractors, designed for agricultural vehicles.
+# Cycling Modes:
+
+# cycling-regular: Route for regular cyclists (bicycles).
+# cycling-mountain: Route optimized for mountain biking, focusing on rugged or off-road trails.
+# Walking Modes:
+
+# foot-walking: Route for pedestrians, considering footpaths and walking-friendly routes.
+# Wheelchair Mode:
+
+# wheelchair: Route optimized for wheelchair users, with an emphasis on accessible paths.
+# Public Transport Modes:
+
+# public_transport: Route using public transportation (buses, trams, trains, etc.).
+# bus: Route using only buses.
+    ORS_URL = "https://api.openrouteservice.org/v2/directions/driving-car"
+    # Define the request parameters
+    params = {
+        "api_key": API_KEY,
+        "start": f"{lat1},{lon1}",
+        "end": f"{lat2},{lon2}"
+    }
+
+    # Send the GET request
+    response = requests.get(ORS_URL, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data["features"][0]["geometry"]
+    else:
+        print("Error:", response.status_code, response.text)
