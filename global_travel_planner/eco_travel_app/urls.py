@@ -25,6 +25,8 @@ urlpatterns = [
     path('upload_image', views.upload_image, name='upload_image'),
     path('trip_success/<int:trip_id>', views.trip_success, name='trip_success'),
     path('blog', views.blog, name='blog'),
+    path('plan_trip/<str:name>/', views.plan_trip2, name='plan_trip2'),  # For planning a trip
+    
 ]
 
 if settings.DEBUG:  # Only for development
