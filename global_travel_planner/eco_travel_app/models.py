@@ -46,14 +46,26 @@ class Accommodation(models.Model):
 # Transportation Model
 class Transportation(models.Model):
     TRANSPORT_TYPE_CHOICES = [
-        ('car', 'Car'),
-        ('electric_car', 'Electric Car'),
-        ('bus', 'Bus'),
-        ('train', 'Train'),
-        ('cycle', 'Bicycle'),
-        ('walk', 'Walk'),
-        ('flight', 'Flight'),
-    ]
+    ('car_petrol', 'Petrol Car'),
+    ('car_diesel', 'Diesel Car'),
+    ('car_electric', 'Electric Car'),
+    ('motorbike', 'Motorbike'),
+    ('bus_urban', 'Urban Bus'),
+    ('bus_long_distance', 'Long-Distance Bus'),
+    ('train_electric', 'Electric Train'),
+    ('train_diesel', 'Diesel Train'),
+    ('cycling_manual', 'Bicycle'),
+    ('cycling_electric', 'Electric Bicycle'),
+    ('walking', 'Walking'),
+    ('airplane_short_haul', 'Short-Haul Flight'),
+    ('airplane_long_haul', 'Long-Haul Flight'),
+    ('ferry', 'Ferry'),
+    ('taxi', 'Taxi'),
+    ('ride_sharing', 'Ride Sharing'),
+    ('truck_light', 'Light Commercial Truck'),
+    ('truck_heavy', 'Heavy Goods Truck'),
+]
+
     
     name = models.CharField(max_length=200)
     transport_type = models.CharField(max_length=50, choices=TRANSPORT_TYPE_CHOICES)
@@ -146,12 +158,12 @@ from django.contrib.auth.models import User
 class UploadedPlanTrip(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='uploaded_trips')
     image = models.ImageField(upload_to='uploaded_images/')
-    destination_name = models.CharField(max_length=200)
+    # destination_name = models.CharField(max_length=200)
     description = models.TextField()
     country = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
     eco_rating = models.FloatField(default=0)
-    created_at = models.DateTimeField(auto_now_add=True)
+    # created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"{self.user.username} - {self.destination_name}"

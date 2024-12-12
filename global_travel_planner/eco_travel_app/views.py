@@ -176,11 +176,7 @@ def plan_trip(request, destination_id):
         total_cost += accommodation_instance.price_per_night * nights
 
         # Add any other costs here if needed (e.g., destination fees, activities, etc.)
-        emission_factors = {
-        'car': 150,
-        'bike': 30,
-        'walking':0
-        }
+
         origin = "Mumbai, India"
         try:
             origin_coords = utils.get_coordinates(origin, utils.API_KEY)
